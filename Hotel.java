@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -83,13 +83,31 @@ public class Hotel {
         return this.rooms;
     }
 
-    /** Gets the price for the night in a room in the hotel
+    /** Gets the price for the night in a standard room in the hotel
      * Preconditions: roomPrice is a float and hotel object is initialized
      * Postconditions: returns a float
      * @return roomPrice (The price of the room)
      */
     public float getRoomPrice() {
-        return roomPrice;
+        return this.roomPrice;
+    }
+
+    /** Gets the price for the night in a deluxe room in the hotel
+     * Preconditions: roomPrice is a float and hotel object is initialized
+     * Postconditions: returns a float
+     * @return roomPrice * 1.2 (The price of a deluxe room)
+     */
+    public float getDeluxePrice() {
+        return this.roomPrice * 1.2f;
+    }
+
+    /** Gets the price for the night in an executive room in the hotel
+     * Preconditions: roomPrice is a float and hotel object is initialized
+     * Postconditions: returns a float
+     * @return roomPrice * 1.35 (The price of an executive room)
+     */
+    public float getExecutivePrice() {
+        return this.roomPrice * 1.35f;
     }
 
     /** Sets a new price for the night in a room in the hotel
@@ -221,15 +239,5 @@ public class Hotel {
         }
         return total;
     }
-
-    //Im thinking we create method here that will calculate na the total for everything with changed price rates and type of room
-    //Although idk yet if we will use it tbh imma put it down in case
-    public int getTotalRoomPrice(){
-
-
-
-        return 0;
-    }
-
 
 }

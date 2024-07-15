@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 import java.util.Scanner;
 /** CreateHotel class that initializes the hotel name, number of rooms, and room names.
  */
@@ -56,6 +56,11 @@ public class CreateHotel {
         rooms.setExecutive(input3);
         rooms.setRoomNames();
 
+        /* Note:
+         * Rooms 1 - input1 are standard
+         * Rooms input1 - input2 are deluxe
+         * Rooms input2 - input3 are executive
+         */
     }
 
    

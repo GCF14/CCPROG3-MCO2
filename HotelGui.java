@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 
 import javax.swing.JFrame;
 

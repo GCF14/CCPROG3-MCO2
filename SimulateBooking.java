@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,16 +44,16 @@ public class SimulateBooking {
      * Postconditions: A room is booked in a hotel
      * @param hotels - ArrayList of hotels which contains all the hotels
      */
-    public void booking(ArrayList<Hotel> hotels) {
+    public void booking(ArrayList<Hotel> hotels) { // added the choosing of room types and assignment to rooms
         Display display = new Display();
         System.out.printf("Enter customer name: ");
         String customer = sc.nextLine();
         int hotelIndex = display.enterHotelName(hotels);
         
         if (hotelIndex >= 0) {
-            int room = 1;
             int checkInDate;
             int checkOutDate;
+            int roomType;
         
             do {
                 do {
@@ -69,13 +69,45 @@ public class SimulateBooking {
                 } while (checkOutDate < 1 || checkOutDate > 31);
             } while (checkInDate >= checkOutDate);
 
+            // Ask what type of room they want
+            do {
+                System.out.println("Enter room type:");
+                System.out.println("[1] Standard");
+                System.out.println("[2] Deluxe");
+                System.out.println("[3] Executive");
+                System.out.print("Input: ");
+                roomType = sc.nextInt();
+                sc.nextLine(); //input buffer
+            } while (roomType < 1 || roomType > 3);
             boolean bookedRoom = false; // check if room is already booked
             
-            /*
+            /* 
              * I turned the while from while(room <= hotels.get(hotelIndex).getRooms()) && !bookedRoom) to 
              * while(room <= hotels.get(hotelIndex).getRooms().getTotal() && !bookedRoom)
              */
-            while(room <= hotels.get(hotelIndex).getRooms().getTotal() && !bookedRoom) {
+            /*
+             * Still giving them first room available but keeping in mind the room types
+             */
+            int room, maxRoom;
+            switch(roomType) {
+                case 1:
+                    room = 1;
+                    maxRoom = hotels.get(hotelIndex).getRooms().lastStandard();
+                    break;
+                case 2:
+                    room = hotels.get(hotelIndex).getRooms().firstDeluxe();
+                    maxRoom = hotels.get(hotelIndex).getRooms().lastDeluxe();
+                    break;
+                case 3:
+                    room = hotels.get(hotelIndex).getRooms().firstExecutive();
+                    maxRoom = hotels.get(hotelIndex).getRooms().lastExecutive();
+                    break;
+                default:
+                    room = -1;
+                    maxRoom = -1;
+                    break;
+            }
+            while(room <= maxRoom && !bookedRoom) {
                 
                 if (!areDaysBooked(hotels.get(hotelIndex), checkInDate, checkOutDate, room)) {
                 

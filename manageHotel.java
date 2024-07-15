@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -67,53 +67,58 @@ public class manageHotel {
         
     }
 
-    /** Adds a number of rooms to the the hotel
+    /** Adds a number of a specific type of room to the the hotel
      * Preconditions: Instance of Hotel is initialized
      * Postconditions: The number of rooms in the hotel is increased
      * @param h - Instance of Hotel
      */
-    public void addRooms(Hotel h) {
+    public void addRooms(Hotel h) { // changed this to make them choose a specific room type to add instead of all 3
         Display display = new Display();
-        int sRooms, dRooms, eRooms, input;
+        int rooms, type, input;
         do {
-        System.out.print("Enter number of standard rooms to add: ");
-        sRooms = sc.nextInt();
-        sc.nextLine(); // input buffer
-        System.out.print("Enter number of deluxe rooms to add: ");
-        dRooms = sc.nextInt();
-        sc.nextLine(); // input buffer
-        System.out.print("Enter number of executive rooms to add: ");
-        eRooms = sc.nextInt();
-        sc.nextLine(); // input buffer
-        input = display.confirm();
+            do {
+                System.out.println("Enter type of room to remove:");
+                System.out.println("[1] Standard");
+                System.out.println("[2] Deluxe");
+                System.out.println("[3] Executive");
+                type = sc.nextInt();
+                sc.nextLine(); // input buffer
+            } while (type < 1 || type > 3);
+
+            do {
+                System.out.print("Enter amount of rooms to add: ");
+                rooms = sc.nextInt();
+                sc.nextLine(); // input buffer
+            } while (rooms < 1 || rooms > h.getRooms().getTotal());
+            input = display.confirm();
         } while (input == 2);
         
-        int ctr1 = 0, ctr2 = 0, ctr3 = 0;
-        while (h.getRooms().getTotal() < 50 && sRooms > 0) {
-            h.getRooms().setStandard(h.getRooms().getStandard() + 1);;
-            sRooms--;
-            ctr1++;
+        int ctr = 0;
+        
+        while (h.getRooms().getTotal() < 50 && rooms > 0) {
+            switch (type) {
+                case 1:
+                    h.getRooms().setStandard(h.getRooms().getStandard() + 1);
+                    break;
+                case 2:
+                    h.getRooms().setDeluxe(h.getRooms().getDeluxe() + 1);
+                    break;
+                case 3:
+                    h.getRooms().setExecutive(h.getRooms().getExecutive() + 1);
+                    break;
+            }
+            rooms--;
+            ctr++;
             h.getRooms().addRoomNames();
         }
-        while (h.getRooms().getTotal() < 50 && dRooms > 0) {
-            h.getRooms().setDeluxe(h.getRooms().getDeluxe() + 1);;
-            dRooms--;
-            ctr2++;
-            h.getRooms().addRoomNames();
-        }
-        while (h.getRooms().getTotal() < 50 && eRooms > 0) {
-            h.getRooms().setExecutive(h.getRooms().getExecutive() + 1);;
-            eRooms--;
-            ctr3++;
-            h.getRooms().addRoomNames();
-        }
-        if (h.getRooms().getTotal() >= 50 && (sRooms > 0 || dRooms > 0 || eRooms > 0)) 
+        
+        if (h.getRooms().getTotal() >= 50 && rooms > 0) 
             System.out.printf("Cannot add more rooms. Maximum capacity reached.\n");
-        System.out.printf("%d standard rooms, %d deluxe rooms, and %d executive rooms successfully added.\n\n", ctr1, ctr2, ctr3);
+        System.out.printf("%d rooms successfully added.\n\n", ctr);
     }
 
     
-    /** Removes a number of rooms from the hotel
+    /** Removes a number of a specific type of room from the hotel
      * Preconditions: Instance of Hotel is initialized
      * Postconditions: The number of rooms in the hotel is decreased
     * @param h - Instance of Hotel
@@ -133,7 +138,7 @@ public class manageHotel {
         amt = sc.nextInt();
         
         input = display.confirm();
-        } while (input == 2);
+        } while (input == 2 || type < 1 || type > 3);
         
         int ctr = 0;
         boolean found;

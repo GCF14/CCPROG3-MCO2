@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 /**Reservation class that contains the guest name, check in date, check out date, and room number.
  */
 public class Reservation {
