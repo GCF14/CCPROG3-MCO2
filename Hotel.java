@@ -192,52 +192,13 @@ public class Hotel {
         }
     }
 
-    /** Gets the total number of nights spent in the hotel
-     * Preconditions: Hotel object is initialized to have a list of reservations
-     * Postconditions: returns an integer
-     * @return totalNights (The total number of nights spent by each reservation in the hotel)
-     */
-    // public int getTotalNights() {
-    //     int totalNights = 0;
-    //     for (Reservation r : reservations) {
-    //         totalNights += r.getNightSpent();
-    //     }
-    //     return totalNights;
-    // }
-
-    // Total nights spent in standard rooms
-    public int getTotalStandard() {
-        int total = 0;
-        for (int i = 0; i < this.getNumOfReservations(); i++) {
-            for (int j = 0; j < this.rooms.getStandard(); j++) {
-                if (this.reservations.get(i).getRoomNumber() == this.rooms.getRoomNames().get(j))
-                total += this.getReservations().get(i).getNightSpent();
-            }
+    // Total earnings for the entire hotel
+    public float getTotalEarnings() {
+        float result = 0;
+        for (int i = 0; i < this.reservations.size(); i++) {
+            result += this.reservations.get(i).getTotalPrice();
         }
-        return total;
-    }
-    // Total nights spent in deluxe rooms
-    public int getTotalDeluxe() {
-        int total = 0;
-        for (int i = 0; i < this.getNumOfReservations(); i++) {
-            for (int j = this.rooms.getStandard(); j < this.rooms.getStandard() + this.rooms.getDeluxe(); j++) {
-                if (this.reservations.get(i).getRoomNumber() == this.rooms.getRoomNames().get(j))
-                total += this.getReservations().get(i).getNightSpent();
-            }
-        }
-        return total;
-    }
-    // Total nights spent in executive rooms
-    public int getTotalExecutive() {
-        int total = 0;
-        int temp = this.rooms.getStandard() + this.rooms.getDeluxe();
-        for (int i = 0; i < this.getNumOfReservations(); i++) {
-            for (int j = temp; j < temp + this.rooms.getExecutive(); j++) {
-                if (this.reservations.get(i).getRoomNumber() == this.rooms.getRoomNames().get(j))
-                    total += this.getReservations().get(i).getNightSpent();
-            }
-        }
-        return total;
+        return result;
     }
 
 }

@@ -49,11 +49,12 @@ public class SimulateBooking {
         System.out.printf("Enter customer name: ");
         String customer = sc.nextLine();
         int hotelIndex = display.enterHotelName(hotels);
+        int input;
+        String code;
         
         if (hotelIndex >= 0) {
-            int checkInDate;
-            int checkOutDate;
-            int roomType;
+            int checkInDate, checkOutDate, roomType;
+            float roomPrice;
         
             do {
                 do {
@@ -80,6 +81,7 @@ public class SimulateBooking {
                 sc.nextLine(); //input buffer
             } while (roomType < 1 || roomType > 3);
             boolean bookedRoom = false; // check if room is already booked
+
             
             /* 
              * I turned the while from while(room <= hotels.get(hotelIndex).getRooms()) && !bookedRoom) to 
@@ -93,26 +95,65 @@ public class SimulateBooking {
                 case 1:
                     room = 1;
                     maxRoom = hotels.get(hotelIndex).getRooms().lastStandard();
+                    roomPrice = hotels.get(hotelIndex).getRoomPrice();
                     break;
                 case 2:
                     room = hotels.get(hotelIndex).getRooms().firstDeluxe();
                     maxRoom = hotels.get(hotelIndex).getRooms().lastDeluxe();
+                    roomPrice = hotels.get(hotelIndex).getDeluxePrice();
                     break;
                 case 3:
                     room = hotels.get(hotelIndex).getRooms().firstExecutive();
                     maxRoom = hotels.get(hotelIndex).getRooms().lastExecutive();
+                    roomPrice = hotels.get(hotelIndex).getExecutivePrice();
                     break;
                 default:
                     room = -1;
                     maxRoom = -1;
+                    roomPrice = -1;
                     break;
             }
+            float totalPrice = (checkOutDate - checkInDate) * roomPrice;
+            
             while(room <= maxRoom && !bookedRoom) {
                 
                 if (!areDaysBooked(hotels.get(hotelIndex), checkInDate, checkOutDate, room)) {
-                
-                    Reservation newReservation = new Reservation(customer, checkInDate, checkOutDate, room);
-    
+                    
+                    // Ask if they want to input discount code
+                    do {
+                        System.out.println("Enter discount code?");
+                        System.out.println("[1] Yes");
+                        System.out.println("[2] No");
+                        input = sc.nextInt();
+                        sc.nextLine(); // input buffer
+                    } while (input < 1 || input > 2);
+                    // Asks for input of discount code
+                    if (input == 1) {
+                        System.out.print("Code: ");
+                        code = sc.nextLine();
+                        if (code.equals("I_WORK_HERE")) {
+                            totalPrice *= 0.9;
+                            System.out.println("10% discount applied.");
+                        }
+                        else if (code.equals("STAY4_GET1")) 
+                            if (checkOutDate - checkInDate >= 4) { // If stay is >= 5 days
+                                totalPrice -= roomPrice;
+                                System.out.println("First day of reservation is given for free.");
+                            }
+                            else
+                                System.out.println("Reservation is inelligible for discount code.");
+                                
+                        else if (code.equals("PAYDAY"))
+                            if (checkInDate <= 15 && checkOutDate > 15 || checkInDate <= 30 && checkOutDate > 30) { // If stay contains day 15 / 30
+                                totalPrice *= 0.93;
+                                System.out.println("7% discount applied.");
+                            }
+                            else
+                                System.out.println("Reservation is inelligible for discount code.");
+                        else 
+                            System.out.println("Discount Code not found.");              
+                    }
+                    Reservation newReservation = new Reservation(customer, checkInDate, checkOutDate, room, totalPrice);
                     hotels.get(hotelIndex).addReservation(newReservation);
                     System.out.println("Booking successful.\n");
                     bookedRoom = true;
@@ -125,9 +166,7 @@ public class SimulateBooking {
                 System.out.printf("No rooms available for the selected dates.\n\n");
             }
             
-        } else {
-            System.out.printf("No current hotels.\n");
-        }
+        } 
     }
     
     

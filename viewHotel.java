@@ -49,9 +49,7 @@ public class viewHotel {
         System.out.printf("\tStandard: %.2f\n", h.getRoomPrice());
         System.out.printf("\tDeluxe: %.2f\n", h.getDeluxePrice());
         System.out.printf("\tExecutive: %.2f\n", h.getExecutivePrice());
-        System.out.printf("Estimate earnings for the month: %.2f\n", (h.getTotalStandard() * h.getRoomPrice()) 
-                                                                            + (h.getTotalDeluxe() * h.getDeluxePrice()) 
-                                                                            + (h.getTotalExecutive() * h.getExecutivePrice()));
+        System.out.printf("Estimate earnings for the month: %.2f\n", h.getTotalEarnings());
     }
 
 
@@ -114,7 +112,7 @@ public class viewHotel {
             System.out.printf("Guest name: %s\n", h.getReservations().get(index).getGuestName());
             System.out.printf("Check-in Day: %d\n", h.getReservations().get(index).getCheckInDate());
             System.out.printf("Check-out Day: %d\n", h.getReservations().get(index).getCheckOutDate());
-            System.out.printf("Total price for booking: %.2f\n", h.getReservations().get(index).getNightSpent() * roomPrice);
+            System.out.printf("Total price for booking: %.2f\n", h.getReservations().get(index).getTotalPrice());
             System.out.println();
         }
     }
