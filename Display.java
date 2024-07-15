@@ -1,4 +1,4 @@
-// package prog_mco1;
+//package prog_mco2;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -93,11 +93,12 @@ public class Display {
             System.out.println("[4] Update base room price");
             System.out.println("[5] Remove reservation");
             System.out.println("[6] Remove hotel");
+            System.out.println("[7] Modify date price");
 
             System.out.print("Input: ");
             input = sc.nextInt();
             sc.nextLine(); // input buffer
-        } while(input < 1 || input > 6);
+        } while(input < 1 || input > 7);
         return input;
     }
 

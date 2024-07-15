@@ -1,6 +1,8 @@
-package prog_mco2;
+//package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.SwingUtilities;
 
 /**Driver class that runs the program and contains the main method
  */
@@ -21,6 +23,18 @@ public class Driver {
         Scanner sc = new Scanner(System.in);
         String name;
         int i, input, input2;
+
+        //dont touch this ako na bahala unless you wanna learn a bit gui
+        //I just copied my work from project I did before
+        //this is the thing that makes gui pop up
+        SwingUtilities.invokeLater(new Runnable(){
+            @Override
+            public void run(){
+                HotelGui gui = new HotelGui();
+                gui.setVisible(true);
+            }
+
+        });
 
 
         do {
@@ -87,6 +101,10 @@ public class Driver {
                         case 6: // Remove hotel
                             manager.removeHotel(hotels);
                             break;
+                        case 7: //set price rate per night to something different
+                            i = display.enterHotelName(hotels);
+                            if (i >= 0)
+                                manager.setDateModifier(hotels.get(i));
                     }
                     break;
                 case 4: // Simulate Booking

@@ -1,5 +1,6 @@
-package prog_mco2;
+//package prog_mco2;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**Hotel class that contains the name of the hotel, number of rooms, room price, room names, and reservations.
  */
@@ -8,6 +9,7 @@ public class Hotel {
     private Rooms rooms;
     private float roomPrice;
     private ArrayList<Reservation> reservations;
+    private float[] datePriceModifiers; //this will contain the price rate of the rooms imagine index as the date - 1 and the value is price rate
     
     /** Constructor for Hotel
      * Preconditions: name is a String, rooms is an integer
@@ -20,6 +22,21 @@ public class Hotel {
         this.rooms = new Rooms();
         this.roomPrice = 1299.0f;
         this.reservations = new ArrayList<Reservation>();
+        this.datePriceModifiers = new float[31]; //31 days in a month so 31 price rates per night
+        Arrays.fill(datePriceModifiers, 1.0f); // Initialize all days to 100% by default
+    }
+
+    //Ill just put this here in case we use it in the future if ever but if not then lets delete getDatePriceModifiers
+    public float[] getDatePriceModifiers() {
+        return datePriceModifiers;
+    }
+
+    public void setDatePriceModifier(int day, float priceRate) {
+        if (day >= 1 && day <= 31) {
+            datePriceModifiers[day - 1] = priceRate; // Adjust index for day
+        } else {
+            System.out.println("Invalid day entered. Please enter a day between 1 and 31.");
+        }
     }
 
 
@@ -203,6 +220,15 @@ public class Hotel {
             }
         }
         return total;
+    }
+
+    //Im thinking we create method here that will calculate na the total for everything with changed price rates and type of room
+    //Although idk yet if we will use it tbh imma put it down in case
+    public int getTotalRoomPrice(){
+
+
+
+        return 0;
     }
 
 

@@ -1,4 +1,4 @@
-// package prog_mco1;
+//package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -70,8 +70,12 @@ public class SimulateBooking {
             } while (checkInDate >= checkOutDate);
 
             boolean bookedRoom = false; // check if room is already booked
-
-            while(room <= hotels.get(hotelIndex).getRooms() && !bookedRoom) {
+            
+            /*
+             * I turned the while from while(room <= hotels.get(hotelIndex).getRooms()) && !bookedRoom) to 
+             * while(room <= hotels.get(hotelIndex).getRooms().getTotal() && !bookedRoom)
+             */
+            while(room <= hotels.get(hotelIndex).getRooms().getTotal() && !bookedRoom) {
                 
                 if (!areDaysBooked(hotels.get(hotelIndex), checkInDate, checkOutDate, room)) {
                 

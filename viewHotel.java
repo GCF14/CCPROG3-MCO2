@@ -1,4 +1,4 @@
-package prog_mco2;
+//package prog_mco2;
 import java.util.Scanner;
 
 /**viewHotel class that displays the high level and low level information of the hotel.
@@ -85,7 +85,7 @@ public class viewHotel {
             input2 = display.confirm();
         }
         System.out.printf("Number of booked rooms for the day: %d\n", isDayBooked(h, day));
-        System.out.printf("Number of available rooms for the day: %d\n\n", h.getRooms() - isDayBooked(h, day));
+        System.out.printf("Number of available rooms for the day: %d\n\n", h.getRooms().getTotal() - isDayBooked(h, day));
         
         
         //Information about a selected room
@@ -93,16 +93,16 @@ public class viewHotel {
 
             System.out.printf("Enter a room number (1-%d): ", h.getRooms());
             input = sc.nextInt();
-            if (input < 1 || input > h.getRooms()) {
+            if (input < 1 || input > h.getRooms().getTotal()) {
                 System.out.println("Invalid room number.");
             }
-        } while (input < 1 || input > h.getRooms());
+        } while (input < 1 || input > h.getRooms().getTotal());
         
         input2 = display.confirm();
             while(input2 == 2){
                 System.out.printf("Enter a room number (1-%d): ", h.getRooms());
                 input = sc.nextInt();
-                if (input < 1 || input > h.getRooms()) {
+                if (input < 1 || input > h.getRooms().getTotal()) {
                     System.out.println("Invalid room number.");
                 }
                 input2 = display.confirm();

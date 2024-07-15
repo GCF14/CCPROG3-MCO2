@@ -1,4 +1,4 @@
-package prog_mco2;
+//package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -260,6 +260,70 @@ public class manageHotel {
         }
 
 
+    }
+
+
+    /*
+     * This will be used to change price rate of each night 
+     * I haven't done total calculations yet only implementation of the feature palang
+     */
+    public void setDateModifier(Hotel h){
+        int input, input2;
+        float percentage = 0;
+        Display display = new Display();
+
+
+        System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+        input = sc.nextInt();
+        sc.nextLine(); // input buffer
+        if(input != 0){
+            System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+            percentage = sc.nextInt();
+            sc.nextLine(); // input buffer
+
+            input2 = display.confirm();
+            while(input2 == 2){
+                System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+                input = sc.nextInt();
+                sc.nextLine(); // input buffer
+                System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+                percentage = sc.nextInt();
+                sc.nextLine(); // input buffer
+                input2 = display.confirm();
+            }
+            
+            h.setDatePriceModifier(input, percentage/100);
+        } 
+        
+
+        while(input != 0) {
+            System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+            input = sc.nextInt();
+            sc.nextLine(); // input buffer
+
+            if(input != 0){
+                System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+                percentage = sc.nextInt();
+                sc.nextLine(); // input buffer
+
+                input2 = display.confirm();
+                while(input2 == 2) {
+                    System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+                    input = sc.nextInt();
+                    sc.nextLine(); // input buffer
+                    System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+                    percentage = sc.nextInt();
+                    sc.nextLine(); // input buffer
+                    input2 = display.confirm();
+                }
+
+                h.setDatePriceModifier(input, percentage/100);
+            }
+
+        }
+
+        System.out.println();
+        
     }
 
 
