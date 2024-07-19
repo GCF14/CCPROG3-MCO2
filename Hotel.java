@@ -1,4 +1,4 @@
-package prog_mco2;
+// package prog_mco2;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,8 +27,8 @@ public class Hotel {
     }
 
     //Ill just put this here in case we use it in the future if ever but if not then lets delete getDatePriceModifiers
-    public float[] getDatePriceModifiers() {
-        return datePriceModifiers;
+    public float getDatePriceModifiers(int date) {
+        return datePriceModifiers[date - 1];
     }
 
     public void setDatePriceModifier(int day, float priceRate) {

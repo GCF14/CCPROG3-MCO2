@@ -1,4 +1,4 @@
-package prog_mco2;
+// package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -278,22 +278,47 @@ public class manageHotel {
         Display display = new Display();
 
 
-        System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+        System.out.printf("Which day would you like to change price rate of(0 to QUIT): ");
         input = sc.nextInt();
         sc.nextLine(); // input buffer
+        while(input < 0 || input > 31){
+            System.out.printf("Which day would you like to change price rate of(0 to QUIT): ");
+            input = sc.nextInt();
+            sc.nextLine(); // input buffer
+        }
+
         if(input != 0){
-            System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+            System.out.printf("Enter percent you would like to change the price rate to: ");
             percentage = sc.nextInt();
             sc.nextLine(); // input buffer
+            while(percentage < 50 || percentage > 150){
+                System.out.printf("Enter percent you would like to change the price rate to: ");
+                percentage = sc.nextInt();
+                sc.nextLine(); // input buffer
+            }
 
             input2 = display.confirm();
             while(input2 == 2){
-                System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+                System.out.printf("Which day would you like to change price rate of(0 to QUIT): ");
                 input = sc.nextInt();
                 sc.nextLine(); // input buffer
-                System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+
+                while(input < 0 || input > 31){
+                    System.out.printf("Which day would you like to change price rate of(0 to QUIT): ");
+                    input = sc.nextInt();
+                    sc.nextLine(); // input buffer
+                }
+
+                System.out.printf("Enter percent you would like to change the price rate to: ");
                 percentage = sc.nextInt();
                 sc.nextLine(); // input buffer
+
+                while(percentage < 50 || percentage > 150){
+                    System.out.printf("Enter percent you would like to change the price rate to: ");
+                    percentage = sc.nextInt();
+                    sc.nextLine(); // input buffer
+                }
+
                 input2 = display.confirm();
             }
             
@@ -302,21 +327,21 @@ public class manageHotel {
         
 
         while(input != 0) {
-            System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+            System.out.printf("Which day would you like to change price rate of(0 to QUIT): ");
             input = sc.nextInt();
             sc.nextLine(); // input buffer
 
             if(input != 0){
-                System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+                System.out.printf("Enter percent you would like to change the price rate to: ");
                 percentage = sc.nextInt();
                 sc.nextLine(); // input buffer
 
                 input2 = display.confirm();
                 while(input2 == 2) {
-                    System.out.printf("Enter the day that you would like to change price rate of(Enter 0 to QUIT): ");
+                    System.out.printf("Which day would you like to change price rate of(0 to QUIT): ");
                     input = sc.nextInt();
                     sc.nextLine(); // input buffer
-                    System.out.printf("Enter the the percentage you would like to change the price rate to(Enter number): ");
+                    System.out.printf("Enter percent you would like to change the price rate to: ");
                     percentage = sc.nextInt();
                     sc.nextLine(); // input buffer
                     input2 = display.confirm();

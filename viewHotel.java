@@ -1,4 +1,4 @@
-package prog_mco2;
+// package prog_mco2;
 import java.util.Scanner;
 
 /**viewHotel class that displays the high level and low level information of the hotel.

@@ -1,4 +1,4 @@
-package prog_mco2;
+// package prog_mco2;
 import java.util.ArrayList;
 public class Rooms {
     private int standard;

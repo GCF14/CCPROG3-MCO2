@@ -1,4 +1,4 @@
-package prog_mco2;
+// package prog_mco2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -113,7 +113,11 @@ public class SimulateBooking {
                     roomPrice = -1;
                     break;
             }
-            float totalPrice = (checkOutDate - checkInDate) * roomPrice;
+
+            float totalPrice = 0;
+            for(int i = checkInDate; i < checkOutDate; i++){
+                totalPrice += roomPrice * hotels.get(hotelIndex).getDatePriceModifiers(i);
+            }
             
             while(room <= maxRoom && !bookedRoom) {
                 

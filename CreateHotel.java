@@ -1,4 +1,4 @@
-package prog_mco2;
+// package prog_mco2;
 import java.util.Scanner;
 /** CreateHotel class that initializes the hotel name, number of rooms, and room names.
  */
