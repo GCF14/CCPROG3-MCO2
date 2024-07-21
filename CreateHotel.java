@@ -63,6 +63,19 @@ public class CreateHotel {
          */
     }
 
+    // // New method to initialize hotel from GUI input
+    // public void initializeHotel(String name, int standardRooms, int deluxeRooms, int executiveRooms) {
+    //     Rooms rooms = new Rooms();
+    //     rooms.setStandard(standardRooms);
+    //     rooms.setDeluxe(deluxeRooms);
+    //     rooms.setExecutive(executiveRooms);
+    //     rooms.setRoomNames();
+
+    
+    // }
+
+    
+
    
     
 }
