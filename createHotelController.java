@@ -1,51 +1,43 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class createHotelController {
-    private createHotelView view;
-    private createHotelModel model;
-    private ArrayList<Hotel> hotels;
+    private hotelGuiView gui;
+    private hotelModel model;
 
-    public createHotelController(createHotelView view, createHotelModel model, ArrayList<Hotel> hotels) {
-        this.view = view;
+    public createHotelController(hotelGuiView gui, hotelModel model) {
+        this.gui = gui;
         this.model = model;
-        this.hotels = hotels;
+        initialize();
+    }
 
-        this.view.addCreateButtonListener(new CreateButtonListener());
-        this.view.addBackButtonListener(new BackButtonListener());
+    private void initialize() {
+        gui.addCreateButtonListener(new CreateButtonListener());
+        gui.addBackButtonListener(new BackButtonListener());
     }
 
     class CreateButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            String name = view.getHotelName();
-            int standardRooms = view.getStandardRooms();
-            int deluxeRooms = view.getDeluxeRooms();
-            int executiveRooms = view.getExecutiveRooms();
+            String name = gui.getHotelName();
+            int standardRooms = gui.getStandardRooms();
+            int deluxeRooms = gui.getDeluxeRooms();
+            int executiveRooms = gui.getExecutiveRooms();
 
-            if (findHotelByName(name) == null) {
-                Hotel hotel = model.createHotel(name, standardRooms, deluxeRooms, executiveRooms);
-                hotels.add(hotel);
-                // Show success message (optional)
+            Hotel hotel = model.createHotel(name, standardRooms, deluxeRooms, executiveRooms, gui);
+
+            if (hotel != null) {
+                JOptionPane.showMessageDialog(gui, "Hotel created successfully!");
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
             } else {
-                // Show error message: hotel already exists
+                JOptionPane.showMessageDialog(gui, "Hotel already exists or invalid room numbers.");
             }
-        }
-
-        private Hotel findHotelByName(String name) {
-            for (Hotel hotel : hotels) {
-                if (hotel.getName().equals(name)) {
-                    return hotel;
-                }
-            }
-            return null;
         }
     }
 
     class BackButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            new HotelGui();
-            view.dispose();
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
         }
     }
 }

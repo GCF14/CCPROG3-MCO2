@@ -27,6 +27,7 @@ public class manageHotel {
      */
     public int findHotel(ArrayList<Hotel> h, String name) {
         for (int i = 0; i < h.size(); i++) {
+            System.out.println("Checking hotel: " + h.get(i).getName());
             if (h.get(i).getName().equals(name)) {
                 return i;
             }
