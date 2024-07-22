@@ -1,8 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.SwingUtilities;
-
 public class viewHotelController {
     private hotelGuiView gui;
     private hotelModel model;
@@ -10,59 +8,35 @@ public class viewHotelController {
     public viewHotelController(hotelGuiView gui, hotelModel model) {
         this.gui = gui;
         this.model = model;
-        initialize();
-    }
 
-    private void initialize() {
-        gui.addBackButtonListener(new BackButtonListener());
-        gui.addHighLevelButtonListener(new HighLevelButtonListener());
-        gui.addLowLevelButtonListener(new LowLevelButtonListener());
+        // Add action listeners for the high and low level buttons
+        this.gui.getHighLevelButton().addActionListener(new HighLevelButtonListener());
+        this.gui.getLowLevelButton().addActionListener(new LowLevelButtonListener());
+
+        // Add action listeners for the back buttons
+        this.gui.backToViewHotelFromHighLevel().addActionListener(new BackToViewHotelListener());
+        this.gui.backToViewHotelFromLowLevel().addActionListener(new BackToViewHotelListener());
     }
-    
 
     class HighLevelButtonListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
-            // Hide buttons and update UI
-            gui.getHighLevelButton().setVisible(false);
-            gui.getLowLevelButton().setVisible(false);
-            gui.getMainPanel().revalidate();
-            gui.getMainPanel().repaint();
-
-            // Add new components after the UI update
-            SwingUtilities.invokeLater(() -> {
-                gui.addNewComponents();
-                gui.getMainPanel().revalidate();
-                gui.getMainPanel().repaint();
-            });
+            gui.getCardLayout().show(gui.getMainPanel(), "highLevel");
         }
     }
 
     class LowLevelButtonListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
-            // Hide buttons and update UI
-            gui.getHighLevelButton().setVisible(false);
-            gui.getLowLevelButton().setVisible(false);
-            gui.getMainPanel().revalidate();
-            gui.getMainPanel().repaint();
-
-            // Add new components after the UI update
-            SwingUtilities.invokeLater(() -> {
-                gui.addNewComponents();
-                gui.getMainPanel().revalidate();
-                gui.getMainPanel().repaint();
-            });
+            gui.getCardLayout().show(gui.getMainPanel(), "lowLevel");
         }
     }
 
-    
-
-    class BackButtonListener implements ActionListener {
+    class BackToViewHotelListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
-            gui.getCardLayout().show(gui.getMainPanel(), "home");
+            gui.getCardLayout().show(gui.getMainPanel(), "viewHotel");
         }
-    }
-
-    private void handleBackButton() {
-        gui.getCardLayout().show(gui.getMainPanel(), "home");
     }
 }
+

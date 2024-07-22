@@ -15,6 +15,8 @@ public class hotelGuiView extends JFrame {
     // Declare buttons at class level
     private JButton highLevelButton;
     private JButton lowLevelButton;
+    private JButton backToViewHotelFromHighLevel;
+    private JButton backToViewHotelFromLowLevel;
 
     public hotelGuiView() {
         super("Hotel Reservation System");
@@ -168,6 +170,42 @@ public class hotelGuiView extends JFrame {
 
         mainPanel.add(viewHotelPanel, "viewHotel");
 
+
+        // High Level Information Panel
+        JPanel highLevelPanel = new JPanel(null);
+        JLabel highLevelLabel = new JLabel("High Level Information", JLabel.CENTER);
+        highLevelLabel.setBounds(200, 50, 400, 50); // Adjust the bounds as needed
+        highLevelLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        highLevelPanel.add(highLevelLabel);
+
+        backToViewHotelFromHighLevel = new JButton("Back");
+        backToViewHotelFromHighLevel.setBounds(680, 500, 100, 50);
+        backToViewHotelFromHighLevel.setFont(new Font("Arial", Font.BOLD, 16));
+        highLevelPanel.add(backToViewHotelFromHighLevel);
+
+        mainPanel.add(highLevelPanel, "highLevel");
+
+        // Low Level Information Panel
+        JPanel lowLevelPanel = new JPanel(null);
+        JLabel lowLevelLabel = new JLabel("Low Level Information", JLabel.CENTER);
+        lowLevelLabel.setBounds(200, 50, 400, 50); // Adjust the bounds as needed
+        lowLevelLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        lowLevelPanel.add(lowLevelLabel);
+
+        backToViewHotelFromLowLevel = new JButton("Back");
+        backToViewHotelFromLowLevel.setBounds(680, 500, 100, 50);
+        backToViewHotelFromLowLevel.setFont(new Font("Arial", Font.BOLD, 16));
+        lowLevelPanel.add(backToViewHotelFromLowLevel);
+
+        mainPanel.add(lowLevelPanel, "lowLevel");
+
+
+
+
+
+
+
+
         // Manage Hotel portion
         JPanel manageHotelPanel = new JPanel(null);
         JLabel manageHotelTitle = new JLabel("View Hotel Information", JLabel.CENTER);
@@ -278,6 +316,18 @@ public class hotelGuiView extends JFrame {
     public void addLowLevelButtonListener(ActionListener listener) {
         lowLevelButton.addActionListener(listener);
     }
+
+    public JButton backToViewHotelFromLowLevel() {
+        return backToViewHotelFromLowLevel;
+    }
+    
+    public JButton backToViewHotelFromHighLevel() {
+        return backToViewHotelFromHighLevel;
+    }
+
+
+
+
 
     // Public getters for cardLayout and mainPanel
     public CardLayout getCardLayout() {
