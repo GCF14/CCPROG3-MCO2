@@ -2,41 +2,50 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class viewHotelController {
-    private hotelGuiView gui;
-    private hotelModel model;
+    private hotelGuiView view;
+    private createHotelModel model;
 
-    public viewHotelController(hotelGuiView gui, hotelModel model) {
-        this.gui = gui;
+    public viewHotelController(hotelGuiView view, createHotelModel model) {
+        this.view = view;
         this.model = model;
 
-        // Add action listeners for the high and low level buttons
-        this.gui.getHighLevelButton().addActionListener(new HighLevelButtonListener());
-        this.gui.getLowLevelButton().addActionListener(new LowLevelButtonListener());
+        this.view.getHighLevelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Hotel selectedHotel = view.getHotelOptions(model.getHotels());
+                if (selectedHotel != null) {
+                    view.displayHighLevelInfo(selectedHotel);
+                }
+            }
+        });
 
-        // Add action listeners for the back buttons
-        this.gui.backToViewHotelFromHighLevel().addActionListener(new BackToViewHotelListener());
-        this.gui.backToViewHotelFromLowLevel().addActionListener(new BackToViewHotelListener());
+        this.view.getLowLevelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implement low-level info display if needed
+            }
+        });
+
+        this.view.getBackButton2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.getCardLayout().show(view.getMainPanel(), "home");
+            }
+        });
+
+        this.view.backToViewHotelFromHighLevel().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.getCardLayout().show(view.getMainPanel(), "viewHotel");
+            }
+        });
+
+        this.view.backToViewHotelFromLowLevel().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.getCardLayout().show(view.getMainPanel(), "viewHotel");
+            }
+        });
     }
 
-    class HighLevelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            gui.getCardLayout().show(gui.getMainPanel(), "highLevel");
-        }
-    }
-
-    class LowLevelButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            gui.getCardLayout().show(gui.getMainPanel(), "lowLevel");
-        }
-    }
-
-    class BackToViewHotelListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            gui.getCardLayout().show(gui.getMainPanel(), "viewHotel");
-        }
-    }
 }
-

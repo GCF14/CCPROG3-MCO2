@@ -13,9 +13,6 @@ public class hotelController {
         this.view.addViewInfoButtonListener(new ViewInfoButtonListener());
         this.view.addManageButtonListener(new ManageButtonListener());
         this.view.addBookingButtonListener(new BookingButtonListener());
-        
-
-
         this.view.addBackButtonListener(new BackButtonListener());
         this.view.addBackButtonListener2(new BackButtonListener());
         this.view.addBackButtonListener3(new BackButtonListener());

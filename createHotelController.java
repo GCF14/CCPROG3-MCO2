@@ -4,9 +4,9 @@ import javax.swing.JOptionPane;
 
 public class createHotelController {
     private hotelGuiView gui;
-    private hotelModel model;
+    private createHotelModel model;
 
-    public createHotelController(hotelGuiView gui, hotelModel model) {
+    public createHotelController(hotelGuiView gui, createHotelModel model) {
         this.gui = gui;
         this.model = model;
         initialize();
@@ -29,6 +29,7 @@ public class createHotelController {
             if (hotel != null) {
                 JOptionPane.showMessageDialog(gui, "Hotel created successfully!");
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
+                gui.clearHotelFields();
             } else {
                 JOptionPane.showMessageDialog(gui, "Hotel already exists or invalid room numbers.");
             }
@@ -38,6 +39,7 @@ public class createHotelController {
     class BackButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             gui.getCardLayout().show(gui.getMainPanel(), "home");
+            gui.clearHotelFields();
         }
     }
 }

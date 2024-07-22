@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class hotelGuiView extends JFrame {
     private JPanel mainPanel;
@@ -10,13 +11,24 @@ public class hotelGuiView extends JFrame {
     private JTextField deluxeRoomField;
     private JTextField executiveRoomField;
     private JButton createButton;
-    private JButton backButton;
+
 
     // Declare buttons at class level
     private JButton highLevelButton;
     private JButton lowLevelButton;
     private JButton backToViewHotelFromHighLevel;
     private JButton backToViewHotelFromLowLevel;
+
+    private JButton createHotelButton;
+    private JButton viewInfoButton;
+    private JButton manageButton;
+    private JButton bookingButton;
+    private JButton backButton;
+    private JButton backButton2;
+    private JButton backButton3;
+    private JButton backButton4;
+
+    private JPanel highLevelPanel;
 
     public hotelGuiView() {
         super("Hotel Reservation System");
@@ -34,8 +46,10 @@ public class hotelGuiView extends JFrame {
         setVisible(true);
 
         // Initialize controllers with the view (this) and model
-        createHotelController createController = new createHotelController(this, new hotelModel());
-        viewHotelController viewController = new viewHotelController(this, new hotelModel());
+        createHotelModel model = new createHotelModel(); // Create model instance
+        hotelController controller = new hotelController(this, model);
+        viewHotelController viewController = new viewHotelController(this, model);
+        createHotelController createHotel = new createHotelController(this, model);
     }
 
     private void addComponents() {
@@ -49,25 +63,25 @@ public class hotelGuiView extends JFrame {
 
         Font buttonFont = new Font("Arial", Font.BOLD, 20);
 
-        JButton createHotelButton = new JButton("Create Hotel");
+        createHotelButton = new JButton("Create Hotel");
         createHotelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         createHotelButton.setFont(buttonFont);
         createHotelButton.setBounds(275, 150, 275, 60);
         homePanel.add(createHotelButton);
 
-        JButton viewInfoButton = new JButton("View Hotel Information");
+        viewInfoButton = new JButton("View Hotel Information");
         viewInfoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         viewInfoButton.setFont(buttonFont);
         viewInfoButton.setBounds(275, 230, 275, 60);
         homePanel.add(viewInfoButton);
 
-        JButton manageButton = new JButton("Manage Hotel");
+        manageButton = new JButton("Manage Hotel");
         manageButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         manageButton.setFont(buttonFont);
         manageButton.setBounds(275, 310, 275, 60);
         homePanel.add(manageButton);
 
-        JButton bookingButton = new JButton("Simulate Booking");
+        bookingButton = new JButton("Simulate Booking");
         bookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         bookingButton.setFont(buttonFont);
         bookingButton.setBounds(275, 390, 275, 60);
@@ -162,7 +176,7 @@ public class hotelGuiView extends JFrame {
         lowLevelButton.setFont(new Font("Arial", Font.BOLD, 30));
         viewHotelPanel.add(lowLevelButton);
 
-        JButton backButton2 = new JButton("Back");
+        backButton2 = new JButton("Back");
         backButton2.setBounds(680, 500, 100, 50); // Center the Back button
         backButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         backButton2.setFont(new Font("Arial", Font.BOLD, 16));
@@ -172,7 +186,8 @@ public class hotelGuiView extends JFrame {
 
 
         // High Level Information Panel
-        JPanel highLevelPanel = new JPanel(null);
+        highLevelPanel = new JPanel(null);
+        highLevelPanel.setSize(900, 700);
         JLabel highLevelLabel = new JLabel("High Level Information", JLabel.CENTER);
         highLevelLabel.setBounds(200, 50, 400, 50); // Adjust the bounds as needed
         highLevelLabel.setFont(new Font("Arial", Font.BOLD, 36));
@@ -200,20 +215,14 @@ public class hotelGuiView extends JFrame {
         mainPanel.add(lowLevelPanel, "lowLevel");
 
 
-
-
-
-
-
-
         // Manage Hotel portion
         JPanel manageHotelPanel = new JPanel(null);
-        JLabel manageHotelTitle = new JLabel("View Hotel Information", JLabel.CENTER);
+        JLabel manageHotelTitle = new JLabel("Manage Hotel", JLabel.CENTER);
         manageHotelTitle.setFont(new Font(manageHotelTitle.getFont().getName(), manageHotelTitle.getFont().getStyle(), 36));
         manageHotelTitle.setBounds(200, 50, 400, 50);
         manageHotelPanel.add(manageHotelTitle);
 
-        JButton backButton3 = new JButton("Back");
+        backButton3 = new JButton("Back");
         Font buttonFont3 = new Font("Arial", Font.BOLD, 16);
         backButton3.setBounds(680, 500, 100, 50);
         backButton3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -229,7 +238,7 @@ public class hotelGuiView extends JFrame {
         simulateBookingTitle.setBounds(200, 50, 400, 50);
         simulateBookingPanel.add(simulateBookingTitle);
 
-        JButton backButton4 = new JButton("Back");
+        backButton4 = new JButton("Back");
         Font buttonFont4 = new Font("Arial", Font.BOLD, 16);
         backButton4.setBounds(680, 500, 100, 50);
         backButton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -238,21 +247,7 @@ public class hotelGuiView extends JFrame {
 
         mainPanel.add(simulateBookingPanel, "simulateBooking");
 
-        // Add action listener portions
-        viewInfoButton.addActionListener(e -> {
-            cardLayout.show(mainPanel, "viewHotel");
-            highLevelButton.setVisible(true); // Reset visibility when switching to viewHotel panel
-            lowLevelButton.setVisible(true);  // Reset visibility when switching to viewHotel panel
-            
-        });
-        createHotelButton.addActionListener(e -> cardLayout.show(mainPanel, "createHotel"));
-        viewInfoButton.addActionListener(e -> cardLayout.show(mainPanel, "viewHotel"));
-        manageButton.addActionListener(e -> cardLayout.show(mainPanel, "manageHotel"));
-        bookingButton.addActionListener(e -> cardLayout.show(mainPanel, "simulateBooking"));
-        backButton.addActionListener(e -> cardLayout.show(mainPanel, "home"));
-        backButton2.addActionListener(e -> cardLayout.show(mainPanel, "home"));
-        backButton3.addActionListener(e -> cardLayout.show(mainPanel, "home"));
-        backButton4.addActionListener(e -> cardLayout.show(mainPanel, "home"));
+
     }
 
     public boolean validateRooms() {
@@ -273,16 +268,20 @@ public class hotelGuiView extends JFrame {
         }
     }
 
-    public void addNewComponents() {
-        // Get the viewHotelPanel
-        JPanel viewHotelPanel = (JPanel) mainPanel.getComponent(2); // Assuming viewHotelPanel is at index 1
+    public void addCreateHotelButtonListener(ActionListener listener) {
+        createHotelButton.addActionListener(listener);
+    }
 
-        JLabel nameLabel2 = new JLabel("Pick a hotel:");
-        nameLabel2.setFont(new Font(nameLabel2.getFont().getName(), nameLabel2.getFont().getStyle(), 22));
-        nameLabel2.setBounds(90, 150, 200, 30);
-        viewHotelPanel.add(nameLabel2);
+    public void addViewInfoButtonListener(ActionListener listener) {
+        viewInfoButton.addActionListener(listener);
+    }
 
-        
+    public void addManageButtonListener(ActionListener listener) {
+        manageButton.addActionListener(listener);
+    }
+
+    public void addBookingButtonListener(ActionListener listener) {
+        bookingButton.addActionListener(listener);
     }
 
     public String getHotelName() {
@@ -305,8 +304,21 @@ public class hotelGuiView extends JFrame {
         createButton.addActionListener(listener);
     }
 
+    // Add methods to register the back button listeners
     public void addBackButtonListener(ActionListener listener) {
         backButton.addActionListener(listener);
+    }
+
+    public void addBackButtonListener2(ActionListener listener) {
+        backButton2.addActionListener(listener);
+    }
+
+    public void addBackButtonListener3(ActionListener listener) {
+        backButton3.addActionListener(listener);
+    }
+
+    public void addBackButtonListener4(ActionListener listener) {
+        backButton4.addActionListener(listener);
     }
 
     public void addHighLevelButtonListener(ActionListener listener) {
@@ -325,10 +337,6 @@ public class hotelGuiView extends JFrame {
         return backToViewHotelFromHighLevel;
     }
 
-
-
-
-
     // Public getters for cardLayout and mainPanel
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -346,8 +354,217 @@ public class hotelGuiView extends JFrame {
         return lowLevelButton;
     }
 
-    // Call this method from the controller when needed
-    public void displayNewComponents() {
-        addNewComponents();
+    //Displays and asks user to pick hotel from list of hotels
+    public Hotel getHotelOptions(ArrayList<Hotel> hotels) {
+        if (hotels.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hotels available.");
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    getCardLayout().show(getMainPanel(), "home");
+                }
+            });
+            return null;
+        }
+    
+        String[] options = new String[hotels.size()];
+        for (int i = 0; i < hotels.size(); i++) {
+            options[i] = hotels.get(i).getName();
+        }
+    
+        int result = JOptionPane.showOptionDialog(this, "Choose a hotel", "Hotel Options",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+    
+        if (result != -1) {
+            return hotels.get(result); // Return the Hotel object based on selected index
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    getCardLayout().show(getMainPanel(), "viewHotel");
+                }
+            });
+            return null;
+        }
+
+
     }
+
+
+    public JPanel getHighLevelPanel(){
+        return highLevelPanel;
+        
+    }
+
+    /*
+     * If we have time lets add pictures of the standard, deluxe, and executive rooms
+     */
+    public void displayHighLevelInfo(Hotel hotel) {
+        if (hotel != null) {
+            highLevelPanel.removeAll();
+    
+            // Title label
+            JLabel highLevelLabel = new JLabel("High Level Information", JLabel.CENTER);
+            highLevelLabel.setBounds(0, 20, 800, 50); // Adjust bounds to span full width
+            highLevelLabel.setFont(new Font("Arial", Font.BOLD, 36));
+            highLevelPanel.add(highLevelLabel);
+    
+            // Hotel name label
+            JLabel nameLabel = new JLabel(hotel.getName(), JLabel.CENTER);
+            Font nameLabelFont = new Font("Arial", Font.BOLD, 40); // Larger font size for hotel name
+            nameLabel.setFont(nameLabelFont);
+            nameLabel.setBounds(0, 80, 800, 60); // Increased height to ensure full text visibility
+            highLevelPanel.add(nameLabel);
+    
+            // Room details labels
+            Font detailFont = new Font("Arial", Font.PLAIN, 24); // Larger font size for other labels
+    
+            JLabel totalRoomsLabel = new JLabel("Number of rooms: " + hotel.getRooms().getTotal());
+            totalRoomsLabel.setFont(detailFont);
+            totalRoomsLabel.setBounds(200, 140, 400, 40); // Increased height
+            highLevelPanel.add(totalRoomsLabel);
+    
+            JLabel standardLabel = new JLabel("Standard: " + hotel.getRooms().getStandard());
+            standardLabel.setFont(detailFont);
+            standardLabel.setBounds(200, 180, 400, 40); // Increased height
+            highLevelPanel.add(standardLabel);
+    
+            JLabel deluxeLabel = new JLabel("Deluxe: " + hotel.getRooms().getDeluxe());
+            deluxeLabel.setFont(detailFont);
+            deluxeLabel.setBounds(200, 220, 400, 40); // Increased height
+            highLevelPanel.add(deluxeLabel);
+    
+            JLabel executiveLabel = new JLabel("Executive: " + hotel.getRooms().getExecutive());
+            executiveLabel.setFont(detailFont);
+            executiveLabel.setBounds(200, 260, 400, 40); // Increased height
+            highLevelPanel.add(executiveLabel);
+    
+            // Price per night label
+            JLabel priceLabel = new JLabel("Price per night", JLabel.CENTER);
+            Font priceLabelFont = new Font("Arial", Font.BOLD, 30); // Larger font size for price label
+            priceLabel.setFont(priceLabelFont);
+            priceLabel.setBounds(200, 290, 400, 60); // Increased height
+            highLevelPanel.add(priceLabel);
+    
+            JLabel standardPriceLabel = new JLabel("Standard: " + hotel.getRoomPrice());
+            standardPriceLabel.setFont(detailFont);
+            standardPriceLabel.setBounds(200, 340, 400, 40); // Increased height
+            highLevelPanel.add(standardPriceLabel);
+    
+            JLabel deluxePriceLabel = new JLabel("Deluxe: " + hotel.getDeluxePrice());
+            deluxePriceLabel.setFont(detailFont);
+            deluxePriceLabel.setBounds(200, 380, 400, 40); // Increased height
+            highLevelPanel.add(deluxePriceLabel);
+    
+            JLabel executivePriceLabel = new JLabel("Executive: " + hotel.getExecutivePrice());
+            executivePriceLabel.setFont(detailFont);
+            executivePriceLabel.setBounds(200, 420, 400, 40); // Increased height
+            highLevelPanel.add(executivePriceLabel);
+    
+            JLabel earningsLabel = new JLabel("Estimate earnings for the month: " + hotel.getTotalEarnings());
+            earningsLabel.setFont(detailFont);
+            earningsLabel.setBounds(200, 460, 400, 40); // Increased height
+            highLevelPanel.add(earningsLabel);
+    
+            // Back button
+            highLevelPanel.add(backToViewHotelFromHighLevel);
+    
+            highLevelPanel.revalidate();
+            highLevelPanel.repaint();
+    
+            getCardLayout().show(getMainPanel(), "highLevel");
+        }
+    }
+
+    
+    
+
+    public void displayLowLevelInfo(Hotel hotel) {
+        if (hotel != null) {
+            highLevelPanel.removeAll();
+            JLabel highLevelLabel = new JLabel("High Level Information", JLabel.CENTER);
+            highLevelLabel.setBounds(200, 50, 400, 50);
+            highLevelLabel.setFont(new Font("Arial", Font.BOLD, 36));
+            highLevelPanel.add(highLevelLabel);
+
+            JLabel nameLabel = new JLabel("Name of hotel: " + hotel.getName());
+            nameLabel.setBounds(200, 120, 400, 30);
+            highLevelPanel.add(nameLabel);
+
+            JLabel totalRoomsLabel = new JLabel("Number of rooms: " + hotel.getRooms().getTotal());
+            totalRoomsLabel.setBounds(200, 160, 400, 30);
+            highLevelPanel.add(totalRoomsLabel);
+
+            JLabel standardLabel = new JLabel("\tStandard: " + hotel.getRooms().getStandard());
+            standardLabel.setBounds(200, 200, 400, 30);
+            highLevelPanel.add(standardLabel);
+
+            JLabel deluxeLabel = new JLabel("\tDeluxe: " + hotel.getRooms().getDeluxe());
+            deluxeLabel.setBounds(200, 240, 400, 30);
+            highLevelPanel.add(deluxeLabel);
+
+            JLabel executiveLabel = new JLabel("\tExecutive: " + hotel.getRooms().getExecutive());
+            executiveLabel.setBounds(200, 280, 400, 30);
+            highLevelPanel.add(executiveLabel);
+
+            JLabel priceLabel = new JLabel("Price per night:");
+            priceLabel.setBounds(200, 320, 400, 30);
+            highLevelPanel.add(priceLabel);
+
+            JLabel standardPriceLabel = new JLabel("\tStandard: " + hotel.getRoomPrice());
+            standardPriceLabel.setBounds(200, 360, 400, 30);
+            highLevelPanel.add(standardPriceLabel);
+
+            JLabel deluxePriceLabel = new JLabel("\tDeluxe: " + hotel.getDeluxePrice());
+            deluxePriceLabel.setBounds(200, 400, 400, 30);
+            highLevelPanel.add(deluxePriceLabel);
+
+            JLabel executivePriceLabel = new JLabel("\tExecutive: " + hotel.getExecutivePrice());
+            executivePriceLabel.setBounds(200, 440, 400, 30);
+            highLevelPanel.add(executivePriceLabel);
+
+            JLabel earningsLabel = new JLabel("Estimate earnings for the month: " + hotel.getTotalEarnings());
+            earningsLabel.setBounds(200, 480, 400, 30);
+            highLevelPanel.add(earningsLabel);
+
+            highLevelPanel.add(backToViewHotelFromHighLevel);
+
+            highLevelPanel.revalidate();
+            highLevelPanel.repaint();
+
+            getCardLayout().show(getMainPanel(), "highLevel");
+        }
+    }
+
+    public JButton getBackButton2(){
+        return backButton2;
+    }
+    
+    public void setHotelName(String name) {
+        nameField.setText(name);
+    }
+    
+    public void setStandardRooms(int rooms) {
+        standardRoomField.setText(String.valueOf(rooms));
+    }
+    
+    public void setDeluxeRooms(int rooms) {
+        deluxeRoomField.setText(String.valueOf(rooms));
+    }
+    
+    public void setExecutiveRooms(int rooms) {
+        executiveRoomField.setText(String.valueOf(rooms));
+    }
+
+    public void clearHotelFields() {
+        setHotelName("");
+        setStandardRooms(0);
+        setDeluxeRooms(0);
+        setExecutiveRooms(0);
+    }
+    
+    
+
+    
+
 }

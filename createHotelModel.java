@@ -34,6 +34,11 @@ public class createHotelModel {
         return y;
     }
 
+    // Add this method to return the list of hotels
+    public ArrayList<Hotel> getHotels() {
+        return hotels;
+    }
+
     
 
     
