@@ -4,9 +4,9 @@ import javax.swing.JOptionPane;
 
 public class createHotelController {
     private hotelGuiView gui;
-    private hotelModel model;
+    private createHotelModel model;
 
-    public createHotelController(hotelGuiView gui, hotelModel model) {
+    public createHotelController(hotelGuiView gui, createHotelModel model) {
         this.gui = gui;
         this.model = model;
         initialize();
