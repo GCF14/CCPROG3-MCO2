@@ -1,4 +1,4 @@
-//package prog_mco2;
+// package prog_mco2;
 import java.util.ArrayList;
 public class Rooms {
     private int standard;
@@ -39,6 +39,29 @@ public class Rooms {
     }
     public void addRoomNames() {
         this.roomNames.add(this.roomNames.size()+1);
+    }
+    /*
+     * Added the following functions just cus theyre reused a lot
+     * Just for the first/last rooms of the specific room types
+     */
+    public int lastStandard() {
+        return this.standard;
+    }
+
+    public int firstDeluxe() {
+        return this.standard + 1;
+    }
+
+    public int lastDeluxe() {
+        return this.standard + this.deluxe;
+    }
+
+    public int firstExecutive() {
+        return this.lastDeluxe() + 1;
+    }
+
+    public int lastExecutive() {
+        return this.lastDeluxe() + this.executive;
     }
 
 }

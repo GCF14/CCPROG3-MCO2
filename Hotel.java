@@ -1,4 +1,4 @@
-//package prog_mco2;
+// package prog_mco2;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,8 +27,8 @@ public class Hotel {
     }
 
     //Ill just put this here in case we use it in the future if ever but if not then lets delete getDatePriceModifiers
-    public float[] getDatePriceModifiers() {
-        return datePriceModifiers;
+    public float getDatePriceModifiers(int date) {
+        return datePriceModifiers[date - 1];
     }
 
     public void setDatePriceModifier(int day, float priceRate) {
@@ -83,13 +83,31 @@ public class Hotel {
         return this.rooms;
     }
 
-    /** Gets the price for the night in a room in the hotel
+    /** Gets the price for the night in a standard room in the hotel
      * Preconditions: roomPrice is a float and hotel object is initialized
      * Postconditions: returns a float
      * @return roomPrice (The price of the room)
      */
     public float getRoomPrice() {
-        return roomPrice;
+        return this.roomPrice;
+    }
+
+    /** Gets the price for the night in a deluxe room in the hotel
+     * Preconditions: roomPrice is a float and hotel object is initialized
+     * Postconditions: returns a float
+     * @return roomPrice * 1.2 (The price of a deluxe room)
+     */
+    public float getDeluxePrice() {
+        return this.roomPrice * 1.2f;
+    }
+
+    /** Gets the price for the night in an executive room in the hotel
+     * Preconditions: roomPrice is a float and hotel object is initialized
+     * Postconditions: returns a float
+     * @return roomPrice * 1.35 (The price of an executive room)
+     */
+    public float getExecutivePrice() {
+        return this.roomPrice * 1.35f;
     }
 
     /** Sets a new price for the night in a room in the hotel
@@ -174,62 +192,13 @@ public class Hotel {
         }
     }
 
-    /** Gets the total number of nights spent in the hotel
-     * Preconditions: Hotel object is initialized to have a list of reservations
-     * Postconditions: returns an integer
-     * @return totalNights (The total number of nights spent by each reservation in the hotel)
-     */
-    // public int getTotalNights() {
-    //     int totalNights = 0;
-    //     for (Reservation r : reservations) {
-    //         totalNights += r.getNightSpent();
-    //     }
-    //     return totalNights;
-    // }
-
-    // Total nights spent in standard rooms
-    public int getTotalStandard() {
-        int total = 0;
-        for (int i = 0; i < this.getNumOfReservations(); i++) {
-            for (int j = 0; j < this.rooms.getStandard(); j++) {
-                if (this.reservations.get(i).getRoomNumber() == this.rooms.getRoomNames().get(j))
-                total += this.getReservations().get(i).getNightSpent();
-            }
+    // Total earnings for the entire hotel
+    public float getTotalEarnings() {
+        float result = 0;
+        for (int i = 0; i < this.reservations.size(); i++) {
+            result += this.reservations.get(i).getTotalPrice();
         }
-        return total;
+        return result;
     }
-    // Total nights spent in deluxe rooms
-    public int getTotalDeluxe() {
-        int total = 0;
-        for (int i = 0; i < this.getNumOfReservations(); i++) {
-            for (int j = this.rooms.getStandard(); j < this.rooms.getStandard() + this.rooms.getDeluxe(); j++) {
-                if (this.reservations.get(i).getRoomNumber() == this.rooms.getRoomNames().get(j))
-                total += this.getReservations().get(i).getNightSpent();
-            }
-        }
-        return total;
-    }
-    // Total nights spent in executive rooms
-    public int getTotalExecutive() {
-        int total = 0;
-        int temp = this.rooms.getStandard() + this.rooms.getDeluxe();
-        for (int i = 0; i < this.getNumOfReservations(); i++) {
-            for (int j = temp; j < temp + this.rooms.getExecutive(); j++) {
-                if (this.reservations.get(i).getRoomNumber() == this.rooms.getRoomNames().get(j))
-                    total += this.getReservations().get(i).getNightSpent();
-            }
-        }
-        return total;
-    }
-
-    //Im thinking we create method here that will calculate na the total for everything with changed price rates and type of room
-    //Although idk yet if we will use it tbh imma put it down in case
-    public int getTotalRoomPrice(){
-
-
-
-        return 0;
-    }
-
 
 }

@@ -1,4 +1,4 @@
-//package prog_mco2;
+// package prog_mco2;
 /**Reservation class that contains the guest name, check in date, check out date, and room number.
  */
 public class Reservation {
@@ -7,6 +7,7 @@ public class Reservation {
     private int checkInDate;
     private int checkOutDate;
     private int roomNumber;
+    private float totalPrice;
 
     /** Constructor for Reservation
      * Preconditions: guestName is a String, checkInDate is an integer, checkOutDate is an integer, roomNumber is an integer
@@ -15,12 +16,14 @@ public class Reservation {
      * @param checkInDate - The check in date of the guest
      * @param checkOutDate - The check out date of the guest
      * @param roomNumber - The room number of the guest
+     * @param totalPrice - The total price of the booking
      */
-    public Reservation(String guestName, int checkInDate, int checkOutDate, int roomNumber) {
+    public Reservation(String guestName, int checkInDate, int checkOutDate, int roomNumber, float totalPrice) {
         this.guestName = guestName;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomNumber = roomNumber;
+        this.totalPrice = totalPrice;
     }
 
     /** Returns the name of the guest
@@ -30,15 +33,6 @@ public class Reservation {
      */
     public String getGuestName() {
         return this.guestName;
-    }
-
-    /** Returns the number of nights spent by the guest
-     * Preconditions: Instance of Reservation is initialized and checkOutDate and checkInDate are integers
-     * Postconditions: returns an integer
-     * @return checkOutDate - checkInDate (The number of nights spent by the guest)
-     */
-    public int getNightSpent(){ 
-        return this.checkOutDate - this.checkInDate;
     }
 
     /** Returns the check in date of the guest
@@ -67,4 +61,9 @@ public class Reservation {
     public int getRoomNumber() {
         return this.roomNumber;
     }
+
+    public float getTotalPrice() {
+        return this.totalPrice;
+    }
+
 }

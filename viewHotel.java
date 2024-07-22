@@ -1,4 +1,4 @@
-//package prog_mco2;
+// package prog_mco2;
 import java.util.Scanner;
 
 /**viewHotel class that displays the high level and low level information of the hotel.
@@ -40,21 +40,16 @@ public class viewHotel {
      */
     public void highLevelInfo(Hotel h) {
         System.out.println();
-        float standard = h.getRoomPrice();
-        float deluxe = h.getRoomPrice() * 1.2f;
-        float executive = h.getRoomPrice() * 1.35f;
         System.out.printf("Name of hotel: %s\n", h.getName());
         System.out.printf("Number of rooms: %d\n", h.getRooms().getTotal());
         System.out.printf("\tStandard: %d\n", h.getRooms().getStandard());
         System.out.printf("\tDeluxe: %d\n", h.getRooms().getDeluxe());
         System.out.printf("\tExecutive: %d\n", h.getRooms().getExecutive());
         System.out.printf("Price per night:\n");
-        System.out.printf("\tStandard: %.2f\n", standard);
-        System.out.printf("\tDeluxe: %.2f\n", deluxe);
-        System.out.printf("\tExecutive: %.2f\n", executive);
-        System.out.printf("Estimate earnings for the month: %.2f\n", (h.getTotalStandard() * standard) 
-                                                                            + (h.getTotalDeluxe() * deluxe) 
-                                                                            + (h.getTotalExecutive() * executive));
+        System.out.printf("\tStandard: %.2f\n", h.getRoomPrice());
+        System.out.printf("\tDeluxe: %.2f\n", h.getDeluxePrice());
+        System.out.printf("\tExecutive: %.2f\n", h.getExecutivePrice());
+        System.out.printf("Estimate earnings for the month: %.2f\n", h.getTotalEarnings());
     }
 
 
@@ -63,8 +58,9 @@ public class viewHotel {
      * Postconditions: none
      * @param h - Instance of Hotel
      */
-    public void lowLevelInfo(Hotel h) {
-        int input, day, input2;
+    public void lowLevelInfo(Hotel h) { // fixed this for the diff types of rooms
+        int input, day;
+        float roomPrice;
         Display display = new Display();
         System.out.println();
          // for display Total number of available and booked rooms for a selected date
@@ -75,42 +71,31 @@ public class viewHotel {
                 System.out.println("Invalid input");
             }
         } while (day < 1 || day > 31);
-        input2 = display.confirm();
-        while(input2 == 2){
-            System.out.printf("Enter day: ");
-            day = sc.nextInt();
-            if (day < 1 || day > 31){
-                System.out.println("Invalid input");
-            }
-            input2 = display.confirm();
-        }
+       
         System.out.printf("Number of booked rooms for the day: %d\n", isDayBooked(h, day));
         System.out.printf("Number of available rooms for the day: %d\n\n", h.getRooms().getTotal() - isDayBooked(h, day));
         
         
         //Information about a selected room
         do {
-
-            System.out.printf("Enter a room number (1-%d): ", h.getRooms());
+            System.out.printf("Enter a room number (1-%d): ", h.getRooms().getTotal());
             input = sc.nextInt();
             if (input < 1 || input > h.getRooms().getTotal()) {
                 System.out.println("Invalid room number.");
             }
         } while (input < 1 || input > h.getRooms().getTotal());
-        
-        input2 = display.confirm();
-            while(input2 == 2){
-                System.out.printf("Enter a room number (1-%d): ", h.getRooms());
-                input = sc.nextInt();
-                if (input < 1 || input > h.getRooms().getTotal()) {
-                    System.out.println("Invalid room number.");
-                }
-                input2 = display.confirm();
-            }
-        
         System.out.println();
         System.out.printf("Room name: %d\n", input);
-        System.out.printf("Room price: %.2f\n", h.getRoomPrice());
+
+        // Check for type of room
+        if (input >= 1 && input <= h.getRooms().lastStandard())
+            roomPrice = h.getRoomPrice();
+        else if (input >= h.getRooms().firstDeluxe() && input <= h.getRooms().lastDeluxe())
+            roomPrice = h.getDeluxePrice();
+        else
+            roomPrice = h.getExecutivePrice();
+
+        System.out.printf("Room price: %.2f\n", roomPrice);
         if (!h.getReservations().isEmpty()) {
             display.displayAvailability(h, input);
         } else {
@@ -122,12 +107,12 @@ public class viewHotel {
 
         if (index != -1) {
             System.out.printf("Room name: %d\n", h.getReservations().get(index).getRoomNumber());
-            System.out.printf("Price per night in the room: %.2f\n", h.getRoomPrice());
+            System.out.printf("Price per night in the room: %.2f\n", roomPrice);
             System.out.printf("Room's Guest information: \n");
             System.out.printf("Guest name: %s\n", h.getReservations().get(index).getGuestName());
             System.out.printf("Check-in Day: %d\n", h.getReservations().get(index).getCheckInDate());
             System.out.printf("Check-out Day: %d\n", h.getReservations().get(index).getCheckOutDate());
-            System.out.printf("Total price for booking: %.2f\n", h.getReservations().get(index).getNightSpent() * h.getRoomPrice());
+            System.out.printf("Total price for booking: %.2f\n", h.getReservations().get(index).getTotalPrice());
             System.out.println();
         }
     }

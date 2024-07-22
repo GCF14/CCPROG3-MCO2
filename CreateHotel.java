@@ -1,4 +1,4 @@
-//package prog_mco2;
+package prog_mco2;
 import java.util.Scanner;
 /** CreateHotel class that initializes the hotel name, number of rooms, and room names.
  */
@@ -30,34 +30,39 @@ public class CreateHotel {
      * Postconditions: Returns and int which is the number of rooms in the hotel
      * @return input (The number of rooms in the hotel inputted by the user)
      */
-    public void initializeRooms(Rooms rooms) {
+    public void initializeRooms(Rooms rooms, int standard, int deluxe, int executive) {
 
-        int input1, input2, input3;
-        int total;
-        do {
-            System.out.print("Enter amount of standard rooms: ");
-            input1 = sc.nextInt();
-            sc.nextLine(); // input buffer
-            System.out.print("Enter amount of deluxe rooms: ");
-            input2 = sc.nextInt();
-            sc.nextLine();
-            System.out.print("Enter amount of executive rooms: ");
-            input3 = sc.nextInt();
-            sc.nextLine();
-            total = input1 + input2 + input3;
+        // int input1, input2, input3;
+        // int total;
+        // do {
+        //     System.out.print("Enter amount of standard rooms: ");
+        //     input1 = sc.nextInt();
+        //     sc.nextLine(); // input buffer
+        //     System.out.print("Enter amount of deluxe rooms: ");
+        //     input2 = sc.nextInt();
+        //     sc.nextLine();
+        //     System.out.print("Enter amount of executive rooms: ");
+        //     input3 = sc.nextInt();
+        //     sc.nextLine();
+        //     total = input1 + input2 + input3;
 
-            if (total <= 0 || total > 50) {
-                System.out.println("Invalid amount");
-            }
-        } while(total <= 0 || total > 50);
+        //     if (total <= 0 || total > 50) {
+        //         System.out.println("Invalid amount");
+        //     }
+        // } while(total <= 0 || total > 50);
 
-        rooms.setStandard(input1);
-        rooms.setDeluxe(input2);
-        rooms.setExecutive(input3);
+        rooms.setStandard(standard);
+        rooms.setDeluxe(deluxe);
+        rooms.setExecutive(executive);
         rooms.setRoomNames();
 
+        /* Note:
+         * Rooms 1 - input1 are standard
+         * Rooms input1 - input2 are deluxe
+         * Rooms input2 - input3 are executive
+         */
     }
 
-   
+    
     
 }
