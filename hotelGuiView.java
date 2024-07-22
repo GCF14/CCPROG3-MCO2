@@ -10,22 +10,13 @@ public class hotelGuiView extends JFrame {
     private JTextField deluxeRoomField;
     private JTextField executiveRoomField;
     private JButton createButton;
-
+    private JButton backButton;
 
     // Declare buttons at class level
     private JButton highLevelButton;
     private JButton lowLevelButton;
     private JButton backToViewHotelFromHighLevel;
     private JButton backToViewHotelFromLowLevel;
-
-    private JButton createHotelButton;
-    private JButton viewInfoButton;
-    private JButton manageButton;
-    private JButton bookingButton;
-    private JButton backButton;
-    private JButton backButton2;
-    private JButton backButton3;
-    private JButton backButton4;
 
     public hotelGuiView() {
         super("Hotel Reservation System");
@@ -43,10 +34,8 @@ public class hotelGuiView extends JFrame {
         setVisible(true);
 
         // Initialize controllers with the view (this) and model
-        createHotelModel model = new createHotelModel(); // Create model instance
-        hotelController controller = new hotelController(this, model);
-        viewHotelController viewController = new viewHotelController(this, model);
-        createHotelController createHotel = new createHotelController(this, model);
+        createHotelController createController = new createHotelController(this, new hotelModel());
+        viewHotelController viewController = new viewHotelController(this, new hotelModel());
     }
 
     private void addComponents() {
@@ -60,25 +49,25 @@ public class hotelGuiView extends JFrame {
 
         Font buttonFont = new Font("Arial", Font.BOLD, 20);
 
-        createHotelButton = new JButton("Create Hotel");
+        JButton createHotelButton = new JButton("Create Hotel");
         createHotelButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         createHotelButton.setFont(buttonFont);
         createHotelButton.setBounds(275, 150, 275, 60);
         homePanel.add(createHotelButton);
 
-        viewInfoButton = new JButton("View Hotel Information");
+        JButton viewInfoButton = new JButton("View Hotel Information");
         viewInfoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         viewInfoButton.setFont(buttonFont);
         viewInfoButton.setBounds(275, 230, 275, 60);
         homePanel.add(viewInfoButton);
 
-        manageButton = new JButton("Manage Hotel");
+        JButton manageButton = new JButton("Manage Hotel");
         manageButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         manageButton.setFont(buttonFont);
         manageButton.setBounds(275, 310, 275, 60);
         homePanel.add(manageButton);
 
-        bookingButton = new JButton("Simulate Booking");
+        JButton bookingButton = new JButton("Simulate Booking");
         bookingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         bookingButton.setFont(buttonFont);
         bookingButton.setBounds(275, 390, 275, 60);
@@ -173,7 +162,7 @@ public class hotelGuiView extends JFrame {
         lowLevelButton.setFont(new Font("Arial", Font.BOLD, 30));
         viewHotelPanel.add(lowLevelButton);
 
-        backButton2 = new JButton("Back");
+        JButton backButton2 = new JButton("Back");
         backButton2.setBounds(680, 500, 100, 50); // Center the Back button
         backButton2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         backButton2.setFont(new Font("Arial", Font.BOLD, 16));
@@ -211,14 +200,20 @@ public class hotelGuiView extends JFrame {
         mainPanel.add(lowLevelPanel, "lowLevel");
 
 
+
+
+
+
+
+
         // Manage Hotel portion
         JPanel manageHotelPanel = new JPanel(null);
-        JLabel manageHotelTitle = new JLabel("Manage Hotel", JLabel.CENTER);
+        JLabel manageHotelTitle = new JLabel("View Hotel Information", JLabel.CENTER);
         manageHotelTitle.setFont(new Font(manageHotelTitle.getFont().getName(), manageHotelTitle.getFont().getStyle(), 36));
         manageHotelTitle.setBounds(200, 50, 400, 50);
         manageHotelPanel.add(manageHotelTitle);
 
-        backButton3 = new JButton("Back");
+        JButton backButton3 = new JButton("Back");
         Font buttonFont3 = new Font("Arial", Font.BOLD, 16);
         backButton3.setBounds(680, 500, 100, 50);
         backButton3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -234,7 +229,7 @@ public class hotelGuiView extends JFrame {
         simulateBookingTitle.setBounds(200, 50, 400, 50);
         simulateBookingPanel.add(simulateBookingTitle);
 
-        backButton4 = new JButton("Back");
+        JButton backButton4 = new JButton("Back");
         Font buttonFont4 = new Font("Arial", Font.BOLD, 16);
         backButton4.setBounds(680, 500, 100, 50);
         backButton4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -243,7 +238,21 @@ public class hotelGuiView extends JFrame {
 
         mainPanel.add(simulateBookingPanel, "simulateBooking");
 
-
+        // Add action listener portions
+        viewInfoButton.addActionListener(e -> {
+            cardLayout.show(mainPanel, "viewHotel");
+            highLevelButton.setVisible(true); // Reset visibility when switching to viewHotel panel
+            lowLevelButton.setVisible(true);  // Reset visibility when switching to viewHotel panel
+            
+        });
+        createHotelButton.addActionListener(e -> cardLayout.show(mainPanel, "createHotel"));
+        viewInfoButton.addActionListener(e -> cardLayout.show(mainPanel, "viewHotel"));
+        manageButton.addActionListener(e -> cardLayout.show(mainPanel, "manageHotel"));
+        bookingButton.addActionListener(e -> cardLayout.show(mainPanel, "simulateBooking"));
+        backButton.addActionListener(e -> cardLayout.show(mainPanel, "home"));
+        backButton2.addActionListener(e -> cardLayout.show(mainPanel, "home"));
+        backButton3.addActionListener(e -> cardLayout.show(mainPanel, "home"));
+        backButton4.addActionListener(e -> cardLayout.show(mainPanel, "home"));
     }
 
     public boolean validateRooms() {
@@ -264,20 +273,16 @@ public class hotelGuiView extends JFrame {
         }
     }
 
-    public void addCreateHotelButtonListener(ActionListener listener) {
-        createHotelButton.addActionListener(listener);
-    }
+    public void addNewComponents() {
+        // Get the viewHotelPanel
+        JPanel viewHotelPanel = (JPanel) mainPanel.getComponent(2); // Assuming viewHotelPanel is at index 1
 
-    public void addViewInfoButtonListener(ActionListener listener) {
-        viewInfoButton.addActionListener(listener);
-    }
+        JLabel nameLabel2 = new JLabel("Pick a hotel:");
+        nameLabel2.setFont(new Font(nameLabel2.getFont().getName(), nameLabel2.getFont().getStyle(), 22));
+        nameLabel2.setBounds(90, 150, 200, 30);
+        viewHotelPanel.add(nameLabel2);
 
-    public void addManageButtonListener(ActionListener listener) {
-        manageButton.addActionListener(listener);
-    }
-
-    public void addBookingButtonListener(ActionListener listener) {
-        bookingButton.addActionListener(listener);
+        
     }
 
     public String getHotelName() {
@@ -300,21 +305,8 @@ public class hotelGuiView extends JFrame {
         createButton.addActionListener(listener);
     }
 
-    // Add methods to register the back button listeners
     public void addBackButtonListener(ActionListener listener) {
         backButton.addActionListener(listener);
-    }
-
-    public void addBackButtonListener2(ActionListener listener) {
-        backButton2.addActionListener(listener);
-    }
-
-    public void addBackButtonListener3(ActionListener listener) {
-        backButton3.addActionListener(listener);
-    }
-
-    public void addBackButtonListener4(ActionListener listener) {
-        backButton4.addActionListener(listener);
     }
 
     public void addHighLevelButtonListener(ActionListener listener) {
@@ -333,6 +325,10 @@ public class hotelGuiView extends JFrame {
         return backToViewHotelFromHighLevel;
     }
 
+
+
+
+
     // Public getters for cardLayout and mainPanel
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -350,4 +346,8 @@ public class hotelGuiView extends JFrame {
         return lowLevelButton;
     }
 
+    // Call this method from the controller when needed
+    public void displayNewComponents() {
+        addNewComponents();
+    }
 }
