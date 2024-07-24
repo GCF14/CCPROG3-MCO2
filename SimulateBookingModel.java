@@ -39,22 +39,22 @@ public class SimulateBookingModel {
     public void booking(ArrayList<Hotel> hotels, Hotel h, String customerName, int checkInDate, int checkOutDate) {
         String code;
         int roomType = 0;
-
-       
+    
         if (h != null) {
             if(gui.validateCheckDates()){
                 roomType = gui.getRoomOptions();
             } else {
-                gui.getCardLayout().show(gui.getMainPanel(), "simulateBooking");
                 gui.displayValidCheckDates();
-                return; // Exit if dates are not valid
+                gui.clearHotelFields();
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
+                return;
             }
-
+    
             boolean bookedRoom = false;
-
+    
             int room, maxRoom;
             float roomPrice;
-
+    
             switch(roomType) {
                 case 0:
                     room = 1;
@@ -77,52 +77,61 @@ public class SimulateBookingModel {
                     roomPrice = -1;
                     break;
             }
-
-
+    
             float totalPrice = 0;
             for(int i = checkInDate; i < checkOutDate; i++){
                 totalPrice += roomPrice * hotels.get(model2.findHotel(h.getName())).getDatePriceModifiers(i);
             }
-
+    
             while(room <= maxRoom && !bookedRoom) {
                 if (!areDaysBooked(hotels.get(model2.findHotel(h.getName())), checkInDate, checkOutDate, room)) {
                     code = gui.displayEnterDiscount();
-                    if (gui.checkCoupon(code, checkInDate, checkOutDate) == 1) {
-                        totalPrice *= 0.9;
-                    } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 2) {
-                        totalPrice -= roomPrice;
-                    } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 3){
-                        totalPrice -= 0;
-                        gui.getCardLayout().show(gui.getMainPanel(), "simulateBooking");
+                    if (code == null) {
+                        // User canceled the discount code input
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
                         return;
-                    } else if(gui.checkCoupon(code, checkInDate, checkOutDate) == 4){
-                        totalPrice *= 0.93;
-                    } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 5) {
-                        totalPrice -= 0;
-                    } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 6){
-                        totalPrice -= 0;
-                        gui.getCardLayout().show(gui.getMainPanel(), "simulateBooking");
-                        return;
+                    } else if (!code.isEmpty()) {
+                        // Apply discount code
+                        if (gui.checkCoupon(code, checkInDate, checkOutDate) == 1) {
+                            totalPrice *= 0.9;
+                        } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 2) {
+                            totalPrice -= roomPrice;
+                        } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 3){
+                            totalPrice -= 0;
+                            gui.getCardLayout().show(gui.getMainPanel(), "simulateBooking");
+                            return;
+                        } else if(gui.checkCoupon(code, checkInDate, checkOutDate) == 4){
+                            totalPrice *= 0.93;
+                        } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 5) {
+                            totalPrice -= 0;
+                        } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 6){
+                            totalPrice -= 0;
+                            gui.getCardLayout().show(gui.getMainPanel(), "simulateBooking");
+                            return;
+                        }
                     }
-
+    
                     Reservation newReservation = new Reservation(customerName, checkInDate, checkOutDate, room, totalPrice);
                     hotels.get(model2.findHotel(h.getName())).addReservation(newReservation);
                     gui.displaySuccessBooking();
                     bookedRoom = true;
                     System.out.println("Room booked successfully: Room " + room);
                 }
-
+    
                 room++;
             }
-
+    
             if (!bookedRoom) {
                 gui.displayNoRooms();
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
             }
-
+    
         } else {
             gui.getCardLayout().show(gui.getMainPanel(), "home");
         }
     }
+    
+    
+    
 
 }

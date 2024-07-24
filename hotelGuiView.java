@@ -349,7 +349,7 @@ public class hotelGuiView extends JFrame {
         // Label for number of rooms to add
         JLabel addLabel = new JLabel("No. Rooms:");
         addLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        addLabel.setBounds(110, 200, 200, 30);
+        addLabel.setBounds(170, 200, 200, 30);
         addPanel.add(addLabel);
 
         // Text field for input
@@ -378,7 +378,7 @@ public class hotelGuiView extends JFrame {
 
         JLabel removeLabel = new JLabel("No. Rooms:");
         removeLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        removeLabel.setBounds(110, 200, 200, 30);
+        removeLabel.setBounds(170, 200, 200, 30);
         removePanel.add(removeLabel);
 
         removeField = new JTextField();
@@ -899,6 +899,10 @@ public class hotelGuiView extends JFrame {
         removeField.setText(String.valueOf(rooms));
     }
 
+    public void setAddField(int rooms){
+        addField.setText(String.valueOf(rooms));
+    }
+
     public void setCheckInFields(int checkIn){
         checkInField.setText(String.valueOf(checkIn));
     }
@@ -918,6 +922,7 @@ public class hotelGuiView extends JFrame {
         setExecutiveRooms(0);
         setChangeNewName("");
         setRemoveField(0);
+        setAddField(0);
         setCustomerName("");
         setCheckInFields(0);
         setCheckOutFields(0);
@@ -989,8 +994,9 @@ public class hotelGuiView extends JFrame {
     public int getRoomOptions() {
         String[] options = {"Standard", "Deluxe", "Executive"};
         int result = JOptionPane.showOptionDialog(this, "Select Room Type", "Room Type", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-        if(result == -1){
+        if(result == JOptionPane.CLOSED_OPTION || result == -1){
             getCardLayout().show(getMainPanel(), "home");
+            return -1;
         }
         return result;
     }
@@ -1047,11 +1053,11 @@ public class hotelGuiView extends JFrame {
     public String displayEnterDiscount() {
         int response = JOptionPane.showConfirmDialog(null, "Do you want to input a Discount code?", "Discount Code", JOptionPane.YES_NO_OPTION);
         String discountCode = null;
-
+    
         if (response == JOptionPane.YES_OPTION) {
             // Show input dialog for the discount code
             discountCode = JOptionPane.showInputDialog(null, "Please enter your Discount code:", "Discount Code", JOptionPane.QUESTION_MESSAGE);
-
+    
             if (discountCode != null && !discountCode.trim().isEmpty()) {
                 // Handle the discount code
                 JOptionPane.showMessageDialog(null, "Discount code entered: " + discountCode);
@@ -1059,19 +1065,20 @@ public class hotelGuiView extends JFrame {
             } else if (discountCode != null) {
                 // Handle the case where the input is empty
                 JOptionPane.showMessageDialog(null, "No Discount code entered.", "Information", JOptionPane.INFORMATION_MESSAGE);
-                return discountCode;
+                return ""; // Proceed without discount code
             } else {
                 // Handle the case where the user canceled the input dialog
                 JOptionPane.showMessageDialog(null, "Enter Discount code Cancelled");
-                getCardLayout().show(getMainPanel(), "simulateBooking");
-                return discountCode;
+                return null; // Indicate to stop the booking process
             }
         } else {
             // Handle the case where the user chose not to input a discount code
-            getCardLayout().show(getMainPanel(), "simulateBooking");
-            return discountCode;
+            return ""; // Proceed without discount code
         }
     }
+    
+    
+    
 
     public int getCheckInField(){
         return Integer.parseInt(checkInField.getText());
@@ -1120,6 +1127,9 @@ public class hotelGuiView extends JFrame {
     public void displayNoRooms() {
         JOptionPane.showMessageDialog(null, "No rooms available for the selected dates.");
     }
+
+
+    
 
 
 }
