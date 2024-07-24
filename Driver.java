@@ -16,7 +16,7 @@ public class Driver {
         // Display display = new Display();
         // manageHotel manager = new manageHotel();
         // viewHotel viewHotel = new viewHotel();
-        // SimulateBooking SimulateBooking = new SimulateBooking();
+        //SimulateBooking  SimulateBooking = new SimulateBooking();
         // Scanner sc = new Scanner(System.in);
         // String name;
         // int i, input, input2;

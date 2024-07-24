@@ -22,7 +22,11 @@ public class viewHotelController {
         this.view.getLowLevelButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement low-level info display if needed
+
+                Hotel selectedHotel = view.getHotelOptions(model.getHotels());
+                if (selectedHotel != null) {
+                    view.getCardLayout().show(view.getMainPanel(), "lowLevel");
+                }
             }
         });
 

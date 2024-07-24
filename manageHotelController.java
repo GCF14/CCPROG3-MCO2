@@ -27,8 +27,10 @@ public class manageHotelController {
         this.gui.addRemoveNewRoomsListener(new RemoveRoomsListener());
 
         this.gui.addRemoveRoomsListener(new removeListener());
+        this.gui.addUpdateBaseRoomPriceListener(new updateBaseRoomListener());
+        this.gui.addUpdatePriceListener(new updateListener());
 
-        
+        this.gui.addRemoveReservationListener(new removeReservationListener());
 
     }
 
@@ -150,6 +152,63 @@ public class manageHotelController {
             
         }
     }
+
+    class updateBaseRoomListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            h = gui.getHotelOptions(model.getHotels());
+
+            if(h != null){
+                gui.getCardLayout().show(gui.getMainPanel(), "updatePricePanel");
+            }
+            
+        }
+    }
+
+    class updateListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (h.getName() != null) {
+                int hotelIndex = model2.findHotel(h.getName());
+                h = model.getHotels().get(hotelIndex);
+                float newPrice = gui.getUpdatePriceField();
+                int confirm = JOptionPane.showConfirmDialog(gui, "Update base room price to " + newPrice + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    int num = model2.newPrice(h, newPrice);
+                    if (num == 1) {
+                        JOptionPane.showMessageDialog(gui, "Room price successfully updated.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                    } else if (num == 0){
+                        JOptionPane.showMessageDialog(gui, "Price change unsuccessful -- Hotel currently has reservations.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                    } else{
+                        JOptionPane.showMessageDialog(gui, "Price change unsuccessful -- New price too small.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "updatePricePanel");
+                    }
+                }
+    
+           }
+            
+        }
+    }
+
+
+    class removeReservationListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            gui.getCardLayout().show(gui.getMainPanel(), "reservationsPanel");
+            h = gui.getHotelOptions(model.getHotels());
+            if (h.getName() != null) {}
+            int index = gui.getReservationOptions(h);
+                int confirm = JOptionPane.showConfirmDialog(gui, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    model2.removeReservation(h, index);
+                    JOptionPane.showMessageDialog(gui, "Reservation successfully removed.");
+                }
+            }
+        }
+
+
+
 
 
 

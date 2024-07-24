@@ -24,7 +24,9 @@ public class createHotelController {
             int deluxeRooms = gui.getDeluxeRooms();
             int executiveRooms = gui.getExecutiveRooms();
 
-            if (name == null || name.trim().isEmpty()) {
+            
+
+            if (name == null || name.trim().isEmpty() || name == null) {
                 gui.displayFillOut();  // Call method to display message
                 gui.getCardLayout().show(gui.getMainPanel(), "createHotel");
             } else {

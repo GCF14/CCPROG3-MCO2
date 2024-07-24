@@ -138,24 +138,23 @@ public class SimulateBooking {
                         if (code.equals("I_WORK_HERE")) {
                             totalPrice *= 0.9;
                             System.out.println("10% discount applied.");
-                        }
-                        else if (code.equals("STAY4_GET1")) 
+                        } else if (code.equals("STAY4_GET1")) {
                             if (checkOutDate - checkInDate >= 4) { // If stay is >= 5 days
                                 totalPrice -= roomPrice;
                                 System.out.println("First day of reservation is given for free.");
                             }
                             else
                                 System.out.println("Reservation is inelligible for discount code.");
-                                
-                        else if (code.equals("PAYDAY"))
+                        } else if (code.equals("PAYDAY")){
                             if (checkInDate <= 15 && checkOutDate > 15 || checkInDate <= 30 && checkOutDate > 30) { // If stay contains day 15 / 30
                                 totalPrice *= 0.93;
                                 System.out.println("7% discount applied.");
                             }
                             else
                                 System.out.println("Reservation is inelligible for discount code.");
-                        else 
-                            System.out.println("Discount Code not found.");              
+                        } else {
+                            System.out.println("Discount Code not found.");     
+                        }
                     }
                     Reservation newReservation = new Reservation(customer, checkInDate, checkOutDate, room, totalPrice);
                     hotels.get(hotelIndex).addReservation(newReservation);

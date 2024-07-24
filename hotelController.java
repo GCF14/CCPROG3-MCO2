@@ -12,7 +12,7 @@ public class hotelController {
         this.view.addCreateHotelButtonListener(new CreateHotelButtonListener());
         this.view.addViewInfoButtonListener(new ViewInfoButtonListener());
         this.view.addManageButtonListener(new ManageButtonListener());
-        this.view.addBookingButtonListener(new BookingButtonListener());
+        this.view.addBookingButtonListener(new addBookingButtonListener());
         this.view.addBackButtonListener(new BackButtonListener());
         this.view.addBackButtonListener2(new BackButtonListener());
         this.view.addBackButtonListener3(new BackButtonListener());
@@ -48,9 +48,11 @@ public class hotelController {
         }
     }
 
-    class BookingButtonListener implements ActionListener {
+    class addBookingButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            // view.getCardLayout().show(view.getMainPanel(), "simulateBooking");
+            // Hotel selectedHotel = view.getHotelOptions(model.getHotels());
             view.getCardLayout().show(view.getMainPanel(), "simulateBooking");
         }
     }

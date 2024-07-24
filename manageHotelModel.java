@@ -121,6 +121,23 @@ public class manageHotelModel {
     
         return ctr;
     }
+
+
+    public int newPrice(Hotel hotel, float newPrice) {
+        if(hotel.getNumOfReservations() == 0 && newPrice >= 100) {
+            hotel.setRoomPrice(newPrice);
+            return 1;
+        }
+        else if (hotel.getNumOfReservations() != 0)
+            return 0;
+        else
+            return -1;
+    }
+
+    public void removeReservation(Hotel hotel, int index) {
+        hotel.removeReservation(index);
+    }
+
     
     
     
