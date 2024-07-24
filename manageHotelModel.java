@@ -71,7 +71,24 @@ public class manageHotelModel {
         int ctr = 0;
         boolean found;
         int x = hotel.getRooms().getTotal();
-        while (x > 1 && rooms > 0) { 
+
+        int y = 0;
+        switch (roomType) {
+            case 0:
+                y = hotel.getRooms().getStandard();
+                break;
+            case 1:
+                y = hotel.getRooms().getDeluxe();
+                break;
+            case 2:
+                y = hotel.getRooms().getExecutive();
+                break;
+        }
+
+
+
+
+        while (x > 1 && y > 0 && rooms > 0) { 
             found = false;
             for (int i = 0; i < hotel.getNumOfReservations() && !found; i++) { // If a room has a reservation, skip the room
                 if (hotel.getReservations().get(i).getRoomNumber() == x) {
@@ -84,6 +101,7 @@ public class manageHotelModel {
                 rooms--;
                 ctr++;
                 x--;
+                y--;
             }
         }
         switch(roomType) {

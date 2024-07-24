@@ -22,27 +22,21 @@ public class Rooms {
         return this.roomNames;
     }
     public void setStandard(int standard) {
-        if(this.standard <= 0) {
-            this.standard = 0;
-        } else {
+        
             this.standard = standard;
-        }
+        
         
     }
     public void setDeluxe(int deluxe) {
-        if(this.deluxe <= 0) {
-            this.deluxe = 0;
-        } else {
+        
             this.deluxe = deluxe;
-        }
+        
     }
     public void setExecutive(int executive) {
 
-        if(this.executive <= 0) {
-            this.executive = 0;
-        } else {
+        
             this.executive = executive;
-        }
+        
         
     }
     public int getTotal() {
