@@ -31,6 +31,9 @@ public class manageHotelController {
         this.gui.addUpdatePriceListener(new updateListener());
 
         this.gui.addRemoveReservationListener(new removeReservationListener());
+        this.gui.addRemoveHotelListener(new addremoveHotelsListener());
+
+        this.gui.addUpdatePriceModifierListener(new updatePriceModiferListener());
 
     }
 
@@ -194,18 +197,94 @@ public class manageHotelController {
 
 
     class removeReservationListener implements ActionListener {
+        @Override
         public void actionPerformed(ActionEvent e) {
             gui.getCardLayout().show(gui.getMainPanel(), "reservationsPanel");
             h = gui.getHotelOptions(model.getHotels());
-            if (h.getName() != null) {}
-            int index = gui.getReservationOptions(h);
-                int confirm = JOptionPane.showConfirmDialog(gui, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    model2.removeReservation(h, index);
-                    JOptionPane.showMessageDialog(gui, "Reservation successfully removed.");
+            if (h != null && h.getName() != null) {
+                int index = gui.getReservationOptions(h);
+                if (index >= 0 && index < h.getNumOfReservations()) {
+                    int confirm = JOptionPane.showConfirmDialog(gui, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        model2.removeReservation(h, index);
+                        JOptionPane.showMessageDialog(gui, "Reservation successfully removed.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(gui, "No hotel selected.");
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
             }
         }
+    }
+
+    class addremoveHotelsListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            h = gui.getHotelOptions(model.getHotels());
+            if (h != null && h.getName() != null) {
+                int confirm = JOptionPane.CLOSED_OPTION;
+                while (confirm == JOptionPane.CLOSED_OPTION) {
+                    confirm = JOptionPane.showConfirmDialog(gui, "Remove Hotel " + h.getName() + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        model2.getHotels().remove(h);
+                        JOptionPane.showMessageDialog(gui, "Hotel successfully removed.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                        
+                    } else if (confirm == JOptionPane.NO_OPTION) {
+                        JOptionPane.showMessageDialog(gui, "Hotel removal cancelled.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                        
+                    }
+                }
+            } else if (model.getHotels().isEmpty()){ 
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
+            } else {
+                JOptionPane.showMessageDialog(gui, "No hotel selected.");
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
+            }
+        }
+    }
+
+
+    class updatePriceModiferListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            h = gui.getHotelOptions(model.getHotels());
+            if (h != null && h.getName() != null) {
+                int confirm = JOptionPane.CLOSED_OPTION;
+                while (confirm == JOptionPane.CLOSED_OPTION) {
+                    gui.displayEnterPriceModifier(h);
+                    confirm = JOptionPane.showConfirmDialog(gui, "Update Price?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        JOptionPane.showMessageDialog(gui, "Price rate changed.");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                        
+                    } else if (confirm == JOptionPane.NO_OPTION) {
+                        JOptionPane.showMessageDialog(gui, "Price rate change cancelled");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(gui, "Price rate change cancelled");
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                        
+                    }
+                }
+            } else if (model.getHotels().isEmpty()){ 
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
+            } else {
+                JOptionPane.showMessageDialog(gui, "No hotel selected.");
+                gui.getCardLayout().show(gui.getMainPanel(), "home");
+            }
+        }
+    }
+
+    
+    
+
+    
+    
+
 
 
 

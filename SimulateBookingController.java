@@ -20,7 +20,7 @@ public class SimulateBookingController {
     class BookingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String customerName = gui.getHotelName();
+            String customerName = gui.getCustomerNameField();
             int checkIn = gui.getCheckInField();
             int checkOut = gui.getCheckOutField();
 
