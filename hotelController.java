@@ -54,4 +54,6 @@ public class hotelController {
             view.getCardLayout().show(view.getMainPanel(), "simulateBooking");
         }
     }
+
+    
 }

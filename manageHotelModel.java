@@ -10,11 +10,6 @@ public class manageHotelModel {
         this.hotels = hotels;
     }
 
-
-    public manageHotelModel() {
-
-    }
-
     public ArrayList<Hotel> getHotels() {
         return this.hotels;
     }
@@ -46,5 +41,72 @@ public class manageHotelModel {
     public void changeHotelName(Hotel hotel, String name) {
         hotel.setName(name);
     }
+
+
+
+    public int addRooms(Hotel hotel, int roomType, int rooms) {
+        int ctr = 0;
+        while (rooms > 0 && hotel.getRooms().getTotal() < 50){   
+            switch (roomType) {
+               case 0:
+                   hotel.getRooms().setStandard(hotel.getRooms().getStandard() + 1);
+                   break;
+               case 1:
+                   hotel.getRooms().setDeluxe(hotel.getRooms().getDeluxe() + 1);
+                   break;
+               case 2:
+                   hotel.getRooms().setExecutive(hotel.getRooms().getExecutive() + 1);
+                   break;
+           }
+           rooms--;
+           ctr++;
+           hotel.getRooms().addRoomNames();
+       }
+
+       return ctr;
+    }
+
+
+    public int removeRooms(Hotel hotel, int roomType, int rooms) {
+        int ctr = 0;
+        boolean found;
+        int x = hotel.getRooms().getTotal();
+        while (x > 1 && rooms > 0) { 
+            found = false;
+            for (int i = 0; i < hotel.getNumOfReservations() && !found; i++) { // If a room has a reservation, skip the room
+                if (hotel.getReservations().get(i).getRoomNumber() == x) {
+                    found = true;
+                    x--;
+                }
+            }
+            if (!found) {
+                hotel.removeRoom(x);
+                rooms--;
+                ctr++;
+                x--;
+            }
+        }
+        switch(roomType) {
+            case 0:
+                hotel.getRooms().setStandard(hotel.getRooms().getStandard() - ctr);
+                
+                break;
+            case 1:
+                hotel.getRooms().setDeluxe(hotel.getRooms().getDeluxe() - ctr);
+                
+                break;
+            case 2:
+                hotel.getRooms().setExecutive(hotel.getRooms().getExecutive() - ctr);
+               
+                break;
+        }
+    
+        return ctr;
+    }
+    
+    
+    
+    
+    
     
 }

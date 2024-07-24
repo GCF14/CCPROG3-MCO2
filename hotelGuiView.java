@@ -27,8 +27,26 @@ public class hotelGuiView extends JFrame {
     private JButton backButton2;
     private JButton backButton3;
     private JButton backButton4;
+    private JButton backButton5;
 
     private JPanel highLevelPanel;
+
+
+
+
+    //Manage Hotel portion
+    private JButton changeName;
+    private JPanel changePanel;
+    private JTextField changeField;
+    private JButton changeNewName;
+    private JButton addRoom;
+    private JPanel addPanel;
+    private JTextField addField;
+    private JButton addNewRooms;
+    private JButton removeRoom;
+    private JPanel removePanel;
+    private JTextField removeField;
+    private JButton removeNewRooms;
 
     public hotelGuiView() {
         super("Hotel Reservation System");
@@ -50,6 +68,7 @@ public class hotelGuiView extends JFrame {
         hotelController controller = new hotelController(this, model);
         viewHotelController viewController = new viewHotelController(this, model);
         createHotelController createHotel = new createHotelController(this, model);
+        manageHotelController manageHotel = new manageHotelController(this, model);
     }
 
     private void addComponents() {
@@ -221,6 +240,7 @@ public class hotelGuiView extends JFrame {
         manageHotelTitle.setFont(new Font(manageHotelTitle.getFont().getName(), manageHotelTitle.getFont().getStyle(), 36));
         manageHotelTitle.setBounds(200, 50, 400, 50);
         manageHotelPanel.add(manageHotelTitle);
+        
 
         backButton3 = new JButton("Back");
         Font buttonFont3 = new Font("Arial", Font.BOLD, 16);
@@ -229,7 +249,131 @@ public class hotelGuiView extends JFrame {
         backButton3.setFont(buttonFont3);
         manageHotelPanel.add(backButton3);
 
+        changeName = new JButton("Change Hotel Name");
+        changeName.setBounds(265, 150, 275, 60);  // Adjusted position and size
+        changeName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        changeName.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
+        manageHotelPanel.setLayout(null);  // Ensure null layout is set
+        manageHotelPanel.add(changeName);
+
+        addRoom = new JButton("Add Room(s)");
+        addRoom.setBounds(265, 220, 275, 60);  // Adjusted position and size
+        addRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        addRoom.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
+        manageHotelPanel.setLayout(null);  // Ensure null layout is set
+        manageHotelPanel.add(addRoom);
+
+        // Initialization of manageHotelPanel with buttons
         mainPanel.add(manageHotelPanel, "manageHotel");
+
+        removeRoom = new JButton("Remove Room(s)");
+        removeRoom.setBounds(265, 290, 275, 60);
+        removeRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        removeRoom.setFont(new Font("Arial", Font.BOLD, 20));
+
+        manageHotelPanel.add(removeRoom);
+
+
+        // Initialization of changePanel with text field and label
+        changePanel = new JPanel();
+        changePanel.setLayout(null);  // Ensure null layout is set
+
+        JLabel changeTitle = new JLabel("Change Hotel Name", JLabel.CENTER);
+        changeTitle.setFont(new Font(changeTitle.getFont().getName(), changeTitle.getFont().getStyle(), 35));
+        changeTitle.setBounds(200, 50, 400, 50);  // Adjusted position and size
+        changePanel.add(changeTitle);
+
+        JLabel changeLabel = new JLabel("New Name:");
+        changeLabel.setFont(new Font(changeLabel.getFont().getName(), changeLabel.getFont().getStyle(), 25));
+        changeLabel.setBounds(150, 200, 400, 30);  // Adjusted position and size
+        changePanel.add(changeLabel);
+
+        changeField = new JTextField();
+        changeField.setBounds(300, 200, 200, 35);  // Adjusted position and size for proper fit
+        changePanel.add(changeField);
+
+        changeNewName = new JButton("Change Name");
+        changeNewName.setBounds(300, 250, 200, 50);  // Added button for changing the name
+
+        
+        changeNewName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        changeNewName.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
+        changePanel.add(changeNewName);
+
+        backButton5 = new JButton("Back");
+        Font backButton5Font = new Font("Arial", Font.BOLD, 16);
+        backButton5.setBounds(680, 500, 100, 50);
+        backButton5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backButton5.setFont(backButton5Font);
+        changePanel.add(backButton5);
+
+        mainPanel.add(changePanel, "changePanel");
+
+        addPanel = new JPanel();
+        addPanel.setLayout(null);  // Ensure null layout is set for absolute positioning
+
+
+        // Add Rooms label at the top center
+        JLabel addPanelLabel = new JLabel("Add Rooms", JLabel.CENTER);
+        addPanelLabel.setFont(new Font(addPanelLabel.getFont().getName(), addPanelLabel.getFont().getStyle(), 35));
+        addPanelLabel.setBounds(200, 50, 400, 50); // Centered at the top
+        addPanel.add(addPanelLabel);
+
+        // Label for number of rooms to add
+        JLabel addLabel = new JLabel("No. Rooms:");
+        addLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        addLabel.setBounds(110, 200, 200, 30);
+        addPanel.add(addLabel);
+
+        // Text field for input
+        addField = new JTextField();
+        addField.setBounds(300, 200, 200, 35); 
+        addPanel.add(addField);
+
+        // Button to add new rooms
+        addNewRooms = new JButton("Add Rooms");
+        addNewRooms.setBounds(300, 250, 200, 50); // Adjusted to center the button
+        addNewRooms.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        addNewRooms.setFont(new Font("Arial", Font.BOLD, 20));
+        addPanel.add(addNewRooms);
+
+        // Add the panel to the main panel
+        mainPanel.add(addPanel, "addPanel");
+
+        removePanel = new JPanel();
+        removePanel.setLayout(null);  // Ensure null layout is set for absolute positioning
+
+        // Components for removePanel
+        JLabel removePanelLabel = new JLabel("Remove Rooms", JLabel.CENTER);
+        removePanelLabel.setFont(new Font(removePanelLabel.getFont().getName(), removePanelLabel.getFont().getStyle(), 35));
+        removePanelLabel.setBounds(200, 50, 400, 50);
+        removePanel.add(removePanelLabel);
+
+        JLabel removeLabel = new JLabel("No. Rooms:");
+        removeLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        removeLabel.setBounds(110, 200, 200, 30);
+        removePanel.add(removeLabel);
+
+        removeField = new JTextField();
+        removeField.setBounds(300, 200, 200, 35); 
+        removePanel.add(removeField);
+
+        removeNewRooms = new JButton("Remove Rooms");
+        removeNewRooms.setBounds(300, 250, 200, 50); // Adjusted to center the button
+        removeNewRooms.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        removeNewRooms.setFont(new Font("Arial", Font.BOLD, 20));
+        removePanel.add(removeNewRooms);
+
+        // Add the panel to the main panel
+        mainPanel.add(removePanel, "removePanel");
+
+
+
+
+
+
+
+        
 
         // Simulate Booking Portion
         JPanel simulateBookingPanel = new JPanel(null);
@@ -257,14 +401,24 @@ public class hotelGuiView extends JFrame {
             int executive = Integer.parseInt(executiveRoomField.getText());
             int total = standard + deluxe + executive;
 
-            if (total > 50) {
-                JOptionPane.showMessageDialog(this, "Total number of rooms cannot exceed 50. Please enter again.");
+            if (total > 50 || total == 0 || total < 0 || standard < 0 || deluxe < 0|| executive < 0) {
+                JOptionPane.showMessageDialog(this, "Invalid number of rooms. Please enter again.");
                 return false;
             }
             return true;
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter valid numbers for all room types.");
+            
             return false;
+        }
+    }
+
+    public void validateCreateHotel(Hotel h){
+        if (h != null) {
+            JOptionPane.showMessageDialog(this, "Hotel created successfully!");
+            getCardLayout().show(getMainPanel(), "home");
+            clearHotelFields();
+        } else {
+            JOptionPane.showMessageDialog(this, "Hotel already exists or invalid room numbers.");
         }
     }
 
@@ -319,6 +473,10 @@ public class hotelGuiView extends JFrame {
 
     public void addBackButtonListener4(ActionListener listener) {
         backButton4.addActionListener(listener);
+    }
+
+    public void addBackButtonListener5(ActionListener listener) {
+        backButton5.addActionListener(listener);
     }
 
     public void addHighLevelButtonListener(ActionListener listener) {
@@ -381,7 +539,7 @@ public class hotelGuiView extends JFrame {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    getCardLayout().show(getMainPanel(), "viewHotel");
+                    getCardLayout().show(getMainPanel(), "home");
                 }
             });
             return null;
@@ -477,8 +635,6 @@ public class hotelGuiView extends JFrame {
     }
 
     
-    
-
     public void displayLowLevelInfo(Hotel hotel) {
         if (hotel != null) {
             highLevelPanel.removeAll();
@@ -547,6 +703,10 @@ public class hotelGuiView extends JFrame {
     public void setStandardRooms(int rooms) {
         standardRoomField.setText(String.valueOf(rooms));
     }
+
+    public void setChangeNewName(String name){
+        changeField.setText(name);
+    }
     
     public void setDeluxeRooms(int rooms) {
         deluxeRoomField.setText(String.valueOf(rooms));
@@ -556,15 +716,103 @@ public class hotelGuiView extends JFrame {
         executiveRoomField.setText(String.valueOf(rooms));
     }
 
+    public void setRemoveField(int rooms){
+        removeField.setText(String.valueOf(rooms));
+    }
+
     public void clearHotelFields() {
         setHotelName("");
         setStandardRooms(0);
         setDeluxeRooms(0);
         setExecutiveRooms(0);
+        setChangeNewName("");
+        setRemoveField(0);
     }
-    
-    
 
+
+    public void addChangeNameListener(ActionListener listener){
+        changeName.addActionListener(listener);
+    }
+
+    public void addChangeNewNameListener(ActionListener listener){
+        changeNewName.addActionListener(listener);
+    }
+
+    public JButton getChangeNewNameButton(){
+        return changeNewName;
+    }
+
+    public String getNewName(){
+        return changeField.getText();
+    }
+
+    public void displayChangeName() {
+        cardLayout.show(mainPanel, "changePanel");
+    }
+
+    public int displayConfirm(){
+        // Display the confirm dialog
+        int response = JOptionPane.showConfirmDialog(null, "Do you want to proceed?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
+
+        // Check the user's response
+        if (response == JOptionPane.OK_OPTION) {
+            return 1;
+            // Add your logic for the OK option here
+        } else if (response == JOptionPane.CANCEL_OPTION) {
+            return -1;
+            // Add your logic for the Cancel option here
+        } else {
+            return -1;
+        }
     
+    }
+
+    public void displayFillOut(){
+        JOptionPane.showMessageDialog(this, "Do not leave the space blank");
+    }
+
+    public void displayInvalid(){
+        JOptionPane.showMessageDialog(this, "Not successful");
+    }
+
+    public void displayvalid(){
+        JOptionPane.showMessageDialog(this, "Successful");
+    }
+
+    public void addAddNewRoomsListener(ActionListener listener){
+        addNewRooms.addActionListener(listener);
+    }
+
+    public void addAddRoomListener(ActionListener listener){
+        addRoom.addActionListener(listener);
+    }
+
+
+    public int getAddRooms(){
+        return Integer.parseInt(addField.getText());
+    }
+
+    public int getRoomOptions() {
+        String[] options = {"Standard", "Deluxe", "Executive"};
+        int result = JOptionPane.showOptionDialog(this, "Select Room Type", "Room Type", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+        if(result == -1){
+            getCardLayout().show(getMainPanel(), "home");
+        }
+        return result;
+    }
+
+    public int getRemoveRooms() {
+        return Integer.parseInt(removeField.getText());
+    }
+
+    public void addRemoveRoomsListener(ActionListener listener) {
+        removeRoom.addActionListener(listener);
+    }
+
+    public void addRemoveNewRoomsListener(ActionListener listener) {
+        removeNewRooms.addActionListener(listener);
+    }
+
+
 
 }

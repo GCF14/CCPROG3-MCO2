@@ -163,10 +163,10 @@ public class Hotel {
      * @param h - Instance of Hotel
      * @return true if the room is removed, false otherwise
      */
-    public boolean removeRoom(int roomNumber, Hotel h) {
+    public boolean removeRoom(int roomNumber) {
         int removed = -1;
-
-        if (h.getRooms().getTotal() > 1 && roomNumber > 0 && roomNumber <= h.getRooms().getTotal())
+    
+        if (this.getRooms().getTotal() > 1 && roomNumber > 0 && roomNumber <= this.getRooms().getTotal())
             removed = this.rooms.getRoomNames().remove(roomNumber - 1);
         if (removed == roomNumber) {
             return true;
@@ -174,8 +174,8 @@ public class Hotel {
         else {
             return false;
         }
-        
-    }
+    
+        }
 
     /** Gets the name of a room in the list of rooms in the hotel
      * Preconditions: index is an integer

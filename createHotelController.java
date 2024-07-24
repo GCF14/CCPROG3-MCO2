@@ -24,15 +24,16 @@ public class createHotelController {
             int deluxeRooms = gui.getDeluxeRooms();
             int executiveRooms = gui.getExecutiveRooms();
 
-            Hotel hotel = model.createHotel(name, standardRooms, deluxeRooms, executiveRooms, gui);
-
-            if (hotel != null) {
-                JOptionPane.showMessageDialog(gui, "Hotel created successfully!");
-                gui.getCardLayout().show(gui.getMainPanel(), "home");
-                gui.clearHotelFields();
+            if (name == null || name.trim().isEmpty()) {
+                gui.displayFillOut();  // Call method to display message
+                gui.getCardLayout().show(gui.getMainPanel(), "createHotel");
             } else {
-                JOptionPane.showMessageDialog(gui, "Hotel already exists or invalid room numbers.");
+                Hotel hotel = model.createHotel(name, standardRooms, deluxeRooms, executiveRooms, gui);
+
+                gui.validateCreateHotel(hotel);
             }
+
+        
         }
     }
 

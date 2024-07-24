@@ -153,7 +153,7 @@ public class manageHotel {
                 }
             }
             if (!found) {
-                h.removeRoom(x, h);
+                h.removeRoom(x);
                 amt--;
                 ctr++;
                 x--;
