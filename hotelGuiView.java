@@ -50,10 +50,13 @@ public class hotelGuiView extends JFrame {
     private JButton updatePrice;
     private JButton updateBaseRoomPrice;
     private JButton removeReservation;
-    private JPanel reservationsPanel;
     private JPanel lowLevelPanel;
     private JButton removeHotel;
     private JButton updatePriceModifier;
+    private JTextField dayField;
+    private JTextField roomCheckField;
+    private JButton viewLowButton;
+    private JPanel showLowLevelPanel;
 
 
     //Simulate Booking portion
@@ -79,8 +82,9 @@ public class hotelGuiView extends JFrame {
 
         // Initialize controllers with the view (this) and model
         createHotelModel model = new createHotelModel(); // Create model instance
+        viewHotelModel model2 = new viewHotelModel(model.getHotels());
         hotelController controller = new hotelController(this, model);
-        viewHotelController viewController = new viewHotelController(this, model);
+        viewHotelController viewController = new viewHotelController(this, model, model2);
         createHotelController createHotel = new createHotelController(this, model);
         manageHotelController manageHotel = new manageHotelController(this, model);
         SimulateBookingController simulateBooking = new SimulateBookingController(this, model);
@@ -234,6 +238,7 @@ public class hotelGuiView extends JFrame {
 
         mainPanel.add(highLevelPanel, "highLevel");
 
+
         // Low Level Information Panel
         lowLevelPanel = new JPanel(null);
         JLabel lowLevelLabel = new JLabel("Low Level Information", JLabel.CENTER);
@@ -246,7 +251,53 @@ public class hotelGuiView extends JFrame {
         backToViewHotelFromLowLevel.setFont(new Font("Arial", Font.BOLD, 16));
         lowLevelPanel.add(backToViewHotelFromLowLevel);
 
+
+        JLabel dayLabel = new JLabel("Enter day to check:");
+        dayLabel.setFont(new Font(dayLabel.getFont().getName(), dayLabel.getFont().getStyle(), 22));
+        dayLabel.setBounds(90, 150, 300, 30);
+        lowLevelPanel.add(dayLabel);
+
+        dayField = new JTextField();
+        dayField.setBounds(350, 150, 300, 35);
+        lowLevelPanel.add(dayField);
+
+        JLabel roomLabel = new JLabel("Enter room to check:");
+        roomLabel.setFont(new Font(roomLabel.getFont().getName(), roomLabel.getFont().getStyle(), 22));
+        roomLabel.setBounds(90, 200, 300, 30);
+        lowLevelPanel.add(roomLabel);
+
+        roomCheckField = new JTextField();
+        roomCheckField.setBounds(350, 200, 300, 35);
+        lowLevelPanel.add(roomCheckField);
+
+        viewLowButton = new JButton("View");
+        viewLowButton.setBounds(330, 400, 150, 50);
+        viewLowButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        viewLowButton.setFont(new Font("Arial", Font.BOLD, 16));
+        lowLevelPanel.add(viewLowButton);
+
         mainPanel.add(lowLevelPanel, "lowLevel");
+
+        showLowLevelPanel =  new JPanel(null);
+        JLabel lowLevelLabel2 = new JLabel("Low Level Information", JLabel.CENTER);
+        showLowLevelPanel.setBounds(200, 50, 400, 50);
+        showLowLevelPanel.setFont(new Font("Arial", Font.BOLD, 36));
+        showLowLevelPanel.add(lowLevelLabel2);
+        mainPanel.add(showLowLevelPanel, "showLowLevel");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Manage Hotel portion
@@ -437,43 +488,7 @@ public class hotelGuiView extends JFrame {
         // Add the panel to the main panel
         mainPanel.add(updatePricePanel, "updatePricePanel");
 
-        reservationsPanel = new JPanel();
-        JLabel resTitle = new JLabel("Choose a reservation to remove");
-        resTitle.setFont(new Font("Arial", Font.BOLD, 30));
-        resTitle.setBounds(200, 50, 400, 50);
-        mainPanel.add(reservationsPanel, "reservationsPanel");
-
-
-
-        // // Components for removePanel
-        // removeHotelPanel = new JPanel();
-        // removeHotelPanel.setLayout(null);  // Ensure null layout is set for absolute positioning
-        // JLabel removeHotelLabel = new JLabel("Remove Hotel", JLabel.CENTER);
-        // removeHotelPanel.setFont(new Font(removeHotelLabel.getFont().getName(), removeHotelLabel.getFont().getStyle(), 35));
-        // removeHotelPanel.setBounds(200, 50, 400, 50);
-        // removeHotelPanel.add(removeHotelLabel);
-
-        // JLabel updateLabel = new JLabel("New Room Price:");
-        // updateLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        // updateLabel.setBounds(120, 200, 200, 30);
-        // updatePricePanel.add(updateLabel);
-
-        // updatePriceField = new JTextField();
-        // updatePriceField.setBounds(300, 200, 200, 35); 
-        // updatePricePanel.add(updatePriceField);
-
-        // updatePrice = new JButton("Update Price");
-        // updatePrice.setBounds(300, 250, 200, 50); // Adjusted to center the button
-        // updatePrice.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        // updatePrice.setFont(new Font("Arial", Font.BOLD, 20));
-        // updatePricePanel.add(updatePrice);
-
-        // // Add the panel to the main panel
-        // mainPanel.add(updatePricePanel, "updatePricePanel");
         
-
-        
-
         // Simulate Booking Portion
         JPanel simulateBookingPanel = new JPanel(null);
         JLabel simulateBookingTitle = new JLabel("Simulate Booking", JLabel.CENTER);
@@ -662,8 +677,12 @@ public class hotelGuiView extends JFrame {
         return highLevelButton;
     }
     
-    public JButton getLowLevelButton() {
-        return lowLevelButton;
+    // public JButton getLowLevelButton() {
+    //     return lowLevelButton;
+    // }
+
+    public void addLowLevelButton(ActionListener listener){
+        lowLevelButton.addActionListener(listener);
     }
 
     //Displays and asks user to pick hotel from list of hotels
@@ -788,135 +807,123 @@ public class hotelGuiView extends JFrame {
         }
     }
     
-    public void displayLowLevelInfo(Hotel hotel) {
-
-        /*
-        * This is for the displaying info for low level. My idea for High level info was to keep updating the screen whenever new choice. I wanted
-        *to try doing something similar with low level info but idk if thats possible, just try.
-        * Kind of like clearing the screen then re-adding the components again. Im not sure how to tackle yet low level info.
-        */
-        if (hotel != null) {
-
-            lowLevelPanel.removeAll();
+    public void displayLowLevelInfo(Hotel h, int index, int dayToCheck, int roomToCheck, viewHotelModel model2) {
+        if (h != null) {
+            // Create the main panel for low level information
+            JPanel lowLevelContentPanel = new JPanel();
+            lowLevelContentPanel.setLayout(null);  // Use null layout
+    
+            // Increase the size of the main panel
+            lowLevelContentPanel.setPreferredSize(new Dimension(1000, 1000));
+    
+            // Centered low-level information label
             JLabel lowLevelLabel = new JLabel("Low Level Information", JLabel.CENTER);
-            lowLevelLabel.setBounds(200, 50, 400, 50);
             lowLevelLabel.setFont(new Font("Arial", Font.BOLD, 36));
-            lowLevelPanel.add(lowLevelLabel);
-
-            JTextField dayToCheckField = new JTextField();
-
-
-            JLabel dayToCheckLabel = new JLabel("Name:");
-            dayToCheckLabel.setFont(new Font(dayToCheckLabel.getFont().getName(), dayToCheckLabel.getFont().getStyle(), 22));
-            dayToCheckLabel.setBounds(90, 150, 200, 30);
-            lowLevelPanel.add(dayToCheckLabel);
-
-            dayToCheckField = new JTextField();
-            dayToCheckField.setBounds(350, 150, 300, 35);
-            lowLevelPanel.add(dayToCheckField);
-
-            // JLabel standardLabel = new JLabel("No. Standard Rooms:");
-            // standardLabel.setFont(new Font(standardLabel.getFont().getName(), standardLabel.getFont().getStyle(), 22));
-            // standardLabel.setBounds(90, 200, 300, 30);
-            // createHotelPanel.add(standardLabel);
-
-            // standardRoomField = new JTextField();
-            // standardRoomField.setBounds(350, 200, 300, 35);
-            // createHotelPanel.add(standardRoomField);
-
-            // JLabel deluxeLabel = new JLabel("No. Deluxe Rooms:");
-            // deluxeLabel.setFont(new Font(deluxeLabel.getFont().getName(), deluxeLabel.getFont().getStyle(), 22));
-            // deluxeLabel.setBounds(90, 250, 300, 30);
-            // createHotelPanel.add(deluxeLabel);
-
-            // deluxeRoomField = new JTextField();
-            // deluxeRoomField.setBounds(350, 250, 300, 35);
-            // createHotelPanel.add(deluxeRoomField);
-
-            // JLabel executiveLabel = new JLabel("No. Executive Rooms:");
-            // executiveLabel.setFont(new Font(executiveLabel.getFont().getName(), executiveLabel.getFont().getStyle(), 22));
-            // executiveLabel.setBounds(90, 300, 300, 30);
-            // createHotelPanel.add(executiveLabel);
-
-            // executiveRoomField = new JTextField();
-            // executiveRoomField.setBounds(350, 300, 300, 35);
-            // createHotelPanel.add(executiveRoomField);
-
-            // createButton = new JButton("Create");
-            // createButton.setBounds(330, 400, 150, 50);
-            // createButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            // createButton.setFont(new Font("Arial", Font.BOLD, 16));
-            // createHotelPanel.add(createButton);
-
-
-
-
-
-
-            mainPanel.add(lowLevelPanel, "lowLevel");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            JLabel totalRoomsLabel = new JLabel("Number of rooms: " + hotel.getRooms().getTotal());
-            totalRoomsLabel.setBounds(200, 160, 400, 30);
-            highLevelPanel.add(totalRoomsLabel);
-
-            JLabel standardLabel = new JLabel("\tStandard: " + hotel.getRooms().getStandard());
-            standardLabel.setBounds(200, 200, 400, 30);
-            highLevelPanel.add(standardLabel);
-
-            JLabel deluxeLabel = new JLabel("\tDeluxe: " + hotel.getRooms().getDeluxe());
-            deluxeLabel.setBounds(200, 240, 400, 30);
-            highLevelPanel.add(deluxeLabel);
-
-            JLabel executiveLabel = new JLabel("\tExecutive: " + hotel.getRooms().getExecutive());
-            executiveLabel.setBounds(200, 280, 400, 30);
-            highLevelPanel.add(executiveLabel);
-
-            JLabel priceLabel = new JLabel("Price per night:");
-            priceLabel.setBounds(200, 320, 400, 30);
-            highLevelPanel.add(priceLabel);
-
-            JLabel standardPriceLabel = new JLabel("\tStandard: " + hotel.getRoomPrice());
-            standardPriceLabel.setBounds(200, 360, 400, 30);
-            highLevelPanel.add(standardPriceLabel);
-
-            JLabel deluxePriceLabel = new JLabel("\tDeluxe: " + hotel.getDeluxePrice());
-            deluxePriceLabel.setBounds(200, 400, 400, 30);
-            highLevelPanel.add(deluxePriceLabel);
-
-            JLabel executivePriceLabel = new JLabel("\tExecutive: " + hotel.getExecutivePrice());
-            executivePriceLabel.setBounds(200, 440, 400, 30);
-            highLevelPanel.add(executivePriceLabel);
-
-            JLabel earningsLabel = new JLabel("Estimate earnings for the month: " + hotel.getTotalEarnings());
-            earningsLabel.setBounds(200, 480, 400, 30);
-            highLevelPanel.add(earningsLabel);
-
-            highLevelPanel.add(backToViewHotelFromHighLevel);
-
-            highLevelPanel.revalidate();
-            highLevelPanel.repaint();
-
-            getCardLayout().show(getMainPanel(), "lowLevel");
+            lowLevelLabel.setBounds(150, 10, 500, 50);
+            lowLevelContentPanel.add(lowLevelLabel);
+    
+            // Room and Guest Information
+            JPanel roomGuestPanel = new JPanel();
+            roomGuestPanel.setLayout(null);
+            roomGuestPanel.setBounds(10, 70, 380, 400);  // Set position and size
+            lowLevelContentPanel.add(roomGuestPanel);
+    
+            JLabel roomInfoLabel = new JLabel("Room Information");
+            roomInfoLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            roomInfoLabel.setBounds(10, 10, 300, 25);
+            roomGuestPanel.add(roomInfoLabel);
+    
+            JLabel numRoomsLabel = new JLabel(String.format("Number of booked rooms for the day: %d", model2.isDayBooked(h, dayToCheck)));
+            numRoomsLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            numRoomsLabel.setBounds(10, 50, 360, 25);
+            roomGuestPanel.add(numRoomsLabel);
+    
+            JLabel availableLabel = new JLabel(String.format("Number of available rooms for the day: %d", h.getRooms().getTotal() - model2.isDayBooked(h, dayToCheck)));
+            availableLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            availableLabel.setBounds(10, 90, 360, 25);
+            roomGuestPanel.add(availableLabel);
+    
+            JLabel roomLabel = new JLabel(String.format("Room name: %d", h.getReservations().get(index).getRoomNumber()));
+            roomLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            roomLabel.setBounds(10, 130, 360, 25);
+            roomGuestPanel.add(roomLabel);
+    
+            float roomPrice;
+            if (roomToCheck >= 1 && roomToCheck <= h.getRooms().lastStandard()) {
+                roomPrice = h.getRoomPrice();
+            } else if (roomToCheck >= h.getRooms().firstDeluxe() && roomToCheck <= h.getRooms().lastDeluxe()) {
+                roomPrice = h.getDeluxePrice();
+            } else {
+                roomPrice = h.getExecutivePrice();
+            }
+    
+            JLabel priceLabel = new JLabel(String.format("Price per night in the room: %.2f", roomPrice));
+            priceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            priceLabel.setBounds(10, 170, 360, 25);
+            roomGuestPanel.add(priceLabel);
+    
+            JLabel guestInfoLabel = new JLabel("Room's Guest information");
+            guestInfoLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            guestInfoLabel.setBounds(10, 210, 360, 25);
+            roomGuestPanel.add(guestInfoLabel);
+    
+            JLabel guestNameLabel = new JLabel(String.format("Guest name: %s", h.getReservations().get(index).getGuestName()));
+            guestNameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            guestNameLabel.setBounds(10, 250, 360, 25);
+            roomGuestPanel.add(guestNameLabel);
+    
+            JLabel checkInLabel = new JLabel(String.format("Check-in Day: %d", h.getReservations().get(index).getCheckInDate()));
+            checkInLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            checkInLabel.setBounds(10, 290, 360, 25);
+            roomGuestPanel.add(checkInLabel);
+    
+            JLabel checkOutLabel = new JLabel(String.format("Check-out Day: %d", h.getReservations().get(index).getCheckOutDate()));
+            checkOutLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            checkOutLabel.setBounds(10, 330, 360, 25);
+            roomGuestPanel.add(checkOutLabel);
+    
+            JLabel totalPriceLabel = new JLabel(String.format("Total price for booking: %.2f", h.getReservations().get(index).getTotalPrice()));
+            totalPriceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+            totalPriceLabel.setBounds(10, 370, 360, 25);
+            roomGuestPanel.add(totalPriceLabel);
+    
+            // Availability Dates
+            JPanel availabilityPanel = new JPanel();
+            availabilityPanel.setLayout(null);
+            availabilityPanel.setBounds(410, 70, 500, 500);  // Increase the size of the availability panel
+            lowLevelContentPanel.add(availabilityPanel);
+    
+            JLabel availabilityTitleLabel = new JLabel("Availability");
+            availabilityTitleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+            availabilityTitleLabel.setBounds(120, 10, 400, 45);
+            availabilityPanel.add(availabilityTitleLabel);
+    
+            for (int i = 0; i < 31; i++) {
+                String availability = h.isRoomBookedOnDay(roomToCheck, i + 1) ? "Booked" : "Available";
+                JLabel dayLabel = new JLabel(String.format("Day %d: %s", i + 1, availability));
+                dayLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+                if (i < 16) {
+                    dayLabel.setBounds(10, 50 + (i * 25), 360, 25);
+                } else {
+                    dayLabel.setBounds(200, 50 + ((i - 16) * 25), 360, 25);  // Changed to 200 to ensure proper spacing for the second column
+                }
+                availabilityPanel.add(dayLabel);
+            }
+    
+            // Back button
+            backToViewHotelFromLowLevel.setBounds(650, 520, 120, 30);
+            lowLevelContentPanel.add(backToViewHotelFromLowLevel);
+    
+            showLowLevelPanel.removeAll(); // Clear previous components
+            showLowLevelPanel.add(lowLevelContentPanel);
+            showLowLevelPanel.revalidate();
+            showLowLevelPanel.repaint();
+            mainPanel.add(lowLevelContentPanel, "showLowLevel");
+    
+            getCardLayout().show(getMainPanel(), "showLowLevel");
         }
     }
+    
 
     public JButton getBackButton2(){
         return backButton2;
@@ -1190,33 +1197,54 @@ public class hotelGuiView extends JFrame {
     }
 
 
-    public void displayEnterPriceModifier(Hotel h){
+    public boolean displayEnterPriceModifier(Hotel h) {
         try {
-            String input = JOptionPane.showInputDialog(null, "Please enter the day for which you want to change the price rate::", "Price Rate Modifier", JOptionPane.QUESTION_MESSAGE);
+            String input = JOptionPane.showInputDialog(null, "Please enter the day for which you want to change the price rate:", "Price Rate Modifier", JOptionPane.QUESTION_MESSAGE);
+            if (input == null) {
+                getCardLayout().show(getMainPanel(), "manageHotel");
+                return false;
+            }
+            
             String input2 = JOptionPane.showInputDialog(null, "Please enter your new price rate:", "Price Rate Modifier", JOptionPane.QUESTION_MESSAGE);
-            if (input2 != null && !input2.trim().isEmpty() || input != null) {
-                int newPriceRate = Integer.parseInt(input2);
-                int day = Integer.parseInt(input);
-                if (newPriceRate < 50 || newPriceRate > 150) {
-                    JOptionPane.showMessageDialog(null, "Price rate change can only be between 50-150.");
-                    getCardLayout().show(getMainPanel(), "manageHotel");
-                } else if(day > 31 || day < 1){
-                    JOptionPane.showMessageDialog(null, "Price rate change can only be between 50-150.");
-                    getCardLayout().show(getMainPanel(), "manageHotel");
-                } else {
-                    h.setDatePriceModifier(day, newPriceRate);
-                }
+            if (input2 == null) {
+                getCardLayout().show(getMainPanel(), "manageHotel");
+                return false;
+            }
+    
+            float newPriceRate = Float.parseFloat(input2);
+            int day = Integer.parseInt(input);
+            
+            if (newPriceRate < 50 || newPriceRate > 150) {
+                JOptionPane.showMessageDialog(null, "Price rate change can only be between 50-150.");
+                getCardLayout().show(getMainPanel(), "manageHotel");
+                return false;
+            } else if (day > 31 || day < 1) {
+                JOptionPane.showMessageDialog(null, "Day must be between 1-31");
+                getCardLayout().show(getMainPanel(), "manageHotel");
+                return false;
             } else {
-                // Handle the case where the input is null or empty
-                JOptionPane.showMessageDialog(null, "No price rate entered.");
+                h.setDatePriceModifier(day, newPriceRate / 100);
+                return true;
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Invalid price rate. Please enter a valid integer.");
+            getCardLayout().show(getMainPanel(), "manageHotel");
+            return false;
         }
     }
 
+    public int getdayField(){
+        return Integer.parseInt(dayField.getText());
+    }
 
+    public int getRoomCheckField(){
+        return Integer.parseInt(roomCheckField.getText());
+    }
 
+    public void addViewLowLevelListener(ActionListener listener){
+        viewLowButton.addActionListener(listener);
+    }
+    
     
 
 

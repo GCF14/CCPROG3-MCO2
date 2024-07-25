@@ -199,7 +199,7 @@ public class manageHotelController {
     class removeReservationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.getCardLayout().show(gui.getMainPanel(), "reservationsPanel");
+            // gui.getCardLayout().show(gui.getMainPanel(), "reservationsPanel");
             h = gui.getHotelOptions(model.getHotels());
             if (h != null && h.getName() != null) {
                 int index = gui.getReservationOptions(h);
@@ -250,48 +250,34 @@ public class manageHotelController {
     class updatePriceModiferListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            h = gui.getHotelOptions(model.getHotels());
-            if (h != null && h.getName() != null) {
+            Hotel h = gui.getHotelOptions(model.getHotels());
+            if (h != null && h.getName() != null && gui.displayEnterPriceModifier(h) != false) {
                 int confirm = JOptionPane.CLOSED_OPTION;
                 while (confirm == JOptionPane.CLOSED_OPTION) {
                     gui.displayEnterPriceModifier(h);
                     confirm = JOptionPane.showConfirmDialog(gui, "Update Price?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    
                     if (confirm == JOptionPane.YES_OPTION) {
                         JOptionPane.showMessageDialog(gui, "Price rate changed.");
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                         
-                    } else if (confirm == JOptionPane.NO_OPTION) {
-                        JOptionPane.showMessageDialog(gui, "Price rate change cancelled");
-                        gui.getCardLayout().show(gui.getMainPanel(), "home");
-                        
                     } else {
                         JOptionPane.showMessageDialog(gui, "Price rate change cancelled");
-                        gui.getCardLayout().show(gui.getMainPanel(), "home");
+                        gui.getCardLayout().show(gui.getMainPanel(), "manageHotel");
                         
                     }
                 }
-            } else if (model.getHotels().isEmpty()){ 
+            } else if (model.getHotels().isEmpty()) {
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
+                
             } else {
-                JOptionPane.showMessageDialog(gui, "No hotel selected.");
+                JOptionPane.showMessageDialog(gui, "No hotel selected or Cancelled.");
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
+                
             }
         }
     }
-
     
-    
-
-    
-    
-
-
-
-
-
-
-
-
 
 
 

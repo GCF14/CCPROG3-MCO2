@@ -138,10 +138,4 @@ public class manageHotelModel {
         hotel.removeReservation(index);
     }
 
-    
-    
-    
-    
-    
-    
 }
