@@ -1,22 +1,34 @@
+//package
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/**
+ * Controller class for the simulate booking panel
+ */
 public class SimulateBookingController {
     private hotelGuiView gui;
     private createHotelModel model;
     private SimulateBookingModel model2;
     private manageHotelModel model3;
-    SimulateBooking  simulateBooking = new SimulateBooking();
 
 
+    /**
+     * Constructor for the SimulateBookingController class
+     * @param gui - Instance of hotelGuiView
+     * @param model - Instance of createHotelModel
+     */
     public SimulateBookingController(hotelGuiView gui, createHotelModel model){
         this.gui = gui;
         this.model = model;
         this.model3 = new manageHotelModel(model.getHotels());
-        this.model2 = new SimulateBookingModel(model.getHotels(), gui, model3);
+        this.model2 = new SimulateBookingModel(gui, model3);
         this.gui.addBookListener(new BookingListener());
     }
 
+    /**
+     * Listener class for the booking button. Books a room in a hotel when the button is pressed.
+     */
     class BookingListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

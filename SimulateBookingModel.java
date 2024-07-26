@@ -1,21 +1,34 @@
+//package
 import java.util.ArrayList;
 
+/**
+ * This class represents the model for simulating a booking in a hotel.
+ */
 public class SimulateBookingModel {
 
-    private ArrayList<Hotel> hotels;
-    private String selectedHotel;
-    private manageHotelModel model;
-    private Hotel h = null;
     private hotelGuiView gui;
     private manageHotelModel model2;
 
-    public SimulateBookingModel(ArrayList<Hotel> hotels, hotelGuiView gui, manageHotelModel model2) {
-        this.hotels = hotels;
+    /**
+     * Constructor for the SimulateBookingModel class
+     * @param hotels - ArrayList of hotels which contains all the hotels
+     * @param  gui - Instance of hotelGuiView
+     * @param model2 - Instance of manageHotelModel
+     */
+    public SimulateBookingModel(hotelGuiView gui, manageHotelModel model2) {
         this.gui = gui;
         this.model2 = model2;
     }
     
-
+    /** Checks if the days are booked in a hotel
+     * Preconditions: h is an instance of Hotel, checkIn, checkOut, and room are integers
+     * Postconditions: returns a boolean
+     * @param h - Instance of Hotel
+     * @param checkIn - The check-in date
+     * @param checkOut - The check-out date
+     * @param room - The room number
+     * @return boolean - True if the days are booked, false otherwise
+     */
     public boolean areDaysBooked(Hotel h, int checkIn, int checkOut, int room) {
         for (int i = 0; i < h.getReservations().size(); i++) {
             Reservation reservation = h.getReservations().get(i);

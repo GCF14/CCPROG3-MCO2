@@ -1,7 +1,11 @@
+//package
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Controller class for the manage hotel panel
+ */
 public class manageHotelController {
 
     private hotelGuiView gui;
@@ -11,43 +15,47 @@ public class manageHotelController {
     private Hotel h = null;
     int roomType;
 
+    /**
+     * Constructor for the manageHotelController class
+     * @param gui - Instance of hotelGuiView
+     * @param model - Instance of createHotelModel
+     */
     public manageHotelController(hotelGuiView gui, createHotelModel model) {
         this.gui = gui;
         this.model = model;
         this.model2 = new manageHotelModel(model.getHotels());
-
         this.gui.addChangeNameListener(new changeNameButtonListener());
         this.gui.addChangeNewNameListener(new changeNewNameListener());
-
         this.gui.addBackButtonListener5(new backButtonListener());
-
         this.gui.addAddNewRoomsListener(new AddRoomsListener());
         this.gui.addAddRoomListener(new addRoomListener());
-
         this.gui.addRemoveNewRoomsListener(new RemoveRoomsListener());
-
         this.gui.addRemoveRoomsListener(new removeListener());
         this.gui.addUpdateBaseRoomPriceListener(new updateBaseRoomListener());
         this.gui.addUpdatePriceListener(new updateListener());
-
         this.gui.addRemoveReservationListener(new removeReservationListener());
         this.gui.addRemoveHotelListener(new addremoveHotelsListener());
-
         this.gui.addUpdatePriceModifierListener(new updatePriceModiferListener());
 
     }
 
+    /**
+     * Listener class for the change name button. Redirects to the change panel when the button is pressed.
+     */
     class changeNameButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             selectedHotel = gui.getHotelOptions(model.getHotels());
 
             if (selectedHotel != null) {
-                gui.displayChangeName();
+                gui.getCardLayout().show(gui.getMainPanel(), "changePanel");
             }
         }
     }
 
+    /**
+     * Listener class for the change new name button. Changes the name of the hotel when the button is pressed.
+     */
     class changeNewNameListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -75,7 +83,9 @@ public class manageHotelController {
         }
     }
 
-
+    /**
+     * Listener class for the back button. Shows the manage hotel panel when the back button is pressed.
+     */
     class backButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
@@ -83,6 +93,9 @@ public class manageHotelController {
         }
     }
 
+    /**
+     * Listener class for the add new rooms button. Adds rooms when the button is pressed.
+     */
     class AddRoomsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -91,11 +104,11 @@ public class manageHotelController {
                 int rooms = gui.getAddRooms();
         
 
-                int confirm = JOptionPane.showConfirmDialog(gui, "Add " + rooms + " rooms?", "Confirm", JOptionPane.YES_NO_OPTION);
+                int confirm = gui.displayConfirmAddRooms(rooms);
 
                 if (confirm == JOptionPane.YES_OPTION && rooms > 0) {
                     int num = model2.addRooms(hotel, roomType, rooms);
-                    JOptionPane.showMessageDialog(gui, num + " rooms successfully added.");
+                    gui.displaySuccessAddRooms(num);
                     gui.getCardLayout().show(gui.getMainPanel(), "home");
                 } else {
                     gui.displayInvalid();
@@ -106,6 +119,9 @@ public class manageHotelController {
         }
     }
 
+    /**
+     * Listener class for the add rooms button. Redirects to the add panel when the button is pressed.
+     */
     class addRoomListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
@@ -119,7 +135,9 @@ public class manageHotelController {
         }
     }
 
-
+    /**
+     * Listener class for the remove rooms button. Removes rooms when the button is pressed.
+     */
     class RemoveRoomsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -128,10 +146,10 @@ public class manageHotelController {
                  int hotelIndex = model2.findHotel(h.getName());
                 h = model.getHotels().get(hotelIndex);
                 int rooms = gui.getRemoveRooms();
-                int confirm = JOptionPane.showConfirmDialog(gui, "Remove " + rooms + " rooms?", "Confirm", JOptionPane.YES_NO_OPTION);
+                int confirm = gui.displayConfirmRemoveRooms(rooms);
                 if (confirm == JOptionPane.YES_OPTION && rooms >= 0) {
                     int num = model2.removeRooms(h, roomType, rooms);
-                    JOptionPane.showMessageDialog(gui, num + " rooms successfully removed");
+                    gui.displaySuccessRemoveRooms(num);
                     gui.getCardLayout().show(gui.getMainPanel(), "home");
                     gui.clearHotelFields();
                 } else {
@@ -143,6 +161,9 @@ public class manageHotelController {
         }
     }
 
+    /**
+     * Listener class for the remove button. Redirects to the remove panel when the button is pressed.
+     */
     class removeListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -156,6 +177,9 @@ public class manageHotelController {
         }
     }
 
+    /**
+     * Listener class for the update base room price button. Redirects to the update price panel when the button is pressed.
+     */
     class updateBaseRoomListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -168,6 +192,9 @@ public class manageHotelController {
         }
     }
 
+    /**
+     * Listener class for the update price button. Updates the base room price when the button is pressed.
+     */
     class updateListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -175,17 +202,17 @@ public class manageHotelController {
                 int hotelIndex = model2.findHotel(h.getName());
                 h = model.getHotels().get(hotelIndex);
                 float newPrice = gui.getUpdatePriceField();
-                int confirm = JOptionPane.showConfirmDialog(gui, "Update base room price to " + newPrice + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                int confirm = gui.displayConfirmUpdateBasePrice(newPrice);
                 if (confirm == JOptionPane.YES_OPTION) {
                     int num = model2.newPrice(h, newPrice);
                     if (num == 1) {
-                        JOptionPane.showMessageDialog(gui, "Room price successfully updated.");
+                        gui.displaySuccessPriceChange();
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                     } else if (num == 0){
-                        JOptionPane.showMessageDialog(gui, "Price change unsuccessful -- Hotel currently has reservations.");
+                        gui.displayUnsuccessPriceChange(1);
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
-                    } else{
-                        JOptionPane.showMessageDialog(gui, "Price change unsuccessful -- New price too small.");
+                    } else {
+                        gui.displayUnsuccessPriceChange(2);
                         gui.getCardLayout().show(gui.getMainPanel(), "updatePricePanel");
                     }
                 }
@@ -195,29 +222,33 @@ public class manageHotelController {
         }
     }
 
-
+    /**
+     * Listener class for the remove reservation button. Removes a reservation when the button is pressed.
+     */
     class removeReservationListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // gui.getCardLayout().show(gui.getMainPanel(), "reservationsPanel");
             h = gui.getHotelOptions(model.getHotels());
             if (h != null && h.getName() != null) {
                 int index = gui.getReservationOptions(h);
                 if (index >= 0 && index < h.getNumOfReservations()) {
-                    int confirm = JOptionPane.showConfirmDialog(gui, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    int confirm = gui.displayConfirmRemoveReservation(h, index);
                     if (confirm == JOptionPane.YES_OPTION) {
                         model2.removeReservation(h, index);
-                        JOptionPane.showMessageDialog(gui, "Reservation successfully removed.");
+                        gui.displaySuccessReservationRemoved();
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(gui, "No hotel selected.");
+                gui.displayNoHotels();
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
             }
         }
     }
 
+    /**
+     * Listener class for the remove hotel button. Removes a hotel when the button is pressed.
+     */
     class addremoveHotelsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -225,14 +256,14 @@ public class manageHotelController {
             if (h != null && h.getName() != null) {
                 int confirm = JOptionPane.CLOSED_OPTION;
                 while (confirm == JOptionPane.CLOSED_OPTION) {
-                    confirm = JOptionPane.showConfirmDialog(gui, "Remove Hotel " + h.getName() + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    confirm = gui.displayConfirmRemoveHotel(h);
                     if (confirm == JOptionPane.YES_OPTION) {
                         model2.getHotels().remove(h);
-                        JOptionPane.showMessageDialog(gui, "Hotel successfully removed.");
+                        gui.displayRemoveHotelMessage(confirm);
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                         
                     } else if (confirm == JOptionPane.NO_OPTION) {
-                        JOptionPane.showMessageDialog(gui, "Hotel removal cancelled.");
+                        gui.displayRemoveHotelMessage(confirm);
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                         
                     }
@@ -240,13 +271,15 @@ public class manageHotelController {
             } else if (model.getHotels().isEmpty()){ 
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
             } else {
-                JOptionPane.showMessageDialog(gui, "No hotel selected.");
+                gui.displayRemoveHotelMessage(3);
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
             }
         }
     }
 
-
+    /**
+     * Listener class for the update price modifier button. Updates the price modifier when the button is pressed.
+     */
     class updatePriceModiferListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -255,14 +288,14 @@ public class manageHotelController {
                 int confirm = JOptionPane.CLOSED_OPTION;
                 while (confirm == JOptionPane.CLOSED_OPTION) {
                     gui.displayEnterPriceModifier(h);
-                    confirm = JOptionPane.showConfirmDialog(gui, "Update Price?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    confirm = gui.displayConfirmUpdatePrice();
                     
                     if (confirm == JOptionPane.YES_OPTION) {
-                        JOptionPane.showMessageDialog(gui, "Price rate changed.");
+                        gui.displayPriceRateMessage(1);
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                         
                     } else {
-                        JOptionPane.showMessageDialog(gui, "Price rate change cancelled");
+                        gui.displayPriceRateMessage(2);
                         gui.getCardLayout().show(gui.getMainPanel(), "manageHotel");
                         
                     }
@@ -271,7 +304,7 @@ public class manageHotelController {
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
                 
             } else {
-                JOptionPane.showMessageDialog(gui, "No hotel selected or Cancelled.");
+                gui.displayPriceRateMessage(3);
                 gui.getCardLayout().show(gui.getMainPanel(), "home");
                 
             }

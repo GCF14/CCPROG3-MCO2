@@ -1,4 +1,6 @@
 // package prog_mco2;
+
+
 /**Reservation class that contains the guest name, check in date, check out date, and room number.
  */
 public class Reservation {
@@ -62,6 +64,11 @@ public class Reservation {
         return this.roomNumber;
     }
 
+    /** Returns the total price of the booking
+     * Preconditions: Instance of Reservation is initialized
+     * Postconditions: returns a float
+     * @return totalPrice - The total price of the booking
+     */
     public float getTotalPrice() {
         return this.totalPrice;
     }

@@ -1,107 +1,106 @@
+
+//package 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 
+/**
+ * Controller class for the view hotel panel
+ */
 public class viewHotelController {
-    private hotelGuiView view;
+    private hotelGuiView gui;
     private createHotelModel model;
     private viewHotelModel model2;
     private Hotel h;
 
-    public viewHotelController(hotelGuiView view, createHotelModel model, viewHotelModel model2) {
-        this.view = view;
+    /**
+     * Constructs a viewHotelController object with the specified view and model.
+     * Adds action listeners to the view's buttons.
+     *
+     * @param view the view component of the MVC architecture
+     * @param model the model component of the MVC architecture
+     */
+    public viewHotelController(hotelGuiView gui, createHotelModel model, viewHotelModel model2) {
+        this.gui = gui;
         this.model = model;
         this.model2 = new viewHotelModel(model.getHotels());
 
-        this.view.getHighLevelButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Hotel selectedHotel = view.getHotelOptions(model.getHotels());
-                if (selectedHotel != null) {
-                    view.displayHighLevelInfo(selectedHotel);
-                }
-            }
-        });
-
-        // this.view.getLowLevelButton().addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-
-        //         Hotel selectedHotel = view.getHotelOptions(model.getHotels());
-        //         if (selectedHotel != null) {
-        //             view.getCardLayout().show(view.getMainPanel(), "lowLevel");
-        //         }
-        //     }
-        // });
-
-        this.view.getBackButton2().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.getCardLayout().show(view.getMainPanel(), "home");
-            }
-        });
-
-        this.view.backToViewHotelFromHighLevel().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.getCardLayout().show(view.getMainPanel(), "viewHotel");
-            }
-        });
-
-        this.view.backToViewHotelFromLowLevel().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.getCardLayout().show(view.getMainPanel(), "viewHotel");
-            }
-        });
-        
-        
-        this.view.addViewLowLevelListener(new addViewLowListener());
-        this.view.addLowLevelButton(new addLowLevelButtonListener());
+        this.gui.addHighLevelButtonListener(new highLevelListener());
+        this.gui.addBackToViewHotelFromHighLevelListener(new addBacktoViewHotelListener());
+        this.gui.addBackToViewHotelFromLowLevelListener(new addBacktoViewHotelListener());
+        this.gui.addViewLowLevelListener(new addViewLowListener());
+        this.gui.addLowLevelButton(new addLowLevelListener());
     }
 
-
-
-    //for redirecting
-    class addLowLevelButtonListener implements ActionListener {
+    /**
+     * Listener class for the high level button. Shows the high level panel when the button is pressed.
+     */
+    class highLevelListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            h = view.getHotelOptions(model.getHotels());
-
-            if (h != null) {
-                view.getCardLayout().show(view.getMainPanel(), "lowLevel");
+            Hotel selectedHotel = gui.getHotelOptions(model.getHotels());
+            if (selectedHotel != null) {
+                gui.displayHighLevelInfo(selectedHotel);
             }
         }
     }
 
-    //for viewing the information
+    /**
+     * Listener class for the back to view hotel button. Shows the view hotel panel when the button is pressed.
+     */
+    class addBacktoViewHotelListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getCardLayout().show(gui.getMainPanel(), "viewHotel");
+        }
+    }
+
+    /**
+     * Listener class for the low level button. Shows the low level panel when the button is pressed.
+     */
+    class addLowLevelListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            h = gui.getHotelOptions(model.getHotels());
+
+            if (h != null) {
+                gui.getCardLayout().show(gui.getMainPanel(), "lowLevel");
+            }
+        }
+    }
+
+    /**
+     * Listener class for the view low level button. Shows the low level panel when the button is pressed.
+     */
     class addViewLowListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int dayToCheck = view.getdayField();
-            int roomToCheck = view.getRoomCheckField();
-
-            if((dayToCheck > 0 || dayToCheck < 32) && (roomToCheck > 0 || roomToCheck <= h.getRooms().getTotal())) {
-
-                int index = view.getReservationOptions(h);
+            int dayToCheck = gui.getdayField();
+            int roomToCheck = gui.getRoomCheckField();
+    
+            // Validate the day and room numbers
+            if (dayToCheck > 0 && dayToCheck <= 31 && roomToCheck > 0 && roomToCheck <= h.getRooms().getTotal()) {
+                int index = gui.getReservationOptions(h);
                 if (index >= 0 && index < h.getNumOfReservations()) {
-                    int confirm = JOptionPane.showConfirmDialog(view, "Confirm view Reservation?", "Confirm", JOptionPane.YES_NO_OPTION);
+                    int confirm = gui.displayConfirmViewReservation();
                     if (confirm == JOptionPane.YES_OPTION) {
-                        view.displayLowLevelInfo(h, index, dayToCheck, roomToCheck, model2);
+                        gui.clearHotelFields();
+                        gui.displayLowLevelInfo(h, index, dayToCheck, roomToCheck, model2);
+                    } else {
+                        // Redirect to the lowLevel panel if the user cancels
+                        gui.clearHotelFields();
+                        gui.getCardLayout().show(gui.getMainPanel(), "home");
                     }
                 }
-
-
-
             } else {
-
+                // Show an error message and redirect to the lowLevel panel
+                gui.displayInvalidDayRoom();
+                gui.clearHotelFields();
+                gui.getCardLayout().show(gui.getMainPanel(), "lowLevel");
             }
-
-
-           
         }
     }
+    
 
 
 

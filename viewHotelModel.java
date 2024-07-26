@@ -1,30 +1,39 @@
 import java.util.ArrayList;
 
+/**
+ * This class represents the model for viewing hotels.
+ */
 public class viewHotelModel {
 
 
     private ArrayList<Hotel> hotels; // Store the list of hotels
 
-    // Constructor
+    /**
+     * Constructor for the viewHotelModel class
+     * @param hotels - ArrayList of hotels which contains all the hotels
+     */
     public viewHotelModel(ArrayList<Hotel> hotels) {
         this.hotels = hotels;
     }
 
-    // Get the list of hotels
+    /**
+     * Returns the list of hotels
+     * Preconditions: hotels is an ArrayList of Hotels and instance hotels is initialized
+     * Postconditions: returns an ArrayList of Hotels
+     * @return hotels - ArrayList of hotels which contains all the hotels
+     */
     public ArrayList<Hotel> getHotels() {
         return hotels;
     }
 
-      // Find a specific hotel by name
-      public Hotel getHotelByName(String name) {
-        for (Hotel hotel : hotels) {
-            if (hotel.getName().equals(name)) {
-                return hotel;
-            }
-        }
-        return null; // Return null if hotel not found
-    }
-
+    /**
+     * Checks the availability of a hotel on a specific day
+     * Preconditions: h is an instance of Hotel and roomNumber is an integer
+     * Postconditions: returns an integer
+     * @param h - Instance of Hotel
+     * @param day - The day to check
+     * @return int - The number of reservations in one day
+     */
     public int isDayBooked(Hotel h, int day) { // returns number of reservations in one day
         int ctr = 0;
         for (int i = 0; i < h.getNumOfReservations(); i++) {
@@ -36,6 +45,14 @@ public class viewHotelModel {
         return ctr;
     }
 
+    /**
+     * Gets the availability information of a room in a hotel
+     * Preconditions: h is an instance of Hotel and roomNumber is an integer
+     * Postconditions: returns a String
+     * @param h - Instance of Hotel
+     * @param roomNumber - The room number
+     * @return String - The availability information of the room
+     */
     public String getAvailabilityInfo(Hotel h, int roomNumber) {
         StringBuilder availabilityInfo = new StringBuilder();
     

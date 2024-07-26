@@ -3,20 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * View class for the hotel reservation system
+ */
 public class hotelGuiView extends JFrame {
+    // Home page portion
     private JPanel mainPanel;
     private CardLayout cardLayout;
-    private JTextField nameField;
-    private JTextField standardRoomField;
-    private JTextField deluxeRoomField;
-    private JTextField executiveRoomField;
-    private JButton createButton;
-
-    private JButton highLevelButton;
-    private JButton lowLevelButton;
-    private JButton backToViewHotelFromHighLevel;
-    private JButton backToViewHotelFromLowLevel;
-
     private JButton createHotelButton;
     private JButton viewInfoButton;
     private JButton manageButton;
@@ -27,9 +20,25 @@ public class hotelGuiView extends JFrame {
     private JButton backButton4;
     private JButton backButton5;
 
+
+    // Create Hotel portion
+    private JTextField nameField;
+    private JTextField standardRoomField;
+    private JTextField deluxeRoomField;
+    private JTextField executiveRoomField;
+    private JButton createButton;
+
+    // View Hotel portion
+    private JButton highLevelButton;
+    private JButton lowLevelButton;
+    private JButton backToViewHotelFromHighLevel;
+    private JButton backToViewHotelFromLowLevel;
     private JPanel highLevelPanel;
-
-
+    private JPanel showLowLevelPanel;
+    private JPanel lowLevelPanel;
+    private JTextField dayField;
+    private JTextField roomCheckField;
+    private JButton viewLowButton;
 
 
     //Manage Hotel portion
@@ -50,13 +59,9 @@ public class hotelGuiView extends JFrame {
     private JButton updatePrice;
     private JButton updateBaseRoomPrice;
     private JButton removeReservation;
-    private JPanel lowLevelPanel;
     private JButton removeHotel;
     private JButton updatePriceModifier;
-    private JTextField dayField;
-    private JTextField roomCheckField;
-    private JButton viewLowButton;
-    private JPanel showLowLevelPanel;
+    
 
 
     //Simulate Booking portion
@@ -80,16 +85,19 @@ public class hotelGuiView extends JFrame {
         add(mainPanel);
         setVisible(true);
 
-        // Initialize controllers with the view (this) and model
-        createHotelModel model = new createHotelModel(); // Create model instance
+        // Initialize controllers with the view (this) and models
+        createHotelModel model = new createHotelModel(); 
         viewHotelModel model2 = new viewHotelModel(model.getHotels());
-        hotelController controller = new hotelController(this, model);
+        hotelController controller = new hotelController(this);
         viewHotelController viewController = new viewHotelController(this, model, model2);
         createHotelController createHotel = new createHotelController(this, model);
         manageHotelController manageHotel = new manageHotelController(this, model);
         SimulateBookingController simulateBooking = new SimulateBookingController(this, model);
     }
 
+    /**
+     * Function that adds components to the main panel
+     */
     private void addComponents() {
         // Home page portion
         JPanel homePanel = new JPanel(null);
@@ -284,20 +292,6 @@ public class hotelGuiView extends JFrame {
         showLowLevelPanel.setFont(new Font("Arial", Font.BOLD, 36));
         showLowLevelPanel.add(lowLevelLabel2);
         mainPanel.add(showLowLevelPanel, "showLowLevel");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // Manage Hotel portion
@@ -544,6 +538,10 @@ public class hotelGuiView extends JFrame {
 
     }
 
+    /**
+     * Function to check if the user input for the number of rooms is valid
+     * @return boolean - true if the input is valid, false otherwise
+     */
     public boolean validateRooms() {
         try {
             int standard = Integer.parseInt(standardRoomField.getText());
@@ -656,12 +654,12 @@ public class hotelGuiView extends JFrame {
         lowLevelButton.addActionListener(listener);
     }
 
-    public JButton backToViewHotelFromLowLevel() {
-        return backToViewHotelFromLowLevel;
+    public void addBackToViewHotelFromLowLevelListener(ActionListener listener) {
+        backToViewHotelFromLowLevel.addActionListener(listener);
     }
-    
-    public JButton backToViewHotelFromHighLevel() {
-        return backToViewHotelFromHighLevel;
+
+    public void addBackToViewHotelFromHighLevelListener(ActionListener listener) {
+        backToViewHotelFromHighLevel.addActionListener(listener);
     }
 
     // Public getters for cardLayout and mainPanel
@@ -676,10 +674,6 @@ public class hotelGuiView extends JFrame {
     public JButton getHighLevelButton() {
         return highLevelButton;
     }
-    
-    // public JButton getLowLevelButton() {
-    //     return lowLevelButton;
-    // }
 
     public void addLowLevelButton(ActionListener listener){
         lowLevelButton.addActionListener(listener);
@@ -980,6 +974,8 @@ public class hotelGuiView extends JFrame {
         setCustomerName("");
         setCheckInFields(0);
         setCheckOutFields(0);
+        setDayField(0);
+        setRoomCheckField(0);
     }
 
 
@@ -997,10 +993,6 @@ public class hotelGuiView extends JFrame {
 
     public String getNewName(){
         return changeField.getText();
-    }
-
-    public void displayChangeName() {
-        cardLayout.show(mainPanel, "changePanel");
     }
 
     public int displayConfirm(){
@@ -1237,12 +1229,118 @@ public class hotelGuiView extends JFrame {
         return Integer.parseInt(dayField.getText());
     }
 
+    public void setDayField(int num){
+        dayField.setText(String.valueOf(num));
+    }
+
     public int getRoomCheckField(){
         return Integer.parseInt(roomCheckField.getText());
     }
 
+    public void setRoomCheckField(int num){
+        roomCheckField.setText(String.valueOf(num));
+    }
+
     public void addViewLowLevelListener(ActionListener listener){
         viewLowButton.addActionListener(listener);
+    }
+
+
+    //JOptions for manage hotel
+
+    public void displaySuccessPriceChange(){
+        JOptionPane.showMessageDialog(this, "Room price successfully updated.");
+    }
+
+    public void displayUnsuccessPriceChange(int num){
+        if(num == 1) {
+            JOptionPane.showMessageDialog(this, "Price change unsuccessful -- Hotel currently has reservations.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Price change unsuccessful -- New price too small.");
+        }
+    }
+
+    public int displayConfirmUpdatePrice(){
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Update Price?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return confirm;
+    }
+
+    public void displayPriceRateMessage(int num){
+        if(num == 1){
+            JOptionPane.showMessageDialog(this, "Price rate changed.");
+        } else if(num == 2){
+            JOptionPane.showMessageDialog(this, "Price rate change cancelled");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hotel selected or Cancelled.");
+        }
+        
+    }
+
+    public void displayRemoveHotelMessage(int num){
+        if(num == JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(this, "Hotel removed successfully.");
+        } else if(num == JOptionPane.NO_OPTION){
+            JOptionPane.showMessageDialog(this, "Hotel removal cancelled.");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hotel selected");
+        }
+    }
+
+    public int displayConfirmRemoveHotel(Hotel h){
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Remove Hotel " + h.getName() + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return confirm;
+    }
+
+    public int displayConfirmViewReservation(){
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Confirm view reservation?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+    
+    public void displayInvalidDayRoom(){
+        JOptionPane.showMessageDialog(this, "Invalid day or room number. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public int displayConfirmAddRooms(int rooms){
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Add " + rooms + " rooms?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+
+    public void displaySuccessAddRooms(int num){
+        JOptionPane.showMessageDialog(this, num + " rooms successfully added.");
+    }
+
+    public int displayConfirmRemoveRooms(int rooms) {
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Remove " + rooms + " rooms?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+
+    public void displaySuccessRemoveRooms(int num){
+        JOptionPane.showMessageDialog(this, num + " rooms successfully removed");
+    }
+
+    public int displayConfirmUpdateBasePrice(float newPrice){
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Update base room price to " + newPrice + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+
+    public int displayConfirmRemoveReservation(Hotel h, int index){
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+
+    public void displaySuccessReservationRemoved(){
+        JOptionPane.showMessageDialog(this, "Reservation successfully removed.");
+    }
+
+    public void displayNoHotels(){
+        JOptionPane.showMessageDialog(this, "No hotel selected.");
     }
     
     
