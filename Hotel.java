@@ -26,11 +26,21 @@ public class Hotel {
         Arrays.fill(datePriceModifiers, 1.0f); // Initialize all days to 100% by default
     }
 
-    //Ill just put this here in case we use it in the future if ever but if not then lets delete getDatePriceModifiers
+    /** returns the price modifier for a specific day
+     * Preconditions: date is an integer
+     * Postconditions: returns a float
+     * @param date - The day to get the price modifier
+     */
     public float getDatePriceModifiers(int date) {
         return datePriceModifiers[date - 1];
     }
 
+    /** Sets the price modifier for a specific day
+     * Preconditions: day is an integer, priceRate is a float
+     * Postconditions: The price modifier for the specific day is set
+     * @param day - The day to set the price modifier
+     * @param priceRate - The price rate for the specific day
+     */
     public void setDatePriceModifier(int day, float priceRate) {
         if (day >= 1 && day <= 31) {
             datePriceModifiers[day - 1] = priceRate; // Adjust index for day
@@ -163,10 +173,10 @@ public class Hotel {
      * @param h - Instance of Hotel
      * @return true if the room is removed, false otherwise
      */
-    public boolean removeRoom(int roomNumber, Hotel h) {
+    public boolean removeRoom(int roomNumber) {
         int removed = -1;
-
-        if (h.getRooms().getTotal() > 1 && roomNumber > 0 && roomNumber <= h.getRooms().getTotal())
+    
+        if (this.getRooms().getTotal() > 1 && roomNumber > 0 && roomNumber <= this.getRooms().getTotal())
             removed = this.rooms.getRoomNames().remove(roomNumber - 1);
         if (removed == roomNumber) {
             return true;
@@ -174,8 +184,8 @@ public class Hotel {
         else {
             return false;
         }
-        
-    }
+    
+        }
 
     /** Gets the name of a room in the list of rooms in the hotel
      * Preconditions: index is an integer
@@ -192,7 +202,9 @@ public class Hotel {
         }
     }
 
-    // Total earnings for the entire hotel
+    /**
+     * This method returns the total earnings of the hotel from all reservations.
+     */
     public float getTotalEarnings() {
         float result = 0;
         for (int i = 0; i < this.reservations.size(); i++) {
