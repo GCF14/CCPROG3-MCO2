@@ -73,4 +73,44 @@ public class Reservation {
         return this.totalPrice;
     }
 
+    /**
+     * Sets the name of the guest
+     * @param  guestName - The name of the guest
+     */
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    /**
+     * Sets the check in date of the guest
+     * @param checkInDate - The check in date of the guest
+     */
+    public void setCheckInDate(int checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    /**
+     * Sets the check out date of the guest
+     * @param checkOutDate - The check out date of the guest
+     */
+    public void setCheckOutDate(int checkOutDate) {
+        this.checkOutDate = checkOutDate;
+    }
+
+    /**
+     * Sets the room number of the guest
+     * @param roomNumber - The room number of the guest
+     */
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    /**
+     * Sets the total price of the booking
+     * @param totalPrice - The total price of the booking
+     */
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
 }

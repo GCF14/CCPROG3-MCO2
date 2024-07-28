@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -42,40 +43,56 @@ public class hotelGuiView extends JFrame {
 
 
     //Manage Hotel portion
-    private JButton changeName;
+    private JPanel addPanel;
     private JPanel changePanel;
-    private JTextField changeField;
+    private JPanel removePanel;
+    private JPanel updatePricePanel;
+    private JPanel editReservationPanel;
+    private JPanel editGuestPanel;
+    private JPanel editDatesPanel;
+
+    private JButton changeName;
     private JButton changeNewName;
     private JButton addRoom;
-    private JPanel addPanel;
-    private JTextField addField;
     private JButton addNewRooms;
     private JButton removeRoom;
-    private JPanel removePanel;
-    private JTextField removeField;
     private JButton removeNewRooms;
-    private JPanel updatePricePanel;
-    private JTextField updatePriceField;
     private JButton updatePrice;
     private JButton updateBaseRoomPrice;
     private JButton removeReservation;
     private JButton removeHotel;
     private JButton updatePriceModifier;
+    private JButton editReservation;
+    private JButton editGuestName;
+    private JButton editDates;
+    private JButton editRoomType;
+    private JButton editGuestButton;
+    private JButton editDatesButton;
+    private JButton backButton6;
     
-
-
+    private JTextField changeField;
+    private JTextField addField;
+    private JTextField removeField;
+    private JTextField updatePriceField;
+    private JTextField editGuestField;
+    private JTextField editCheckInField;
+    private JTextField editCheckOutField;
+    
     //Simulate Booking portion
     private JTextField customerNameField;
     private JTextField checkInField;
     private JTextField checkOutField;
     private JButton bookButton;
 
+    /**
+     * Constructor for the hotelGuiView class
+     */
     public hotelGuiView() {
         super("Hotel Reservation System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
-        setResizable(true);
+        setResizable(false);
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -301,6 +318,13 @@ public class hotelGuiView extends JFrame {
         manageHotelTitle.setBounds(200, 10, 400, 50);
         manageHotelPanel.add(manageHotelTitle);
         
+        int manageButtonWidth = 275;
+        int manageButtonHeight = 50;
+        int manageButtonMidX = (panelWidth - manageButtonWidth) / 2;
+        int manageButtonX1 = manageButtonMidX - (manageButtonMidX/2 + 30);
+        int manageButtonX2 = manageButtonMidX + (manageButtonMidX/2 + 30);
+
+        // Initialization of manageHotelPanel with buttons
 
         backButton3 = new JButton("Back");
         Font buttonFont3 = new Font("Arial", Font.BOLD, 16);
@@ -310,54 +334,61 @@ public class hotelGuiView extends JFrame {
         manageHotelPanel.add(backButton3);
 
         changeName = new JButton("Change Hotel Name");
-        changeName.setBounds(265, 80, 275, 50);  // Adjusted position and size
+        changeName.setBounds(manageButtonX1, 80, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         changeName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         changeName.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.setLayout(null);  // Ensure null layout is set
         manageHotelPanel.add(changeName);
 
         addRoom = new JButton("Add Room(s)");
-        addRoom.setBounds(265, 150, 275, 50);  // Adjusted position and size
+        addRoom.setBounds(manageButtonX1, 150, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         addRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addRoom.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.add(addRoom);
 
-        // Initialization of manageHotelPanel with buttons
-        mainPanel.add(manageHotelPanel, "manageHotel");
-
         removeRoom = new JButton("Remove Room(s)");
-        removeRoom.setBounds(265, 220, 275, 50);
+        removeRoom.setBounds(manageButtonX1, 220, manageButtonWidth, manageButtonHeight);
         removeRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeRoom.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(removeRoom);
 
         updateBaseRoomPrice = new JButton("Update Base Room Price");
-        updateBaseRoomPrice.setBounds(265, 290, 275, 50);  // Adjusted position and size
+        updateBaseRoomPrice.setBounds(manageButtonX1, 290, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         updateBaseRoomPrice.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         updateBaseRoomPrice.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.add(updateBaseRoomPrice);
 
         removeReservation = new JButton("Remove Reservation");
-        removeReservation.setBounds(265, 360, 275, 50);  // Adjusted position and size
+        removeReservation.setBounds(manageButtonX2, 80, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         removeReservation.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeReservation.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.add(removeReservation);
 
         removeHotel = new JButton("Remove Hotel(s)");
-        removeHotel.setBounds(265, 430, 275, 50);
+        removeHotel.setBounds(manageButtonX2, 150, manageButtonWidth, manageButtonHeight);
         removeHotel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeHotel.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(removeHotel);
 
         updatePriceModifier = new JButton("Update Price Modifier");
-        updatePriceModifier.setBounds(265, 500, 275, 50);
+        updatePriceModifier.setBounds(manageButtonX2, 220, manageButtonWidth, manageButtonHeight);
         updatePriceModifier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         updatePriceModifier.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(updatePriceModifier);
 
+        editReservation = new JButton("Edit Reservation");
+        editReservation.setBounds(manageButtonX2, 290, manageButtonWidth, manageButtonHeight);
+        editReservation.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editReservation.setFont(new Font("Arial", Font.BOLD, 20));
+
+        
+
+        manageHotelPanel.add(editReservation);
+
+        mainPanel.add(manageHotelPanel, "manageHotel");
 
 
 
@@ -482,7 +513,91 @@ public class hotelGuiView extends JFrame {
         // Add the panel to the main panel
         mainPanel.add(updatePricePanel, "updatePricePanel");
 
-        
+        editReservationPanel = new JPanel();    
+        editReservationPanel.setLayout(null);
+
+        JLabel editReservationLabel = new JLabel("Edit Reservation", JLabel.CENTER);
+        editReservationLabel.setFont(new Font(editReservationLabel.getFont().getName(), editReservationLabel.getFont().getStyle(), 35));
+        editReservationLabel.setBounds(200, 50, 400, 50);
+        editReservationPanel.add(editReservationLabel);
+        // Choose what to edit: guest name, days, room type
+        editGuestName = new JButton("Edit Guest Name");
+        editGuestName.setFont(new Font("Arial", Font.BOLD, 20));
+        editGuestName.setBounds(manageButtonMidX, 150, manageButtonWidth, manageButtonHeight);
+        editReservationPanel.add(editGuestName);
+
+        editDates = new JButton("Edit Reservation Dates");
+        editDates.setFont(new Font("Arial", Font.BOLD, 20));
+        editDates.setBounds(manageButtonMidX, 220, manageButtonWidth, manageButtonHeight);
+        editReservationPanel.add(editDates);
+
+        editRoomType = new JButton("Edit Room Type");
+        editRoomType.setFont(new Font("Arial", Font.BOLD, 20));
+        editRoomType.setBounds(manageButtonMidX, 290, manageButtonWidth, manageButtonHeight);
+        editReservationPanel.add(editRoomType);
+
+        backButton6 = new JButton("Back");
+        backButton6.setBounds(680, 500, 100, 50);
+        backButton6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        backButton6.setFont(new Font("Arial", Font.BOLD, 16));
+        editReservationPanel.add(backButton6);
+
+        mainPanel.add(editReservationPanel, "editReservation");
+
+        int editButtonW = 200;
+        int editButtonH = 50;
+        int editButtonX = (panelWidth - editButtonW) / 2;
+        // Components for edit guest name
+        editGuestPanel = new JPanel();
+        editGuestPanel.setLayout(null);
+
+        JLabel newGuestName = new JLabel("New Guest Name:");
+        newGuestName.setFont(new Font("Arial", Font.BOLD, 20));
+        newGuestName.setBounds(manageButtonX1 + 50, 200, 200, 30);
+        editGuestPanel.add(newGuestName);
+
+        editGuestField = new JTextField();
+        editGuestField.setBounds(manageButtonX1 + 250, 200, 200, 35);
+        editGuestPanel.add(editGuestField);
+
+        editGuestButton = new JButton("Edit Reservation");
+        editGuestButton.setBounds(editButtonX, 300, editButtonW, editButtonH); // Adjusted to center the button
+        editGuestButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editGuestButton.setFont(new Font("Arial", Font.BOLD, 20));
+        editGuestPanel.add(editGuestButton);
+
+        mainPanel.add(editGuestPanel, "editGuest");
+
+        // Edit dates
+        editDatesPanel = new JPanel();
+        editDatesPanel.setLayout(null);
+
+        JLabel newCheckIn = new JLabel("New Check-In Date:");
+        newCheckIn.setFont(new Font("Arial", Font.BOLD, 20));
+        newCheckIn.setBounds(manageButtonX1 + 40, 200, 200, 30);
+        editDatesPanel.add(newCheckIn);
+
+        editCheckInField = new JTextField();
+        editCheckInField.setBounds(manageButtonX1 + 250, 200, 200, 35);
+        editDatesPanel.add(editCheckInField);
+
+        JLabel newCheckOut = new JLabel("New Check-Out Date:");
+        newCheckOut.setFont(new Font("Arial", Font.BOLD, 20));
+        newCheckOut.setBounds(manageButtonX1 + 40, 250, 250, 30);
+        editDatesPanel.add(newCheckOut);
+
+        editCheckOutField = new JTextField();
+        editCheckOutField.setBounds(manageButtonX1 + 250, 250, 200, 35);
+        editDatesPanel.add(editCheckOutField);
+
+        editDatesButton = new JButton("Edit Reservation");
+        editDatesButton.setBounds(editButtonX, 450, editButtonW, editButtonH); // Adjusted to center the button
+        editDatesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editDatesButton.setFont(new Font("Arial", Font.BOLD, 20));
+        editDatesPanel.add(editDatesButton);
+
+        mainPanel.add(editDatesPanel, "editDates");
+
         // Simulate Booking Portion
         JPanel simulateBookingPanel = new JPanel(null);
         JLabel simulateBookingTitle = new JLabel("Simulate Booking", JLabel.CENTER);
@@ -560,6 +675,9 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    /**
+     * Function to check if the dates entered are valid
+     */
     public boolean validateCheckDates(){
         int checkIn = getCheckInField();
         int checkOut = getCheckOutField();
@@ -575,6 +693,9 @@ public class hotelGuiView extends JFrame {
 
     }
 
+    /**
+     * Function to check if hotel was created successfully
+     */
     public void validateCreateHotel(Hotel h){
         if (h != null) {
             JOptionPane.showMessageDialog(this, "Hotel created successfully!");
@@ -585,101 +706,184 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    /**
+     * Function to add a listener to the create hotel button
+     * @param listener - the action listener to add
+     */
     public void addCreateHotelButtonListener(ActionListener listener) {
         createHotelButton.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the view button
+     * @param listener - the action listener to add
+     */
     public void addViewInfoButtonListener(ActionListener listener) {
         viewInfoButton.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the manage button
+     * @param listener - the action listener to add
+     */
     public void addManageButtonListener(ActionListener listener) {
         manageButton.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the booking button
+     * @param listener - the action listener to add
+     */
     public void addBookingButtonListener(ActionListener listener) {
         bookingButton.addActionListener(listener);
     }
 
+    /**
+     * Function to get the hotel name from the text field
+     */
     public String getHotelName() {
         return nameField.getText();
     }
 
+    /**
+     * Function to get the customer name from the text field
+     */
     public String getCustomerNameField(){
         return customerNameField.getText();
     }
 
+    /**
+     * Function to get the number of standard rooms inputted by user
+     */
     public int getStandardRooms() {
         return Integer.parseInt(standardRoomField.getText());
     }
 
+    /**
+     * Function to get the number of deluxe rooms inputted by user
+     */
     public int getDeluxeRooms() {
         return Integer.parseInt(deluxeRoomField.getText());
     }
 
+    /**
+     * Function to get the number of executive rooms inputted by user
+     */
     public int getExecutiveRooms() {
         return Integer.parseInt(executiveRoomField.getText());
     }
 
+    /**
+     * Function to add a listener to create button
+     * @param listener - the action listener to add
+     */
     public void addCreateButtonListener(ActionListener listener) {
         createButton.addActionListener(listener);
     }
 
     // Add methods to register the back button listeners
+
+    /**
+     * Function to add a listener to the back button
+     * @param listener - the action listener to add
+     */
     public void addBackButtonListener(ActionListener listener) {
         backButton.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the back button
+     * @param listener - the action listener to add
+     */
     public void addBackButtonListener2(ActionListener listener) {
         backButton2.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the back 
+     * @param listener - the action listener to add
+     */
     public void addBackButtonListener3(ActionListener listener) {
         backButton3.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the back button
+     * @param listener - the action listener to add
+     */
     public void addBackButtonListener4(ActionListener listener) {
         backButton4.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the back 
+     * @param listener - the action listener to add
+     */
     public void addBackButtonListener5(ActionListener listener) {
         backButton5.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the high level button
+     * @param listener - the action listener to add
+     */
     public void addHighLevelButtonListener(ActionListener listener) {
         highLevelButton.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the low level 
+     * @param listener - the action listener to add
+     */
     public void addLowLevelButtonListener(ActionListener listener) {
         lowLevelButton.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the back button in low level panel
+     * @param listener - the action listener to add
+     */
     public void addBackToViewHotelFromLowLevelListener(ActionListener listener) {
         backToViewHotelFromLowLevel.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the back button in high level panel
+     * @param listener - the action listener to add
+     */
     public void addBackToViewHotelFromHighLevelListener(ActionListener listener) {
         backToViewHotelFromHighLevel.addActionListener(listener);
     }
 
     // Public getters for cardLayout and mainPanel
+
+    /**
+     * Function to get the card layout
+     */
     public CardLayout getCardLayout() {
         return cardLayout;
     }
 
+    /**
+     * Function to get the main panel
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
-    public JButton getHighLevelButton() {
-        return highLevelButton;
-    }
-
+    /**
+     * Function to add a listener to the view low button
+     * @param listener - the action listener to add
+     */
     public void addLowLevelButton(ActionListener listener){
         lowLevelButton.addActionListener(listener);
     }
 
     //Displays and asks user to pick hotel from list of hotels
+
+    /**
+     * Function to display the hotel options to the user
+     */
     public Hotel getHotelOptions(ArrayList<Hotel> hotels) {
         if (hotels.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hotels available.");
@@ -715,14 +919,18 @@ public class hotelGuiView extends JFrame {
 
     }
 
-
-    public JPanel getHighLevelPanel(){
-        return highLevelPanel;
-        
+    /**
+     * Function to add listener to back button
+     * @param listener - the action listener to add
+     */
+    public void addBackButton6Listener(ActionListener listener) {
+        backButton6.addActionListener(listener);
     }
 
-    /*
-     * If we have time lets add pictures of the standard, deluxe, and executive rooms
+
+    /**
+     * Function to display the high level information of hotel to user
+     * @param hotel - the hotel instance to display information of
      */
     public void displayHighLevelInfo(Hotel hotel) {
         if (hotel != null) {
@@ -801,6 +1009,16 @@ public class hotelGuiView extends JFrame {
         }
     }
     
+    /**
+     * Function to display the low level information of hotel to user
+     * Precondition: hotel is not null
+     * Postcondition: low level information is displayed to user
+     * @param h - the hotel instance to display information of
+     * @param index - the index of the reservation to display
+     * @param dayToCheck - the day to check
+     * @param roomToCheck - the room to check
+     * @param model2 - the viewHotelModel instance
+     */
     public void displayLowLevelInfo(Hotel h, int index, int dayToCheck, int roomToCheck, viewHotelModel model2) {
         if (h != null) {
             // Create the main panel for low level information
@@ -837,7 +1055,7 @@ public class hotelGuiView extends JFrame {
             availableLabel.setBounds(10, 90, 360, 25);
             roomGuestPanel.add(availableLabel);
     
-            JLabel roomLabel = new JLabel(String.format("Room name: %d", h.getReservations().get(index).getRoomNumber()));
+            JLabel roomLabel = new JLabel(String.format("Room name: %d", roomToCheck));
             roomLabel.setFont(new Font("Arial", Font.PLAIN, 18));
             roomLabel.setBounds(10, 130, 360, 25);
             roomGuestPanel.add(roomLabel);
@@ -855,31 +1073,39 @@ public class hotelGuiView extends JFrame {
             priceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
             priceLabel.setBounds(10, 170, 360, 25);
             roomGuestPanel.add(priceLabel);
-    
-            JLabel guestInfoLabel = new JLabel("Room's Guest information");
-            guestInfoLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            guestInfoLabel.setBounds(10, 210, 360, 25);
-            roomGuestPanel.add(guestInfoLabel);
-    
-            JLabel guestNameLabel = new JLabel(String.format("Guest name: %s", h.getReservations().get(index).getGuestName()));
-            guestNameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-            guestNameLabel.setBounds(10, 250, 360, 25);
-            roomGuestPanel.add(guestNameLabel);
-    
-            JLabel checkInLabel = new JLabel(String.format("Check-in Day: %d", h.getReservations().get(index).getCheckInDate()));
-            checkInLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-            checkInLabel.setBounds(10, 290, 360, 25);
-            roomGuestPanel.add(checkInLabel);
-    
-            JLabel checkOutLabel = new JLabel(String.format("Check-out Day: %d", h.getReservations().get(index).getCheckOutDate()));
-            checkOutLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-            checkOutLabel.setBounds(10, 330, 360, 25);
-            roomGuestPanel.add(checkOutLabel);
-    
-            JLabel totalPriceLabel = new JLabel(String.format("Total price for booking: %.2f", h.getReservations().get(index).getTotalPrice()));
-            totalPriceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-            totalPriceLabel.setBounds(10, 370, 360, 25);
-            roomGuestPanel.add(totalPriceLabel);
+            
+            if(index >= 0){
+                JLabel guestInfoLabel = new JLabel("Room's Guest information");
+                guestInfoLabel.setFont(new Font("Arial", Font.BOLD, 18));
+                guestInfoLabel.setBounds(10, 210, 360, 25);
+                roomGuestPanel.add(guestInfoLabel);
+        
+                JLabel guestNameLabel = new JLabel(String.format("Guest name: %s", h.getReservations().get(index).getGuestName()));
+                guestNameLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                guestNameLabel.setBounds(10, 250, 360, 25);
+                roomGuestPanel.add(guestNameLabel);
+        
+                JLabel checkInLabel = new JLabel(String.format("Check-in Day: %d", h.getReservations().get(index).getCheckInDate()));
+                checkInLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                checkInLabel.setBounds(10, 290, 360, 25);
+                roomGuestPanel.add(checkInLabel);
+        
+                JLabel checkOutLabel = new JLabel(String.format("Check-out Day: %d", h.getReservations().get(index).getCheckOutDate()));
+                checkOutLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                checkOutLabel.setBounds(10, 330, 360, 25);
+                roomGuestPanel.add(checkOutLabel);
+        
+                JLabel totalPriceLabel = new JLabel(String.format("Total price for booking: %.2f", h.getReservations().get(index).getTotalPrice()));
+                totalPriceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                totalPriceLabel.setBounds(10, 370, 360, 25);
+                roomGuestPanel.add(totalPriceLabel);
+            } else {
+                JLabel noInfoLabel = new JLabel("No Reservation Information Available");
+                noInfoLabel.setFont(new Font("Arial", Font.BOLD, 18));
+                noInfoLabel.setBounds(10, 210, 360, 25);
+                roomGuestPanel.add(noInfoLabel);
+            }
+            
     
             // Availability Dates
             JPanel availabilityPanel = new JPanel();
@@ -919,50 +1145,108 @@ public class hotelGuiView extends JFrame {
     }
     
 
-    public JButton getBackButton2(){
-        return backButton2;
-    }
-    
+    /**
+     * Function to set the hotel name in the text field
+     */
     public void setHotelName(String name) {
         nameField.setText(name);
     }
     
+    /**
+     * Function to set the number of standard rooms in the text field
+     */
     public void setStandardRooms(int rooms) {
         standardRoomField.setText(String.valueOf(rooms));
     }
 
+    /**
+     * Function to set the change field text
+     */
     public void setChangeNewName(String name){
         changeField.setText(name);
     }
     
+    /**
+     * Function to set the number of deluxe rooms in the text field
+     */
     public void setDeluxeRooms(int rooms) {
         deluxeRoomField.setText(String.valueOf(rooms));
     }
-    
+
+    /**
+     * Function to set the number of executive rooms in the text field
+     */
     public void setExecutiveRooms(int rooms) {
         executiveRoomField.setText(String.valueOf(rooms));
     }
 
+    /**
+     * Function to set remove field text
+     * @param  rooms - the number of rooms to remove
+     */
     public void setRemoveField(int rooms){
         removeField.setText(String.valueOf(rooms));
     }
 
+    /**
+     * Function to set add field text
+     * @param  rooms - the number of rooms to add
+     */
     public void setAddField(int rooms){
         addField.setText(String.valueOf(rooms));
     }
-
+    
+    /**
+     * Function to set the check in field text
+     * @param checkIn - the check in day
+     */
     public void setCheckInFields(int checkIn){
         checkInField.setText(String.valueOf(checkIn));
     }
 
+    /**
+     * Function to set the check out field text
+     * @param checkOut - the check out day
+     */
     public void setCheckOutFields(int checkOut){
         checkOutField.setText(String.valueOf(checkOut));
     }
 
+    /**
+     * Function to set the cutomser name field text
+     * @param name - the name of the customer
+     */
     public void setCustomerName(String name){
         customerNameField.setText(name);
     }
 
+    /**
+     * Function to set the name of the guest in the edit guest field
+     * @param name - the name of the guest
+     */
+    public void setEditGuestField(String name) {
+        editGuestField.setText(name);
+    }
+
+    /**
+     * Function to set the check in day in the edit check in field
+     * @param checkIn - the check in day
+     */
+    public void setEditCheckInField(int checkIn) {
+        editCheckInField.setText(String.valueOf(checkIn));
+    }
+
+    /**
+     * Function to set the check out day in the edit check out field
+     * @param checkOut - the check out day
+     */
+    public void setEditCheckOutField(int checkOut) {
+        editCheckOutField.setText(String.valueOf(checkOut));
+    }
+
+    /**
+     * Function to clear the text fields or set them to 0
+     */
     public void clearHotelFields() {
         setHotelName("");
         setStandardRooms(0);
@@ -976,25 +1260,38 @@ public class hotelGuiView extends JFrame {
         setCheckOutFields(0);
         setDayField(0);
         setRoomCheckField(0);
+        setEditGuestField("");
+        setEditCheckInField(0);
+        setEditCheckOutField(0);
     }
 
-
+    /**
+     * Function to add a listener to the change name button
+     * @param listener - the action listener
+     */
     public void addChangeNameListener(ActionListener listener){
         changeName.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the change new name button
+     * @param listener - the action listener
+     */
     public void addChangeNewNameListener(ActionListener listener){
         changeNewName.addActionListener(listener);
     }
 
-    public JButton getChangeNewNameButton(){
-        return changeNewName;
-    }
-
+    /**
+     * Function to get the new name from the text field
+     * @return String - the new name entered by the user
+     */
     public String getNewName(){
         return changeField.getText();
     }
 
+    /**
+     * Function to display the confirm pane to the user
+     */
     public int displayConfirm(){
         // Display the confirm dialog
         int response = JOptionPane.showConfirmDialog(null, "Do you want to proceed?", "Confirm", JOptionPane.OK_CANCEL_OPTION);
@@ -1002,41 +1299,64 @@ public class hotelGuiView extends JFrame {
         // Check the user's response
         if (response == JOptionPane.OK_OPTION) {
             return 1;
-            // Add your logic for the OK option here
         } else if (response == JOptionPane.CANCEL_OPTION) {
             return -1;
-            // Add your logic for the Cancel option here
         } else {
             return -1;
         }
     
     }
 
+    /**
+     * Function to display that text field must be filled out
+     */
     public void displayFillOut(){
         JOptionPane.showMessageDialog(this, "Do not leave the space blank");
     }
 
+
+    /**
+     * Function to display not successful
+     */
     public void displayInvalid(){
         JOptionPane.showMessageDialog(this, "Not successful");
     }
 
+    /**
+     * Function to display successful
+     */
     public void displayvalid(){
         JOptionPane.showMessageDialog(this, "Successful");
     }
 
+    /**
+     * Function to add a listener to the add new rooms button
+     * @param listener - the action listener
+     */
     public void addAddNewRoomsListener(ActionListener listener){
         addNewRooms.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the add room button
+     * @param listener - the action listener
+     */
     public void addAddRoomListener(ActionListener listener){
         addRoom.addActionListener(listener);
     }
 
-
+    /**
+     * Function to get the number of rooms to add
+     * @return int - the number of rooms to add
+     */
     public int getAddRooms(){
         return Integer.parseInt(addField.getText());
     }
 
+    /**
+     * Function to get the room options
+     * @return int - the room options
+     */
     public int getRoomOptions() {
         String[] options = {"Standard", "Deluxe", "Executive"};
         int result = JOptionPane.showOptionDialog(this, "Select Room Type", "Room Type", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -1047,34 +1367,66 @@ public class hotelGuiView extends JFrame {
         return result;
     }
 
+    /**
+     * Function to get the remove field
+     * @return int - the number of rooms to remove
+     */
     public int getRemoveRooms() {
         return Integer.parseInt(removeField.getText());
     }
 
+    /**
+     * Function to add a listener to the remove room button
+     * @param listener - the action listener
+     */
     public void addRemoveRoomsListener(ActionListener listener) {
         removeRoom.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the remove new rooms button
+     * @param listener - the action listener
+     */
     public void addRemoveNewRoomsListener(ActionListener listener) {
         removeNewRooms.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the update base room price button
+     * @param listener - the action listener
+     */
     public void addUpdateBaseRoomPriceListener(ActionListener listener) {
         updateBaseRoomPrice.addActionListener(listener);
     }
 
+    /**
+     * Function to add a listener to the update price button
+     */
     public void addUpdatePriceListener(ActionListener listener) {
         updatePrice.addActionListener(listener);
     }
 
+    /**
+     * Function to get the update price field
+     * @return int - the price to update
+     */
     public int getUpdatePriceField(){
         return Integer.parseInt(updatePriceField.getText());
     }
 
+    /**
+     * Function to add a listener to the remove reservation button
+     * @param listener - the action listener
+     */
     public void addRemoveReservationListener(ActionListener listener){
         removeReservation.addActionListener(listener);
     }
 
+    /**
+     * Function to get the index of the reservation
+     * @param  hotel - the hotel instance
+     * @return int - the index of the reservation
+     */
     public int getReservationOptions(Hotel hotel) {
         if (hotel.getNumOfReservations() != 0) {
             String[] options = new String[hotel.getNumOfReservations()];
@@ -1085,7 +1437,7 @@ public class hotelGuiView extends JFrame {
                              ", Days: " + reservation.getCheckInDate() + " to " + reservation.getCheckOutDate() +
                              ", Price: " + reservation.getTotalPrice();
             }
-            int result = JOptionPane.showOptionDialog(this, "Select a Reservation to Remove", "Reservations", 
+            int result = JOptionPane.showOptionDialog(this, "Select a Reservation", "Reservations", 
                                                       JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, 
                                                       null, options, options[0]);
             return result;
@@ -1095,16 +1447,22 @@ public class hotelGuiView extends JFrame {
             return -1;
         }
     }
-    
-    
 
+    
+    /**
+     * Adds a listener to the book button
+     * @param listener - the action listener
+     */
     public void addBookListener(ActionListener listener){
         bookButton.addActionListener(listener);
     }
 
+    /**
+     * Function to display discount code input dialog
+     */
     public String displayEnterDiscount() {
         int response = JOptionPane.showConfirmDialog(null, "Do you want to input a Discount code?", "Discount Code", JOptionPane.YES_NO_OPTION);
-        String discountCode = null;
+        String discountCode = "";
     
         if (response == JOptionPane.YES_OPTION) {
             // Show input dialog for the discount code
@@ -1121,7 +1479,7 @@ public class hotelGuiView extends JFrame {
             } else {
                 // Handle the case where the user canceled the input dialog
                 JOptionPane.showMessageDialog(null, "Enter Discount code Cancelled");
-                return null; // Indicate to stop the booking process
+                return ""; // Indicate to stop the booking process
             }
         } else {
             // Handle the case where the user chose not to input a discount code
@@ -1131,20 +1489,36 @@ public class hotelGuiView extends JFrame {
     
     
     
-
+    /**
+     * Function to get the check in field
+     * @ return int - the check date
+     */
     public int getCheckInField(){
         return Integer.parseInt(checkInField.getText());
     }
 
+    /**
+     * Function to get the check out field
+     * @ return int - the check out date
+     */
     public int getCheckOutField(){
         return Integer.parseInt(checkOutField.getText());
     }
 
+    /**
+     * Function to display invalid check dates
+     */
     public void displayValidCheckDates(){
         JOptionPane.showMessageDialog(null, "Enter valid check-in/check-out dates");
     }
 
-
+    /**
+     * Function to display and check the coupon code
+     * @param code - the code to check
+     * @param checkInDate - the check in date
+     * @param checkOutDate - the check out date
+     * @ return int - the result signifying the coupon code used
+     */
     public int checkCoupon(String code, int checkInDate, int checkOutDate){
         if (code.equals("I_WORK_HERE")) {
             JOptionPane.showMessageDialog(null, "10% discount applied.");
@@ -1155,7 +1529,7 @@ public class hotelGuiView extends JFrame {
                 return 2;
             } else {
                 JOptionPane.showMessageDialog(null, "Reservation is inelligible for discount code.");
-                return 3;
+                return -1;
             }
         } else if (code.equals("PAYDAY")) {
             if (checkInDate <= 15 && checkOutDate > 15 || checkInDate <= 30 && checkOutDate > 30) { // If stay contains day 15 / 30
@@ -1163,32 +1537,56 @@ public class hotelGuiView extends JFrame {
                 return 4;
             } else {
                 JOptionPane.showMessageDialog(null, "Reservation is inelligible for discount code.");
-                return 5;
+                return -1;
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Discount Code not found.");
-            return 6;
+            return -1;
         }
 
     }
 
+    /**
+     * Function to display the invalid coupon code
+     */
+    public void displayCodeNotFound(){
+        JOptionPane.showMessageDialog(null, "Discount code not found.");
+    }
+
+    /**
+     * Function to display booking successful
+     */
     public void displaySuccessBooking() {
         JOptionPane.showMessageDialog(null, "Booking successful");
     }
 
+    /**
+     * Function to display booking unsuccessful because of no rooms available
+     */
     public void displayNoRooms() {
         JOptionPane.showMessageDialog(null, "No rooms available for the selected dates.");
     }
 
+    /**
+     * Function to add action llstener to remove hotel button
+     * @param listener - the action listener
+     */
     public void addRemoveHotelListener(ActionListener listener){
         removeHotel.addActionListener(listener);
     }
 
+    /**
+     * Function to add action listener to update price modifier button
+     * @param listener - the action listener
+     */
     public void addUpdatePriceModifierListener(ActionListener listener){
         updatePriceModifier.addActionListener(listener);
     }
 
-
+    /**
+     * Function to display the enter price modifier
+     * @param h - the hotel instance
+     * @return boolean - the result of the display
+     */
     public boolean displayEnterPriceModifier(Hotel h) {
         try {
             String input = JOptionPane.showInputDialog(null, "Please enter the day for which you want to change the price rate:", "Price Rate Modifier", JOptionPane.QUESTION_MESSAGE);
@@ -1225,22 +1623,114 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    /**
+     * Function to get the day field
+     * @return int - the day field
+     */
     public int getdayField(){
         return Integer.parseInt(dayField.getText());
     }
 
+    /**
+     * Function to set the day field
+     * @param num - the number to set the day field to
+     */
     public void setDayField(int num){
         dayField.setText(String.valueOf(num));
     }
 
+    /**
+     * Function to get the room check field
+     * @return int - the room check field
+     */
     public int getRoomCheckField(){
         return Integer.parseInt(roomCheckField.getText());
     }
 
+    /**
+     * Function to set the room check field
+     * @param num - the number to set the room check field to
+     */
     public void setRoomCheckField(int num){
         roomCheckField.setText(String.valueOf(num));
     }
 
+    /**
+     * Function to add a listener to the edit reservation button
+     * @param listener - the action listener
+     */
+    public void addEditReservationListener(ActionListener listener) {
+        editReservation.addActionListener(listener);
+    }
+
+    /**
+     * Function to add a listener to the edit guest name button
+     * @param listener - the action listener
+     */
+    public void addEditGuestNameListener(ActionListener listener) {
+        editGuestName.addActionListener(listener);
+    }
+
+    /**
+     * Function to add a listener to the edit dates button
+     * @param listener - the action listener
+     */
+    public void addEditDatesListener(ActionListener listener) {
+        editDates.addActionListener(listener);
+    }
+
+    /**
+     * Function to add a listener to the edit room type button
+     * @param listener - the action listener
+     */
+    public void addEditRoomTypeListener(ActionListener listener) {
+        editRoomType.addActionListener(listener);
+    }
+
+    /**
+     * Function to add a listener to the edit the guest button
+     * @param listener - the action listener
+     */
+    public void addEditGuestListener(ActionListener listener) {
+        editGuestButton.addActionListener(listener);
+    }
+
+    /**
+     * Function to add a listener to the edit dates button
+     * @param listener - the action listener
+     */
+    public void addEditDateListener(ActionListener listener) {
+        editDatesButton.addActionListener(listener);
+    }
+
+    /**
+     * Function to get the edit guest field
+     * @return String - the edit guest field
+     */
+    public String getNewGuestNameField() {
+        return editGuestField.getText();
+    }
+
+    /**
+     * Function to get the edit check in field
+     * @return int - the edit check in field
+     */
+    public int getNewCheckIn() {
+        return Integer.parseInt(editCheckInField.getText());
+    }
+
+    /**
+     * Function to get the edit check out field
+     * @return int - the edit check out field
+     */
+    public int getNewCheckOut() {
+        return Integer.parseInt(editCheckOutField.getText());
+    }
+
+    /**
+     * Function to add a listener to the view low button
+     * @param listener - the action listener
+     */
     public void addViewLowLevelListener(ActionListener listener){
         viewLowButton.addActionListener(listener);
     }
@@ -1248,10 +1738,17 @@ public class hotelGuiView extends JFrame {
 
     //JOptions for manage hotel
 
+    /**
+     * Function to display successfully updated room price
+     */
     public void displaySuccessPriceChange(){
         JOptionPane.showMessageDialog(this, "Room price successfully updated.");
     }
 
+    /**
+     * Function to display unsuccessful price change to user
+     * @param num - the number to decide what message to display
+     */
     public void displayUnsuccessPriceChange(int num){
         if(num == 1) {
             JOptionPane.showMessageDialog(this, "Price change unsuccessful -- Hotel currently has reservations.");
@@ -1260,12 +1757,20 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    /**
+     * Function to display the confirm update price to user
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmUpdatePrice(){
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Update Price?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return confirm;
     }
 
+    /**
+     * Function to display the price rate message to user
+     * @param num - the number to decide what message to display
+     */
     public void displayPriceRateMessage(int num){
         if(num == 1){
             JOptionPane.showMessageDialog(this, "Price rate changed.");
@@ -1277,6 +1782,10 @@ public class hotelGuiView extends JFrame {
         
     }
 
+    /**
+     * Function to display the remove hotel message to user
+     * @param num - the number to decide what message to display
+    */
     public void displayRemoveHotelMessage(int num){
         if(num == JOptionPane.YES_OPTION){
             JOptionPane.showMessageDialog(this, "Hotel removed successfully.");
@@ -1287,58 +1796,136 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    /**
+     * Function to display the confirm remove hotel to user
+     * @param  h - the hotel instance
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmRemoveHotel(Hotel h){
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Remove Hotel " + h.getName() + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return confirm;
     }
 
+    /**
+     * Function to display the view reservation to user
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmViewReservation(){
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Confirm view reservation?", "Confirm", JOptionPane.YES_NO_OPTION);
         return confirm;
     }
     
+    /**
+     * Function to display invalid day or room number to user
+     */
     public void displayInvalidDayRoom(){
         JOptionPane.showMessageDialog(this, "Invalid day or room number. Please enter valid values.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Function to display confirm add rooms to user
+     * @param rooms - the number of rooms to add
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmAddRooms(int rooms){
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Add " + rooms + " rooms?", "Confirm", JOptionPane.YES_NO_OPTION);
         return confirm;
     }
 
+    /**
+     * Function to display success add rooms to user
+     * @param num - the number of rooms added
+     */
     public void displaySuccessAddRooms(int num){
         JOptionPane.showMessageDialog(this, num + " rooms successfully added.");
     }
 
+    /**
+     * Function to display confirm remove rooms to user
+     * @param rooms - the number of rooms to remove
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmRemoveRooms(int rooms) {
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Remove " + rooms + " rooms?", "Confirm", JOptionPane.YES_NO_OPTION);
         return confirm;
     }
 
+    /**
+     * Function to display success remove rooms to user
+     * @param num - the number of rooms removed
+     */
     public void displaySuccessRemoveRooms(int num){
         JOptionPane.showMessageDialog(this, num + " rooms successfully removed");
     }
 
+    /**
+     * Function to display confirm update base price to user
+     * @param  newPrice - the new price to update to
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmUpdateBasePrice(float newPrice){
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Update base room price to " + newPrice + "?", "Confirm", JOptionPane.YES_NO_OPTION);
         return confirm;
     }
 
+    /**
+     * Function to display confirm remove reservation to user
+     * @param h - the hotel instance
+     * @param index - the index of the reservation to remove
+     * @return int - value of confirm depending on user response
+     */
     public int displayConfirmRemoveReservation(Hotel h, int index){
         int confirm;
         confirm = JOptionPane.showConfirmDialog(this, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
         return confirm;
     }
 
+    /**
+     * Function to display reservation edited successfully to user
+     * @return int - value of confirm depending on user response
+     */
+    public int displayConfirmEditReservation() {
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Edit Reservation?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+
+    /**
+     * Function to display reservation edited successfully to user
+     * @param x - 1 if successful, 0 otherwise
+     */
+    public void displaySuccessEditReservation(int x) {
+        if (x == 1)
+            JOptionPane.showMessageDialog(this, "Reservation successfully edited.");
+        else
+            JOptionPane.showMessageDialog(this, "Edit reservation unsuccessful");
+    }
+
+    /**
+     * Function to display reservation moved to certai room to user
+     * Precondition: room is not null
+     * Postcondition: reservation moved to room is displayed to user
+     * @param room
+     */
+    public void displayMovedRoom(int room) {
+        JOptionPane.showMessageDialog(this, "Reservation moved to room " + room);
+    }   
+
+    /**
+     * Function to display reservation removed successfully to user
+     */
     public void displaySuccessReservationRemoved(){
         JOptionPane.showMessageDialog(this, "Reservation successfully removed.");
     }
 
+    /**
+     * Function to display no hotels selected to user
+     */
     public void displayNoHotels(){
         JOptionPane.showMessageDialog(this, "No hotel selected.");
     }

@@ -61,7 +61,7 @@ public class manageHotelModel {
 
     
     /** Adds rooms to the hotel
-     * Preconditions: hotels is an ArrayList of Hotels
+     * Preconditions: hotels is an initialized ArrayList of Hotels
      * Postconditions: Rooms are added to the hotel
      * @param h - The hotel to be added
      * @param roomType - The type of room to add
@@ -92,6 +92,8 @@ public class manageHotelModel {
 
     /**
      * Removes rooms from the hotel
+     * Preconditions: hotel is initialized, roomType and rooms are valid integers
+     * Postconditions: Rooms are removed from the hotel
      * @param hotel - the hotel to remove the rooms from
      * @param roomType - the type of room to remove
      * @param rooms - the number of rooms to remove
@@ -154,6 +156,8 @@ public class manageHotelModel {
 
     /**
      * Changes the price of the hotel
+     * Preconditions: hotel is initialized, newPrice is a float
+     * Postconditions: Price is either changed or unchanged
      * @param hotel - the hotel to change the price of
      * @param newPrice - the new price of the hotel
      * @return 1 if the price was changed, 0 if there are reservations, -1 if the price is invalid
@@ -171,11 +175,164 @@ public class manageHotelModel {
 
     /**
      * Removes a reservation from the hotel
+     * Preconditions: hotel is initialized, index is within bounds
      * @param hotel - the hotel to remove the reservation from
      * @param index - the index of the reservation to remove
      */
     public void removeReservation(Hotel hotel, int index) {
         hotel.removeReservation(index);
+    }
+
+    /**
+     * Removes a reservation from the hotel
+     * Preconditions: hotels is an initialized ArrayList of Hotel, h is a Hotel within hotels
+     * Postconditions: h is removed from hotels
+     * @param hotels - the array list of hotels to remove the hotel from
+     * @param h - the hotel to be removed
+     */
+    public void removeHotel(ArrayList<Hotel> hotels, Hotel h) {
+        hotels.remove(h);
+    }
+
+    /**
+     * Edits the check-in and check-out dates of a reservation
+     * Preconditions: r is initialized, checkIn and checkOut are valid integers
+     * Postconditions: Check-in and check-out date of reservation are edited
+     * @param r - the reservation to be edited
+     * @param checkIn - the new check-in date
+     * @param checkOut - the new check-out date
+     */
+    public void editDates(Reservation r, int checkIn, int checkOut) {
+        r.setCheckInDate(checkIn);
+        r.setCheckOutDate(checkOut);
+    }
+    /**
+     * Updates the total price of a reservation
+     * Preconditions: h and r are initialized, roomPrice is a float
+     * Postconditions: Total price of the reservation is edited
+     * @param h - the hotel that the reservation is in
+     * @param r - the reservation to be edited
+     * @param roomPrice - the room price of the reservation
+     */
+    public void editTotalPrice(Hotel h, Reservation r, float roomPrice) {
+        float totalPrice = 0;
+        for (int i = r.getCheckInDate(); i < r.getCheckOutDate(); i++) {
+            totalPrice += roomPrice * h.getDatePriceModifiers(i);
+        }
+        r.setTotalPrice(totalPrice);
+    }
+    /** Checks if the days are booked in a hotel, not including a certain Reservation r
+     * Preconditions: h is an instance of Hotel, r is an instance of Reservation, checkIn, checkOut, and room are integers
+     * Postconditions: returns a boolean
+     * @param h - Instance of Hotel
+     * @param r - Instance of Reservation
+     * @param checkIn - The check-in date
+     * @param checkOut - The check-out date
+     * @param room - The room number
+     * @return boolean - True if the days are booked, false otherwise
+     */
+    public boolean isSameReservation(Hotel h, Reservation r, int checkIn, int checkOut, int room) {
+        for (int i = 0; i < h.getReservations().size(); i++) {
+            Reservation reservation = h.getReservations().get(i);
+            if (reservation.getRoomNumber() == room) {
+                // Check for overlap with existing reservation
+                if (!(checkIn >= reservation.getCheckOutDate() || checkOut < reservation.getCheckInDate())) {
+                    if (reservation != r)
+                        return true;
+                } 
+                    
+            }
+        }
+        return false;
+    }
+    /** Finds the first available room of a certain hotel during specific check-in and check-out dates.
+     * Preconditions: h and r are initialized, r is in h, checkIn and checkOut are valid integers
+     * Postconditions: Reservation r's check-in, check-out and total price will be edited if there is an available room, else nothing happens.
+     * @param h - hotel to check the reservations
+     * @param r - reservation to be edited
+     * @param checkIn - new check-in date
+     * @param checkOut - new check-out date
+     * @return true if an available room was found, else returns false
+     * 
+     */
+    public boolean findAvailableRoom(Hotel h, Reservation r, int checkIn, int checkOut) {
+        int room, maxRoom;
+        float roomPrice;
+        int roomType = h.getRoomType(r);
+        if (roomType == 0) { // Standard Room
+            room = 1;
+            maxRoom = h.getRooms().lastStandard();
+            roomPrice = h.getRoomPrice();
+        }
+        else if (roomType == 1) { // Deluxe Room
+            room = h.getRooms().firstDeluxe();
+            maxRoom = h.getRooms().lastDeluxe();
+            roomPrice = h.getDeluxePrice();
+        }
+        else { // Executive Room
+            room = h.getRooms().firstExecutive();
+            maxRoom = h.getRooms().lastExecutive();
+            roomPrice = h.getExecutivePrice();
+        }
+
+        boolean bookedRoom = false;
+        while(room <= maxRoom && !bookedRoom) {
+            if (!isSameReservation(h, r, checkIn, checkOut, room)) {
+                editDates(r, checkIn, checkOut);
+                editTotalPrice(h, r, roomPrice);
+                r.setRoomNumber(room);
+                bookedRoom = true;
+            }
+            room++;
+        }
+
+        return bookedRoom;
+
+    }
+    /**
+     * Edits the room type of a specific reservation if possible.
+     * @param h - hotel that the reservation is in
+     * @param roomType - room type of the reservation (0 - standard, 1 - deluxe, 2 - executive)
+     * @param r - reservation to be edited
+     * @return true if reservation was successfully edited, else returns false
+     */
+    public boolean editRoomType(Hotel h, int roomType, Reservation r) {
+        boolean edit = false;
+        int room, maxRoom;
+        float roomPrice;
+        switch(roomType) {
+            case 0:
+                room = 1;
+                maxRoom = h.getRooms().lastStandard();
+                roomPrice = h.getRoomPrice();
+                break;
+            case 1:
+                room = h.getRooms().firstDeluxe();
+                maxRoom = h.getRooms().lastDeluxe();
+                roomPrice = h.getDeluxePrice();
+                break;
+            case 2:
+                room = h.getRooms().firstExecutive();
+                maxRoom = h.getRooms().lastExecutive();
+                roomPrice = h.getExecutivePrice();
+                break;
+            default:
+                room = -1;
+                maxRoom = -1;
+                roomPrice = -1;
+                break;
+        }
+        while (room <= maxRoom && !edit) {
+            if (!isSameReservation(h, r, r.getCheckInDate(), r.getCheckOutDate(), room)) {
+                r.setRoomNumber(room);
+                editTotalPrice(h, r, roomPrice);
+                edit = true;
+            }
+            
+            room++;
+        }
+
+        return edit;
     }
 
 }

@@ -11,10 +11,10 @@ public class manageHotelController {
     private hotelGuiView gui;
     private createHotelModel model;
     private manageHotelModel model2;
-    private Hotel selectedHotel;
     private Hotel h = null;
-    int roomType;
-
+    private Hotel selectedHotel = null;
+    private int roomType;
+    private Reservation r;
     /**
      * Constructor for the manageHotelController class
      * @param gui - Instance of hotelGuiView
@@ -36,6 +36,14 @@ public class manageHotelController {
         this.gui.addRemoveReservationListener(new removeReservationListener());
         this.gui.addRemoveHotelListener(new addremoveHotelsListener());
         this.gui.addUpdatePriceModifierListener(new updatePriceModiferListener());
+        this.gui.addEditReservationListener(new editReservationListener());
+        this.gui.addEditGuestNameListener(new editGuestNameListener());
+        this.gui.addEditGuestListener(new editGuestListener());
+        this.gui.addEditDatesListener(new editDatesListener());
+        this.gui.addEditDateListener(new editDateListener());
+        this.gui.addEditRoomTypeListener(new editRoomTypeListener());
+        this.gui.addBackButton6Listener(new backButton6listener());
+        
 
     }
 
@@ -143,7 +151,7 @@ public class manageHotelController {
         public void actionPerformed(ActionEvent e) {
 
             if (h.getName() != null) {
-                 int hotelIndex = model2.findHotel(h.getName());
+                int hotelIndex = model2.findHotel(h.getName());
                 h = model.getHotels().get(hotelIndex);
                 int rooms = gui.getRemoveRooms();
                 int confirm = gui.displayConfirmRemoveRooms(rooms);
@@ -258,7 +266,7 @@ public class manageHotelController {
                 while (confirm == JOptionPane.CLOSED_OPTION) {
                     confirm = gui.displayConfirmRemoveHotel(h);
                     if (confirm == JOptionPane.YES_OPTION) {
-                        model2.getHotels().remove(h);
+                        model2.removeHotel(model2.getHotels(), h);
                         gui.displayRemoveHotelMessage(confirm);
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                         
@@ -310,7 +318,146 @@ public class manageHotelController {
             }
         }
     }
-    
+
+    /**
+     * Listener class for the edit reservation button. Redirects to the edit reservation panel when pressed if there are existing hotels.
+     * If no existing hotels, redirects to the home page.
+     */
+    class editReservationListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            selectedHotel = gui.getHotelOptions(model.getHotels());
+            if (selectedHotel != null) 
+                gui.getCardLayout().show(gui.getMainPanel(), "editReservation");
+        }
+    }
+    /**
+     * Listener class for the edit guest name button. Redirects to the edit guest name panel when pressed if there are existing reservations.
+     * If no existing reservations, redirects to the home page.
+     */
+    class editGuestNameListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = gui.getReservationOptions(selectedHotel);
+            if (index >= 0) {
+                r = selectedHotel.getReservations().get(index);
+                gui.getCardLayout().show(gui.getMainPanel(), "editGuest");
+            }
+            
+        }
+    }
+
+    /**
+     * Listener class for the edit guest button. Edits the guest name of a reservation when pressed if confirmed.
+     * Redirects to home page afterwards.
+     */
+    class editGuestListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int confirm = JOptionPane.CLOSED_OPTION;
+            while (confirm == JOptionPane.CLOSED_OPTION) {
+                confirm = gui.displayConfirmEditReservation();
+                if (confirm == JOptionPane.YES_OPTION) {
+                    r.setGuestName(gui.getNewGuestNameField());
+                    gui.displaySuccessEditReservation(1);
+                }
+                else {
+                    gui.displaySuccessEditReservation(0);
+                }
+
+            }
+            gui.clearHotelFields();
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
+        }
+    }
+
+    /**
+     * Listener class for the edit dates name button. Redirects to the edit dates name panel when pressed if there are existing reservations.
+     * If no existing reservations, redirects to the home page.
+     */
+
+    class editDatesListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = gui.getReservationOptions(selectedHotel);
+            if (index >= 0) {   
+                r = selectedHotel.getReservations().get(index);
+                gui.getCardLayout().show(gui.getMainPanel(), "editDates");
+            }
+        }
+    }
+
+    /**
+     * Listener class for the edit button. Edits the check-in and check-out dates of a reservation when pressed if confirmed.
+     * Also updates the total price of booking.
+     * Redirects to home page afterwards.
+     */
+    class editDateListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int confirm = JOptionPane.CLOSED_OPTION;
+            while (confirm == JOptionPane.CLOSED_OPTION) {
+                confirm = gui.displayConfirmEditReservation();
+                if (confirm == JOptionPane.YES_OPTION) {
+                    int room = r.getRoomNumber();
+                    if (model2.findAvailableRoom(selectedHotel, r, gui.getNewCheckIn(), gui.getNewCheckOut())) {
+                        gui.displaySuccessEditReservation(1);
+                        if (room != r.getRoomNumber())
+                            gui.displayMovedRoom(r.getRoomNumber());
+                    }
+                    else {
+                        gui.displayNoRooms();
+                    }
+                        
+                }
+                else {
+                    gui.displaySuccessEditReservation(0);
+                }
+            }
+            gui.clearHotelFields();
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
+        }
+    }
+    /**
+     * Listener class for the edit room type name button. Asks to choose a reservation and a new room type.
+     * If confirmed, changes reservation's room type (room number and price)
+     * If there are no existing reservations, redirect to home page
+     */
+    class editRoomTypeListener implements ActionListener {
+        @Override
+        public void actionPerformed (ActionEvent e) {
+            int index = gui.getReservationOptions(selectedHotel);
+            if (index >= 0) {
+                r = selectedHotel.getReservations().get(index);
+                int roomType = gui.getRoomOptions();
+                int confirm = JOptionPane.CLOSED_OPTION;
+                while (confirm == JOptionPane.CLOSED_OPTION) {
+                    confirm = gui.displayConfirmEditReservation();
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        if (model2.editRoomType(selectedHotel, roomType, r)) {
+                            gui.displaySuccessEditReservation(1);
+                            gui.displayMovedRoom(r.getRoomNumber());
+                        }
+                        else {
+                            gui.displayNoRooms();
+                        }
+                    }
+                    else {
+                        gui.displaySuccessEditReservation(0);
+                    }
+                }
+            }
+
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
+        }
+    }
+
+    class backButton6listener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
+        }
+    }
 
 
 

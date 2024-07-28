@@ -91,6 +91,8 @@ public class viewHotelController {
                         gui.clearHotelFields();
                         gui.getCardLayout().show(gui.getMainPanel(), "home");
                     }
+                } else if(index == -1) {
+                    gui.displayLowLevelInfo(h, index, dayToCheck, roomToCheck, model2);
                 }
             } else {
                 // Show an error message and redirect to the lowLevel panel

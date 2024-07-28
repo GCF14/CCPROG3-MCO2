@@ -202,6 +202,22 @@ public class Hotel {
         }
     }
 
+    /** Gets the room type of a room in the list of rooms in the hotel
+     * Preconditions: Reservation r is initialized
+     * Postconditions: returns an integer
+     * @param r - The reservation to get the room type of
+     * @return 0 if standard room, 1 if deluxe room, 2 if executive room
+     */
+    public int getRoomType(Reservation r) {
+        int room = r.getRoomNumber();
+        if (room >= 1 && room <= this.getRooms().lastStandard())
+            return 0;
+        else if (room >= this.getRooms().firstDeluxe() && room <= this.getRooms().lastDeluxe())
+            return 1;
+        else
+            return 2;
+    }
+
     /**
      * This method returns the total earnings of the hotel from all reservations.
      */
