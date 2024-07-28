@@ -43,28 +43,40 @@ public class hotelGuiView extends JFrame {
 
 
     //Manage Hotel portion
-    private JButton changeName;
+    private JPanel addPanel;
     private JPanel changePanel;
-    private JTextField changeField;
+    private JPanel removePanel;
+    private JPanel updatePricePanel;
+    private JPanel editReservationPanel;
+    private JPanel editGuestPanel;
+    private JPanel editDatesPanel;
+
+    private JButton changeName;
     private JButton changeNewName;
     private JButton addRoom;
-    private JPanel addPanel;
-    private JTextField addField;
     private JButton addNewRooms;
     private JButton removeRoom;
-    private JPanel removePanel;
-    private JTextField removeField;
     private JButton removeNewRooms;
-    private JPanel updatePricePanel;
-    private JTextField updatePriceField;
     private JButton updatePrice;
     private JButton updateBaseRoomPrice;
     private JButton removeReservation;
     private JButton removeHotel;
     private JButton updatePriceModifier;
+    private JButton editReservation;
+    private JButton editGuestName;
+    private JButton editDates;
+    private JButton editRoomType;
+    private JButton editGuestButton;
+    private JButton editDatesButton;
     
-
-
+    private JTextField changeField;
+    private JTextField addField;
+    private JTextField removeField;
+    private JTextField updatePriceField;
+    private JTextField editGuestField;
+    private JTextField editCheckInField;
+    private JTextField editCheckOutField;
+    
     //Simulate Booking portion
     private JTextField customerNameField;
     private JTextField checkInField;
@@ -357,13 +369,21 @@ public class hotelGuiView extends JFrame {
         manageHotelPanel.add(removeHotel);
 
         updatePriceModifier = new JButton("Update Price Modifier");
-        updatePriceModifier.setBounds(manageButtonX2, 220, manageButtonWidth, 50);
+        updatePriceModifier.setBounds(manageButtonX2, 220, manageButtonWidth, manageButtonHeight);
         updatePriceModifier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         updatePriceModifier.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(updatePriceModifier);
 
+        editReservation = new JButton("Edit Reservation");
+        editReservation.setBounds(manageButtonX2, 290, manageButtonWidth, manageButtonHeight);
+        editReservation.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editReservation.setFont(new Font("Arial", Font.BOLD, 20));
+
+        manageHotelPanel.add(editReservation);
+
         mainPanel.add(manageHotelPanel, "manageHotel");
+
 
 
         // Initialization of changePanel with text field and label
@@ -487,7 +507,85 @@ public class hotelGuiView extends JFrame {
         // Add the panel to the main panel
         mainPanel.add(updatePricePanel, "updatePricePanel");
 
-        
+        editReservationPanel = new JPanel();    
+        editReservationPanel.setLayout(null);
+
+        JLabel editReservationLabel = new JLabel("Edit Reservation", JLabel.CENTER);
+        editReservationLabel.setFont(new Font(editReservationLabel.getFont().getName(), editReservationLabel.getFont().getStyle(), 35));
+        editReservationLabel.setBounds(200, 50, 400, 50);
+        editReservationPanel.add(editReservationLabel);
+        // Choose what to edit: guest name, days, room type
+        editGuestName = new JButton("Edit Guest Name");
+        editGuestName.setFont(new Font("Arial", Font.BOLD, 20));
+        editGuestName.setBounds(manageButtonMidX, 150, manageButtonWidth, manageButtonHeight);
+        editReservationPanel.add(editGuestName);
+
+        editDates = new JButton("Edit Reservation Dates");
+        editDates.setFont(new Font("Arial", Font.BOLD, 20));
+        editDates.setBounds(manageButtonMidX, 220, manageButtonWidth, manageButtonHeight);
+        editReservationPanel.add(editDates);
+
+        editRoomType = new JButton("Edit Room Type");
+        editRoomType.setFont(new Font("Arial", Font.BOLD, 20));
+        editRoomType.setBounds(manageButtonMidX, 290, manageButtonWidth, manageButtonHeight);
+        editReservationPanel.add(editRoomType);
+
+        mainPanel.add(editReservationPanel, "editReservation");
+
+        int editButtonW = 200;
+        int editButtonH = 50;
+        int editButtonX = (panelWidth - editButtonW) / 2;
+        // Components for edit guest name
+        editGuestPanel = new JPanel();
+        editGuestPanel.setLayout(null);
+
+        JLabel newGuestName = new JLabel("New Guest Name:");
+        newGuestName.setFont(new Font("Arial", Font.BOLD, 20));
+        newGuestName.setBounds(manageButtonX1 + 50, 200, 200, 30);
+        editGuestPanel.add(newGuestName);
+
+        editGuestField = new JTextField();
+        editGuestField.setBounds(manageButtonX1 + 250, 200, 200, 35);
+        editGuestPanel.add(editGuestField);
+
+        editGuestButton = new JButton("Edit Reservation");
+        editGuestButton.setBounds(editButtonX, 300, editButtonW, editButtonH); // Adjusted to center the button
+        editGuestButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editGuestButton.setFont(new Font("Arial", Font.BOLD, 20));
+        editGuestPanel.add(editGuestButton);
+
+        mainPanel.add(editGuestPanel, "editGuest");
+
+        // Edit dates
+        editDatesPanel = new JPanel();
+        editDatesPanel.setLayout(null);
+
+        JLabel newCheckIn = new JLabel("New Check-In Date:");
+        newCheckIn.setFont(new Font("Arial", Font.BOLD, 20));
+        newCheckIn.setBounds(manageButtonX1 + 40, 200, 200, 30);
+        editDatesPanel.add(newCheckIn);
+
+        editCheckInField = new JTextField();
+        editCheckInField.setBounds(manageButtonX1 + 250, 200, 200, 35);
+        editDatesPanel.add(editCheckInField);
+
+        JLabel newCheckOut = new JLabel("New Check-Out Date:");
+        newCheckOut.setFont(new Font("Arial", Font.BOLD, 20));
+        newCheckOut.setBounds(manageButtonX1 + 40, 250, 250, 30);
+        editDatesPanel.add(newCheckOut);
+
+        editCheckOutField = new JTextField();
+        editCheckOutField.setBounds(manageButtonX1 + 250, 250, 200, 35);
+        editDatesPanel.add(editCheckOutField);
+
+        editDatesButton = new JButton("Edit Reservation");
+        editDatesButton.setBounds(editButtonX, 450, editButtonW, editButtonH); // Adjusted to center the button
+        editDatesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editDatesButton.setFont(new Font("Arial", Font.BOLD, 20));
+        editDatesPanel.add(editDatesButton);
+
+        mainPanel.add(editDatesPanel, "editDates");
+
         // Simulate Booking Portion
         JPanel simulateBookingPanel = new JPanel(null);
         JLabel simulateBookingTitle = new JLabel("Simulate Booking", JLabel.CENTER);
@@ -976,6 +1074,18 @@ public class hotelGuiView extends JFrame {
         customerNameField.setText(name);
     }
 
+    public void setEditGuestField(String name) {
+        editGuestField.setText(name);
+    }
+
+    public void setEditCheckInField(int checkIn) {
+        editCheckInField.setText(String.valueOf(checkIn));
+    }
+
+    public void setEditCheckOutField(int checkOut) {
+        editCheckOutField.setText(String.valueOf(checkOut));
+    }
+
     public void clearHotelFields() {
         setHotelName("");
         setStandardRooms(0);
@@ -989,6 +1099,9 @@ public class hotelGuiView extends JFrame {
         setCheckOutFields(0);
         setDayField(0);
         setRoomCheckField(0);
+        setEditGuestField("");
+        setEditCheckInField(0);
+        setEditCheckOutField(0);
     }
 
 
@@ -1015,10 +1128,8 @@ public class hotelGuiView extends JFrame {
         // Check the user's response
         if (response == JOptionPane.OK_OPTION) {
             return 1;
-            // Add your logic for the OK option here
         } else if (response == JOptionPane.CANCEL_OPTION) {
             return -1;
-            // Add your logic for the Cancel option here
         } else {
             return -1;
         }
@@ -1220,7 +1331,6 @@ public class hotelGuiView extends JFrame {
         updatePriceModifier.addActionListener(listener);
     }
 
-
     public boolean displayEnterPriceModifier(Hotel h) {
         try {
             String input = JOptionPane.showInputDialog(null, "Please enter the day for which you want to change the price rate:", "Price Rate Modifier", JOptionPane.QUESTION_MESSAGE);
@@ -1271,6 +1381,41 @@ public class hotelGuiView extends JFrame {
 
     public void setRoomCheckField(int num){
         roomCheckField.setText(String.valueOf(num));
+    }
+
+    public void addEditReservationListener(ActionListener listener) {
+        editReservation.addActionListener(listener);
+    }
+
+    public void addEditGuestNameListener(ActionListener listener) {
+        editGuestName.addActionListener(listener);
+    }
+
+    public void addEditDatesListener(ActionListener listener) {
+        editDates.addActionListener(listener);
+    }
+
+    public void addEditRoomTypeListener(ActionListener listener) {
+        editRoomType.addActionListener(listener);
+    }
+    
+    public void addEditGuestListener(ActionListener listener) {
+        editGuestButton.addActionListener(listener);
+    }
+
+    public void addEditDateListener(ActionListener listener) {
+        editDatesButton.addActionListener(listener);
+    }
+    public String getNewGuestNameField() {
+        return editGuestField.getText();
+    }
+
+    public int getNewCheckIn() {
+        return Integer.parseInt(editCheckInField.getText());
+    }
+
+    public int getNewCheckOut() {
+        return Integer.parseInt(editCheckOutField.getText());
     }
 
     public void addViewLowLevelListener(ActionListener listener){
@@ -1366,6 +1511,23 @@ public class hotelGuiView extends JFrame {
         confirm = JOptionPane.showConfirmDialog(this, "Remove reservation of " + h.getReservations().get(index).getGuestName() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
         return confirm;
     }
+
+    public int displayConfirmEditReservation() {
+        int confirm;
+        confirm = JOptionPane.showConfirmDialog(this, "Edit Reservation?", "Confirm", JOptionPane.YES_NO_OPTION);
+        return confirm;
+    }
+
+    public void displaySuccessEditReservation(int x) {
+        if (x == 1)
+            JOptionPane.showMessageDialog(this, "Reservation successfully edited.");
+        else
+            JOptionPane.showMessageDialog(this, "Edit reservation unsuccessful");
+    }
+
+    public void displayMovedRoom(int room) {
+        JOptionPane.showMessageDialog(this, "Reservation moved to room " + room);
+    }   
 
     public void displaySuccessReservationRemoved(){
         JOptionPane.showMessageDialog(this, "Reservation successfully removed.");

@@ -73,4 +73,24 @@ public class Reservation {
         return this.totalPrice;
     }
 
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    public void setCheckInDate(int checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public void setCheckOutDate(int checkOutDate) {
+        this.checkOutDate = checkOutDate;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
 }
