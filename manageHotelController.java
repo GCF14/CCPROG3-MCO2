@@ -292,30 +292,15 @@ public class manageHotelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             Hotel h = gui.getHotelOptions(model.getHotels());
-            if (h != null && h.getName() != null && gui.displayEnterPriceModifier(h) != false) {
-                int confirm = JOptionPane.CLOSED_OPTION;
-                while (confirm == JOptionPane.CLOSED_OPTION) {
-                    gui.displayEnterPriceModifier(h);
-                    confirm = gui.displayConfirmUpdatePrice();
-                    
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        gui.displayPriceRateMessage(1);
-                        gui.getCardLayout().show(gui.getMainPanel(), "home");
-                        
-                    } else {
-                        gui.displayPriceRateMessage(2);
-                        gui.getCardLayout().show(gui.getMainPanel(), "manageHotel");
-                        
-                    }
-                }
-            } else if (model.getHotels().isEmpty()) {
-                gui.getCardLayout().show(gui.getMainPanel(), "home");
-                
-            } else {
-                gui.displayPriceRateMessage(3);
-                gui.getCardLayout().show(gui.getMainPanel(), "home");
-                
-            }
+            if (h != null && h.getName() != null) {
+                boolean check = gui.displayEnterPriceModifier(h);         
+                if (check) 
+                    gui.displayPriceRateMessage(1);
+                else 
+                    gui.displayPriceRateMessage(2);
+            }   
+            
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
         }
     }
 

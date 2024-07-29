@@ -208,8 +208,7 @@ public class Hotel {
      * @param r - The reservation to get the room type of
      * @return 0 if standard room, 1 if deluxe room, 2 if executive room
      */
-    public int getRoomType(Reservation r) {
-        int room = r.getRoomNumber();
+    public int getRoomType(int room) {
         if (room >= 1 && room <= this.getRooms().lastStandard())
             return 0;
         else if (room >= this.getRooms().firstDeluxe() && room <= this.getRooms().lastDeluxe())

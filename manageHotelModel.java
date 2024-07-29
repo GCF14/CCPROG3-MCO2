@@ -216,9 +216,25 @@ public class manageHotelModel {
      */
     public void editTotalPrice(Hotel h, Reservation r, float roomPrice) {
         float totalPrice = 0;
+        
         for (int i = r.getCheckInDate(); i < r.getCheckOutDate(); i++) {
             totalPrice += roomPrice * h.getDatePriceModifiers(i);
         }
+
+        switch (r.getDiscountCode()) {
+            case 1:
+                totalPrice *= 0.9;
+                break;
+            case 2:
+                if (r.getCheckOutDate() - r.getCheckInDate() >= 4)
+                    totalPrice -= roomPrice;
+                break;
+            case 3:
+                if (r.getCheckInDate() <= 15 && r.getCheckOutDate() > 15 || r.getCheckInDate() <= 30 && r.getCheckOutDate() > 30)
+                    totalPrice *= 0.97;
+                break;
+        }
+
         r.setTotalPrice(totalPrice);
     }
     /** Checks if the days are booked in a hotel, not including a certain Reservation r
@@ -258,7 +274,7 @@ public class manageHotelModel {
     public boolean findAvailableRoom(Hotel h, Reservation r, int checkIn, int checkOut) {
         int room, maxRoom;
         float roomPrice;
-        int roomType = h.getRoomType(r);
+        int roomType = h.getRoomType(r.getRoomNumber());
         if (roomType == 0) { // Standard Room
             room = 1;
             maxRoom = h.getRooms().lastStandard();
@@ -326,6 +342,9 @@ public class manageHotelModel {
             if (!isSameReservation(h, r, r.getCheckInDate(), r.getCheckOutDate(), room)) {
                 r.setRoomNumber(room);
                 editTotalPrice(h, r, roomPrice);
+
+                
+
                 edit = true;
             }
             

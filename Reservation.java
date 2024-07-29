@@ -1,7 +1,7 @@
 // package prog_mco2;
 
 
-/**Reservation class that contains the guest name, check in date, check out date, and room number.
+/**Reservation class that contains the guest name, check in date, check out date, room number, and total price of booking.
  */
 public class Reservation {
 
@@ -10,6 +10,7 @@ public class Reservation {
     private int checkOutDate;
     private int roomNumber;
     private float totalPrice;
+    private int discountCode;
 
     /** Constructor for Reservation
      * Preconditions: guestName is a String, checkInDate is an integer, checkOutDate is an integer, roomNumber is an integer
@@ -19,13 +20,15 @@ public class Reservation {
      * @param checkOutDate - The check out date of the guest
      * @param roomNumber - The room number of the guest
      * @param totalPrice - The total price of the booking
+     * @param discountCode - Integer to represent a discount code
      */
-    public Reservation(String guestName, int checkInDate, int checkOutDate, int roomNumber, float totalPrice) {
+    public Reservation(String guestName, int checkInDate, int checkOutDate, int roomNumber, float totalPrice, int discountCode) {
         this.guestName = guestName;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomNumber = roomNumber;
         this.totalPrice = totalPrice;
+        this.discountCode = discountCode;
     }
 
     /** Returns the name of the guest
@@ -71,6 +74,15 @@ public class Reservation {
      */
     public float getTotalPrice() {
         return this.totalPrice;
+    }
+
+    /** Returns the discount code of the booking
+     * Preconditions: Instance of Reservation is initialized
+     * Postconditions: returns an integer
+     * @return discountCode - The discount code used in the booking
+     */
+    public int getDiscountCode() {
+        return this.discountCode;
     }
 
     /**

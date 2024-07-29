@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * This class represents the model for simulating a booking in a hotel.
  */
-public class SimulateBookingModel {
+public class SimulateBookingModel extends SimulateBooking{
 
     private hotelGuiView gui;
     private manageHotelModel model2;
@@ -20,48 +20,28 @@ public class SimulateBookingModel {
         this.model2 = model2;
     }
     
-
-    /** Checks if the days are booked in a hotel
-     * Preconditions: h is an instance of Hotel, checkIn, checkOut, and room are integers
-     * Postconditions: returns a boolean
-     * @param h - Instance of Hotel
-     * @param checkIn - The check-in date
-     * @param checkOut - The check-out date
-     * @param room - The room number
-     * @return boolean - True if the days are booked, false otherwise
-     */
-    public boolean areDaysBooked(Hotel h, int checkIn, int checkOut, int room) {
-        for (int i = 0; i < h.getReservations().size(); i++) {
-            Reservation reservation = h.getReservations().get(i);
-            if (reservation.getRoomNumber() == room) {
-                // Check for overlap with existing reservation
-                if (!(checkIn >= reservation.getCheckOutDate() || checkOut < reservation.getCheckInDate())) {
-                    return true;
-                } 
-                    
-            }
-        }
-        return false;
-    }
-        
-    
     /** Books a room in a hotel
      * Preconditions: hotels is an ArrayList of Hotels and instance hotels is initialized
-     * Postconditions: A room is booked in a hotel
+     * Postconditions: A room is booked in a hotel if certain conditions are met
      * @param hotels - ArrayList of hotels which contains all the hotels
+     * @param h - Hotel to be booked
+     * @param customerName - Name of the customer
+     * @param checkInDate - Check in date of the booking
+     * @param checkOutDate - Check out date of the booking
      */
     public void booking(ArrayList<Hotel> hotels, Hotel h, String customerName, int checkInDate, int checkOutDate) { 
         String code;
         int roomType = 0;
     
         roomType = gui.getRoomOptions();
-        if (h != null && roomType >= 0) { // just fixed it so that theres no return statement in the else :v
+        if (h != null && roomType >= 0) { 
             if(gui.validateCheckDates()){
                 
                 boolean bookedRoom = false;
         
                 int room, maxRoom;
                 float roomPrice;
+                int discount;
         
                 switch(roomType) {
                     case 0:
@@ -92,30 +72,36 @@ public class SimulateBookingModel {
                 }
                 
                 code = gui.displayEnterDiscount();
-                if(code.equals("") || code == null){
-                    gui.displayCodeNotFound();
-                } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == -1){
-                    gui.displayCodeNotFound();
-                }
-                
+                int coupon = 0;
+                if (!(code.equals("") || code == null))
+                    coupon = gui.checkCoupon(code, checkInDate, checkOutDate);
+            
                 while(room <= maxRoom && !bookedRoom) {
                     if (!areDaysBooked(hotels.get(model2.findHotel(h.getName())), checkInDate, checkOutDate, room)) {
                         
                         // Apply discount code
-                        if (gui.checkCoupon(code, checkInDate, checkOutDate) == 1) {
-                            totalPrice *= 0.9;
-                        } else if (gui.checkCoupon(code, checkInDate, checkOutDate) == 2) {
-                            totalPrice -= roomPrice;
-                        } else if(gui.checkCoupon(code, checkInDate, checkOutDate) == 4){
-                            totalPrice *= 0.93;
+                        switch (coupon) {
+                            case 1:
+                                totalPrice *= 0.9;
+                                discount = 1;
+                                break;
+                            case 2:
+                                totalPrice -= roomPrice;
+                                discount = 2;
+                                break;
+                            case 3:
+                                totalPrice *= 0.93;
+                                discount = 3;
+                                break;
+                            default:
+                                discount = -1;
+                                break;
                         }
-
-                           
-                        Reservation newReservation = new Reservation(customerName, checkInDate, checkOutDate, room, totalPrice);
+                                                   
+                        Reservation newReservation = new Reservation(customerName, checkInDate, checkOutDate, room, totalPrice, discount);
                         hotels.get(model2.findHotel(h.getName())).addReservation(newReservation);
                         gui.displaySuccessBooking();
                         bookedRoom = true;
-                        System.out.println("Room booked successfully: Room " + room);
                     }
         
                     room++;
@@ -123,17 +109,13 @@ public class SimulateBookingModel {
         
                 if (!bookedRoom) {
                     gui.displayNoRooms();
-                    gui.getCardLayout().show(gui.getMainPanel(), "home");
                 }
 
             } else {
                 gui.displayValidCheckDates();
                 gui.clearHotelFields();
-                gui.getCardLayout().show(gui.getMainPanel(), "home");
             }
-        } else {
-            gui.getCardLayout().show(gui.getMainPanel(), "home");
-        }
+        } 
     }
     
     

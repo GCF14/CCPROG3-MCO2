@@ -12,6 +12,7 @@ public class viewHotelController {
     private createHotelModel model;
     private viewHotelModel model2;
     private Hotel h;
+    private Reservation r;
 
     /**
      * Constructs a viewHotelController object with the specified view and model.
@@ -30,6 +31,8 @@ public class viewHotelController {
         this.gui.addBackToViewHotelFromLowLevelListener(new addBacktoViewHotelListener());
         this.gui.addViewLowLevelListener(new addViewLowListener());
         this.gui.addLowLevelButton(new addLowLevelListener());
+        this.gui.addViewBreakdownListener(new viewBreakdownListener());
+        this.gui.addBackToViewHotelFromLowLevelListener2(new addBacktoViewHotelListener2());
     }
 
     /**
@@ -49,6 +52,16 @@ public class viewHotelController {
      * Listener class for the back to view hotel button. Shows the view hotel panel when the button is pressed.
      */
     class addBacktoViewHotelListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getCardLayout().show(gui.getMainPanel(), "viewHotel");
+        }
+    }
+
+    /**
+     * Listener class for the back to view hotel button. Shows the view hotel panel when the button is pressed.
+     */
+    class addBacktoViewHotelListener2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.getCardLayout().show(gui.getMainPanel(), "viewHotel");
@@ -86,6 +99,7 @@ public class viewHotelController {
                     if (confirm == JOptionPane.YES_OPTION) {
                         gui.clearHotelFields();
                         gui.displayLowLevelInfo(h, index, dayToCheck, roomToCheck, model2);
+                        r = h.getReservations().get(index);
                     } else {
                         // Redirect to the lowLevel panel if the user cancels
                         gui.clearHotelFields();
@@ -100,6 +114,17 @@ public class viewHotelController {
                 gui.clearHotelFields();
                 gui.getCardLayout().show(gui.getMainPanel(), "lowLevel");
             }
+        }
+    }
+
+    class viewBreakdownListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int size = r.getCheckOutDate() - r.getCheckInDate();
+            float[] prices = new float[size];
+            prices = model2.getPriceBreakdown(h, r);
+
+            gui.displayPriceBreakdown(prices);
         }
     }
     

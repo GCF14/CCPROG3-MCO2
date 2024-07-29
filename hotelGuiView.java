@@ -30,16 +30,21 @@ public class hotelGuiView extends JFrame {
     private JButton createButton;
 
     // View Hotel portion
+    private JPanel highLevelPanel;
+    private JPanel showLowLevelPanel;
+    private JPanel lowLevelPanel;
+
     private JButton highLevelButton;
     private JButton lowLevelButton;
     private JButton backToViewHotelFromHighLevel;
     private JButton backToViewHotelFromLowLevel;
-    private JPanel highLevelPanel;
-    private JPanel showLowLevelPanel;
-    private JPanel lowLevelPanel;
+    private JButton backToViewHotelFromLowLevel2;
+    private JButton viewLowButton;
+    private JButton viewBreakdownButton;
+    
     private JTextField dayField;
     private JTextField roomCheckField;
-    private JButton viewLowButton;
+    
 
 
     //Manage Hotel portion
@@ -276,7 +281,6 @@ public class hotelGuiView extends JFrame {
         backToViewHotelFromLowLevel.setFont(new Font("Arial", Font.BOLD, 16));
         lowLevelPanel.add(backToViewHotelFromLowLevel);
 
-
         JLabel dayLabel = new JLabel("Enter day to check:");
         dayLabel.setFont(new Font(dayLabel.getFont().getName(), dayLabel.getFont().getStyle(), 22));
         dayLabel.setBounds(90, 150, 300, 30);
@@ -310,6 +314,11 @@ public class hotelGuiView extends JFrame {
         showLowLevelPanel.add(lowLevelLabel2);
         mainPanel.add(showLowLevelPanel, "showLowLevel");
 
+        viewBreakdownButton = new JButton("View Price Breakdown");
+        viewBreakdownButton.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        backToViewHotelFromLowLevel2 = new JButton("Back");
+        backToViewHotelFromLowLevel2.setFont(new Font("Arial", Font.BOLD, 16));
 
         // Manage Hotel portion
         JPanel manageHotelPanel = new JPanel(null);
@@ -1037,7 +1046,7 @@ public class hotelGuiView extends JFrame {
             // Room and Guest Information
             JPanel roomGuestPanel = new JPanel();
             roomGuestPanel.setLayout(null);
-            roomGuestPanel.setBounds(10, 70, 380, 400);  // Set position and size
+            roomGuestPanel.setBounds(10, 70, 380, 450);  // Set position and size
             lowLevelContentPanel.add(roomGuestPanel);
     
             JLabel roomInfoLabel = new JLabel("Room Information");
@@ -1099,6 +1108,11 @@ public class hotelGuiView extends JFrame {
                 totalPriceLabel.setFont(new Font("Arial", Font.PLAIN, 18));
                 totalPriceLabel.setBounds(10, 370, 360, 25);
                 roomGuestPanel.add(totalPriceLabel);
+                
+                viewBreakdownButton.setBounds(10, 400, 250, 30);
+                roomGuestPanel.add(viewBreakdownButton);
+                
+
             } else {
                 JLabel noInfoLabel = new JLabel("No Reservation Information Available");
                 noInfoLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -1131,8 +1145,8 @@ public class hotelGuiView extends JFrame {
             }
     
             // Back button
-            backToViewHotelFromLowLevel.setBounds(650, 520, 120, 30);
-            lowLevelContentPanel.add(backToViewHotelFromLowLevel);
+            backToViewHotelFromLowLevel2.setBounds(650, 520, 120, 30);
+            lowLevelContentPanel.add(backToViewHotelFromLowLevel2);
     
             showLowLevelPanel.removeAll(); // Clear previous components
             showLowLevelPanel.add(lowLevelContentPanel);
@@ -1143,7 +1157,36 @@ public class hotelGuiView extends JFrame {
             getCardLayout().show(getMainPanel(), "showLowLevel");
         }
     }
-    
+
+    /**
+     * Function to add a listener to the view price breakdown button
+     * @param listener - the action listener
+     */
+    public void addViewBreakdownListener(ActionListener listener) {
+        viewBreakdownButton.addActionListener(listener);
+    }
+
+    /**
+     * Function to add a listener to the back button in view low level info
+     * @param listener - the action listener
+     */
+    public void addBackToViewHotelFromLowLevelListener2(ActionListener listener) {
+        backToViewHotelFromLowLevel2.addActionListener(listener);
+    }
+
+    /**
+     * Method to display the price breakdown per day in a message dialog
+     * @param prices - 1d float array to contain the price per day
+     */
+    public void displayPriceBreakdown(float[] prices) {
+        String[] display = new String[prices.length];
+
+        for (int i = 0; i < prices.length; i++) {
+            display[i] = "Day " + (i+1) + ": " + prices[i];
+        }
+
+        JOptionPane.showMessageDialog(null, display);
+    }
 
     /**
      * Function to set the hotel name in the text field
@@ -1479,7 +1522,7 @@ public class hotelGuiView extends JFrame {
             } else {
                 // Handle the case where the user canceled the input dialog
                 JOptionPane.showMessageDialog(null, "Enter Discount code Cancelled");
-                return ""; // Indicate to stop the booking process
+                return ""; // Proceed without discount code
             }
         } else {
             // Handle the case where the user chose not to input a discount code
@@ -1491,7 +1534,7 @@ public class hotelGuiView extends JFrame {
     
     /**
      * Function to get the check in field
-     * @ return int - the check date
+     * @return int - the check date
      */
     public int getCheckInField(){
         return Integer.parseInt(checkInField.getText());
@@ -1499,7 +1542,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the check out field
-     * @ return int - the check out date
+     * @return int - the check out date
      */
     public int getCheckOutField(){
         return Integer.parseInt(checkOutField.getText());
@@ -1517,7 +1560,7 @@ public class hotelGuiView extends JFrame {
      * @param code - the code to check
      * @param checkInDate - the check in date
      * @param checkOutDate - the check out date
-     * @ return int - the result signifying the coupon code used
+     * @return int - the result signifying the coupon code used (1 - I_WORK_HERE; 2 - STAY4_GET1; 3 - PAYDAY)
      */
     public int checkCoupon(String code, int checkInDate, int checkOutDate){
         if (code.equals("I_WORK_HERE")) {
@@ -1534,13 +1577,14 @@ public class hotelGuiView extends JFrame {
         } else if (code.equals("PAYDAY")) {
             if (checkInDate <= 15 && checkOutDate > 15 || checkInDate <= 30 && checkOutDate > 30) { // If stay contains day 15 / 30
                 JOptionPane.showMessageDialog(null, "7% discount applied.");
-                return 4;
+                return 3;
             } else {
                 JOptionPane.showMessageDialog(null, "Reservation is inelligible for discount code.");
                 return -1;
             }
         } else {
-            return -1;
+            displayCodeNotFound();
+            return 0;
         }
 
     }
@@ -1583,7 +1627,7 @@ public class hotelGuiView extends JFrame {
     }
 
     /**
-     * Function to display the enter price modifier
+     * Function to display the enter price modifier and edit the price modifier of a specific day if certain conditions are met
      * @param h - the hotel instance
      * @return boolean - the result of the display
      */
@@ -1613,8 +1657,13 @@ public class hotelGuiView extends JFrame {
                 getCardLayout().show(getMainPanel(), "manageHotel");
                 return false;
             } else {
-                h.setDatePriceModifier(day, newPriceRate / 100);
-                return true;
+                int confirm = displayConfirmUpdatePrice();
+                if (confirm == JOptionPane.YES_OPTION) {
+                    h.setDatePriceModifier(day, newPriceRate / 100);
+                    return true;
+                }
+                else 
+                    return false;
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Invalid price rate. Please enter a valid integer.");
