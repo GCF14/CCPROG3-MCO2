@@ -715,6 +715,10 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    public void displayHotelExists() {
+        JOptionPane.showMessageDialog(this, "Hotel already exists.");
+    }
+
     /**
      * Function to add a listener to the create hotel button
      * @param listener - the action listener to add

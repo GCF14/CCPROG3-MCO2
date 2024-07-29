@@ -197,7 +197,6 @@ public class Hotel {
         if (index >= 0 && index < this.rooms.getTotal()) {
             return this.rooms.getRoomNames().get(index);
         } else {
-            System.out.printf("Index out of bounds. Cannot get room name.\n");
             return -1;
         }
     }
@@ -219,6 +218,7 @@ public class Hotel {
 
     /**
      * This method returns the total earnings of the hotel from all reservations.
+     * @return result - the total earnings from all reservations of the hotel
      */
     public float getTotalEarnings() {
         float result = 0;

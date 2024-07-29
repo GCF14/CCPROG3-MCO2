@@ -5,7 +5,6 @@ import java.util.ArrayList;
  */
 public class manageHotelModel {
     private ArrayList<Hotel> hotels;
-    private String selectedHotel;
 
     /** Constructor for manageHotelModel
      * Preconditions: hotels is an ArrayList of Hotels
@@ -25,24 +24,6 @@ public class manageHotelModel {
         return this.hotels;
     }
 
-    /** Sets selectedHotel
-     * Preconditions: hotels is an ArrayList of Hotels
-     * Postconditions: The list of hotels is set
-     * @param hotels - ArrayList of hotels which contains all the hotels
-     */
-    public void setSelectedHotel(String selectedHotel) {
-        this.selectedHotel = selectedHotel;
-    }
-
-    /** Returns the selected hotel
-     * Preconditions: selectedHotel is a String
-     * Postconditions: returns a String
-     * @return selectedHotel - The selected hotel
-     */
-    public String getSelectedHotel() {
-        return this.selectedHotel;
-    }
-
     /** Finds the index of the hotel in the ArrayList of hotels
      * Preconditions: h is an ArrayList of Hotels and name is a String
      * Postconditions: returns an integer
@@ -57,6 +38,22 @@ public class manageHotelModel {
             }
         }
         return -1;
+    }
+
+    /**
+     * If there is no existing hotel with the same name, it will change the name of the hotel to that name
+     * @param h - Hotel whose name is to be changed
+     * @param name - New hotel name
+     * @return true if name was changed, false if not
+     */
+    public boolean setHotelName(Hotel h, String name) {
+        if (findHotel(name) == -1) {
+            h.setName(name);
+            return true;
+        }
+        else
+            return false;
+
     }
 
     /** Moves the room numbers of the reservations above a certain room number to account for removed/added rooms before it

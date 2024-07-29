@@ -68,26 +68,28 @@ public class manageHotelController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (selectedHotel != null) {
-                int index = model2.findHotel(selectedHotel.getName());
                 String newName = gui.getNewName();
                 
                 if (newName == null || newName.trim().isEmpty()) {
                     gui.displayFillOut();  // Call method to display message
                     gui.getCardLayout().show(gui.getMainPanel(), "changePanel");
                 } else {
-                    model.getHotels().get(index).setName(newName);
                     if(gui.displayConfirm() == 1){
-                        gui.displayvalid();
-                        gui.getCardLayout().show(gui.getMainPanel(), "home");
-                        gui.clearHotelFields();
+                        if (model2.setHotelName(selectedHotel, newName)) {
+                            gui.displayvalid();
+                        }
+                        else {
+                            gui.displayHotelExists();
+                        }
                     } else {
                         gui.displayInvalid();
-                        gui.getCardLayout().show(gui.getMainPanel(), "changePanel");
                     }
                 }
                 
                 
             }
+            gui.getCardLayout().show(gui.getMainPanel(), "home");
+            gui.clearHotelFields();
         }
     }
 
