@@ -1398,7 +1398,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the room options
-     * @return int - the room options
+     * @return int - the room options (0 - Standard, 1 - Deluxe, 2 - Executive)
      */
     public int getRoomOptions() {
         String[] options = {"Standard", "Deluxe", "Executive"};

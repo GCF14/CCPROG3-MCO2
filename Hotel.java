@@ -185,7 +185,7 @@ public class Hotel {
             return false;
         }
     
-        }
+    }
 
     /** Gets the name of a room in the list of rooms in the hotel
      * Preconditions: index is an integer

@@ -59,6 +59,17 @@ public class manageHotelModel {
         return -1;
     }
 
+    /** Moves the room numbers of the reservations above a certain room number to account for removed/added rooms before it
+     * @param h - Instance of Hotel that contains the reservations to edit
+     * @param roomNum - Threshold for room numbers of reservations
+     * @param ctr - Number of room numbers to move
+     */
+    public void setReservationRooms(Hotel h, int roomNum, int ctr) {
+        for (int i = 0; i < h.getNumOfReservations(); i++) {
+            if (h.getReservations().get(i).getRoomNumber() > roomNum)
+                h.getReservations().get(i).setRoomNumber(h.getReservations().get(i).getRoomNumber() - ctr);
+        }
+    }
     
     /** Adds rooms to the hotel
      * Preconditions: hotels is an initialized ArrayList of Hotels
@@ -86,6 +97,17 @@ public class manageHotelModel {
            ctr++;
            hotel.getRooms().addRoomNames();
        }
+       switch (roomType) {
+            case 0:
+                setReservationRooms(hotel, hotel.getRooms().getStandard() - ctr, -ctr);
+                break;  
+            case 1:
+                setReservationRooms(hotel, hotel.getRooms().getDeluxe() - ctr, -ctr);
+                break;
+            case 2:
+                setReservationRooms(hotel, hotel.getRooms().getExecutive() - ctr, -ctr);
+                break;
+       }
 
        return ctr;
     }
@@ -102,52 +124,68 @@ public class manageHotelModel {
     public int removeRooms(Hotel hotel, int roomType, int rooms) {
         int ctr = 0;
         boolean found;
-        int x = hotel.getRooms().getTotal();
-
-        int y = 0;
+        int total = hotel.getRooms().getTotal();
+        int numRooms = 0, firstRoom = 0, lastRoom = 0;
+        
         switch (roomType) {
             case 0:
-                y = hotel.getRooms().getStandard();
+                firstRoom = 1;
+                lastRoom = hotel.getRooms().getStandard();
+                numRooms = hotel.getRooms().getStandard();
                 break;
             case 1:
-                y = hotel.getRooms().getDeluxe();
-                break;
+                firstRoom = hotel.getRooms().firstDeluxe();
+                lastRoom = hotel.getRooms().lastDeluxe(); 
+                numRooms = hotel.getRooms().getDeluxe();
+                break; 
             case 2:
-                y = hotel.getRooms().getExecutive();
+                firstRoom = hotel.getRooms().firstExecutive();
+                lastRoom = hotel.getRooms().lastExecutive();
+                numRooms = hotel.getRooms().getExecutive();
                 break;
         }
 
-
-
-
-        while (x > 1 && y > 0 && rooms > 0) { 
+        while (total > 1 && rooms > 0 && numRooms > 0 && lastRoom >= firstRoom) { 
             found = false;
             for (int i = 0; i < hotel.getNumOfReservations() && !found; i++) { // If a room has a reservation, skip the room
-                if (hotel.getReservations().get(i).getRoomNumber() == x) {
+                if (hotel.getReservations().get(i).getRoomNumber() == lastRoom) { 
                     found = true;
-                    x--;
+                    lastRoom--;
                 }
             }
             if (!found) {
-                hotel.removeRoom(x);
+                hotel.removeRoom(lastRoom);
                 rooms--;
                 ctr++;
-                x--;
-                y--;
+                total--;
+                lastRoom--;
+                numRooms--;
+                
             }
         }
-        switch(roomType) {
+        switch(roomType) { 
             case 0:
                 hotel.getRooms().setStandard(hotel.getRooms().getStandard() - ctr);
-                
                 break;
             case 1:
                 hotel.getRooms().setDeluxe(hotel.getRooms().getDeluxe() - ctr);
-                
                 break;
             case 2:
-                hotel.getRooms().setExecutive(hotel.getRooms().getExecutive() - ctr);
-               
+                hotel.getRooms().setExecutive(hotel.getRooms().getExecutive() - ctr); 
+                break;
+        }
+
+        hotel.getRooms().resetRoomNames();
+
+        switch (roomType) {
+            case 0:
+                setReservationRooms(hotel, hotel.getRooms().getStandard() + ctr, ctr);
+                break;  
+            case 1:
+                setReservationRooms(hotel, hotel.getRooms().getDeluxe() + ctr, ctr);
+                break;
+            case 2:
+                setReservationRooms(hotel, hotel.getRooms().getExecutive() + ctr, ctr);
                 break;
         }
     

@@ -104,11 +104,18 @@ public class Rooms {
     public void addRoomNames() {
         this.roomNames.add(this.roomNames.size()+1);
     }
-    /*
-     * Added the following functions just cus theyre reused a lot
-     * Just for the first/last rooms of the specific room types
-     */
 
+    /** Clears the roomNames array list and re-initializes it
+     * Preconditions: Rooms object is initialized
+     * Postconditions: The room names are set
+     */
+    public void resetRoomNames() {
+        this.roomNames.clear();
+        for (int i = 0; i < getTotal(); i++) {
+            this.roomNames.add(i+1);
+        }
+    }
+   
     /** Returns the last standard room
      * Preconditions: Rooms object is initialized
      * Postconditions: returns an integer
