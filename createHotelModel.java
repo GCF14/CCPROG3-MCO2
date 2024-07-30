@@ -10,6 +10,12 @@ public class createHotelModel {
 
     private static ArrayList<Hotel> hotels = new ArrayList<Hotel>();
 
+    /**
+     * Default constructor for the createHotelModel class.
+     */
+    public createHotelModel() {
+    }
+
 
     /**
      * Initializes the room details for a given Rooms object.

@@ -9,84 +9,277 @@ import java.util.ArrayList;
  */
 public class hotelGuiView extends JFrame {
     // Home page portion
+    /**
+     * The main panel that contains all the components
+     */
     private JPanel mainPanel;
+    /**
+     * The card layout for the main panel
+     */
     private CardLayout cardLayout;
+
+    /**
+     * Button for creating a hotel
+     */
     private JButton createHotelButton;
+    /**
+     * Button for viewing hotel information
+     */
     private JButton viewInfoButton;
+    /**
+     * Button for managing a hotel
+     */
     private JButton manageButton;
+    /**
+     * Button for simulating a booking
+     */
     private JButton bookingButton;
+    /**
+     * Button for going back to the home page
+     */
     private JButton backButton;
+    /**
+     * Button for going back to the home page
+     */
     private JButton backButton2;
+    /**
+     * Button for going back to the home page
+     */
     private JButton backButton3;
+    /**
+     * Button for going back to the home page
+     */
     private JButton backButton4;
+    /**
+     * Button for going back to the home page
+     */
     private JButton backButton5;
 
 
     // Create Hotel portion
+    /**
+     * Text field for the name of the hotel
+     */
     private JTextField nameField;
+    /**
+     * Text field for the number of standard rooms
+     */
     private JTextField standardRoomField;
+    /**
+     * Text field for the number of deluxe rooms
+     */
     private JTextField deluxeRoomField;
+    /**
+     * Text field for the number of executive rooms
+     */
     private JTextField executiveRoomField;
+    /**
+     * Button for creating a hotel
+     */
     private JButton createButton;
 
     // View Hotel portion
+    /**
+     * Button for viewing high level information
+     */
     private JPanel highLevelPanel;
+    /**
+     * Panel for viewing low level information
+     */
     private JPanel showLowLevelPanel;
+    /**
+     * Panel to input information for low level information
+     */
     private JPanel lowLevelPanel;
 
+    /**
+     * Button to view high level information
+     */
     private JButton highLevelButton;
+    /**
+     * Button to view low level information
+     */
     private JButton lowLevelButton;
+    /**
+     * Button to go back to the view hotel panel from high level information
+     */
     private JButton backToViewHotelFromHighLevel;
+    /**
+     * Button to go back to the view hotel panel from low level information
+     */
     private JButton backToViewHotelFromLowLevel;
+    /**
+     * Button to go back to the view hotel panel from low level information
+     */
     private JButton backToViewHotelFromLowLevel2;
+    /**
+     * Button to view low level information
+     */
     private JButton viewLowButton;
+    /**
+     * Button to view price breakdown
+     */
     private JButton viewBreakdownButton;
     
+    /**
+     * Text field for the day to check
+     */
     private JTextField dayField;
+    /**
+     * Text field for the room to check
+     */
     private JTextField roomCheckField;
     
 
 
     //Manage Hotel portion
+    /**
+     * Panel containing components for add rooms
+     */
     private JPanel addPanel;
+    /**
+     * Panel containing components for change hotel name
+     */
     private JPanel changePanel;
+    /**
+     * Panel containing components for remove rooms
+     */
     private JPanel removePanel;
+    /**
+     * Panel containing components for updating base room price
+     */
     private JPanel updatePricePanel;
+    /**
+     * Panel containing components for editing a reservation
+     */
     private JPanel editReservationPanel;
+    /**
+     * Panel containing components for editing guest name of a reservation
+     */
     private JPanel editGuestPanel;
+    /**
+     * Panel containing components for editing dates of a reservation
+     */
     private JPanel editDatesPanel;
 
+    /**
+     * Button for changing hotel name
+     */
     private JButton changeName;
+    /**
+     * Button for changing hotel name
+     */
     private JButton changeNewName;
+    /**
+     * Button for adding new rooms
+     */
     private JButton addRoom;
+    /**
+     * Button for adding new rooms
+     */
     private JButton addNewRooms;
+    /**
+     * Button for removing rooms
+     */
     private JButton removeRoom;
+    /**
+     * Button for removing rooms
+     */
     private JButton removeNewRooms;
+    /**
+     * Button for updating base room price
+     */
     private JButton updatePrice;
+    /**
+     * Button for updating base room price
+     */
     private JButton updateBaseRoomPrice;
+    /**
+     * Button for removing a reservation
+     */
     private JButton removeReservation;
+    /**
+     * Button for removing a hotel
+     */
     private JButton removeHotel;
+    /**
+     * Button for updating the date price modifier
+     */
     private JButton updatePriceModifier;
+    /**
+     * Button for editing a reservation
+     */
     private JButton editReservation;
+    /**
+     * Button for editing guest name of a reservation
+     */
     private JButton editGuestName;
+    /**
+     * Button for editing dates of a reservation
+     */
     private JButton editDates;
+    /**
+     * Button for editing room type of a reservation
+     */
     private JButton editRoomType;
+    /**
+     * Button for editing guest name of a reservation
+     */
     private JButton editGuestButton;
+    /**
+     * Button for editing dates of a reservation
+     */
     private JButton editDatesButton;
+    /**
+     * Button to go back to home page
+     */
     private JButton backButton6;
     
+    /**
+     * Text field for new hotel name
+     */
     private JTextField changeField;
+    /**
+     * Text field for added rooms
+     */
     private JTextField addField;
+    /**
+     * Text field for removing rooms
+     */
     private JTextField removeField;
+    /**
+     * Text field for new base price
+     */
     private JTextField updatePriceField;
+    /**
+     * Text field for new guest name
+     */
     private JTextField editGuestField;
+    /**
+     * Text field for new check in date
+     */
     private JTextField editCheckInField;
+    /**
+     * Text field for new check out date
+     */
     private JTextField editCheckOutField;
     
-    //Simulate Booking portion
+    //Simulate Booking 
+    /**
+     * Text field for the name of the customer
+     */
     private JTextField customerNameField;
+    /**
+     * Text field for the check-in date
+     */
     private JTextField checkInField;
+    /**
+     * Text field for the check-out date
+     */
     private JTextField checkOutField;
+    /**
+     * Button for booking a room
+     */
     private JButton bookButton;
 
     /**
@@ -685,7 +878,8 @@ public class hotelGuiView extends JFrame {
     }
 
     /**
-     * Function to check if the dates entered are valid
+     * Function to check if the dates entered are 
+     * @return boolean - true if the input is valid, false otherwise
      */
     public boolean validateCheckDates(){
         int checkIn = getCheckInField();
@@ -704,6 +898,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to check if hotel was created successfully
+     * @param h - the hotel instance to check
      */
     public void validateCreateHotel(Hotel h){
         if (h != null) {
@@ -715,6 +910,9 @@ public class hotelGuiView extends JFrame {
         }
     }
 
+    /**
+     * Function to display hotel already exists
+     */
     public void displayHotelExists() {
         JOptionPane.showMessageDialog(this, "Hotel already exists.");
     }
@@ -753,6 +951,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the hotel name from the text field
+     * @return String - the hotel name
      */
     public String getHotelName() {
         return nameField.getText();
@@ -760,13 +959,15 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the customer name from the text field
+     * @return String - the customer name
      */
     public String getCustomerNameField(){
         return customerNameField.getText();
     }
 
     /**
-     * Function to get the number of standard rooms inputted by user
+     * Function to get the number of standard rooms inputted by 
+     * @return int - the number of standard rooms
      */
     public int getStandardRooms() {
         return Integer.parseInt(standardRoomField.getText());
@@ -774,6 +975,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the number of deluxe rooms inputted by user
+     * @return int - the number of deluxe rooms
      */
     public int getDeluxeRooms() {
         return Integer.parseInt(deluxeRoomField.getText());
@@ -781,6 +983,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the number of executive rooms inputted by user
+     * @return int - the number of executive rooms
      */
     public int getExecutiveRooms() {
         return Integer.parseInt(executiveRoomField.getText());
@@ -872,6 +1075,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the card layout
+     * @return CardLayout - the card layout
      */
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -879,6 +1083,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to get the main panel
+     * @return JPanel - the main panel
      */
     public JPanel getMainPanel() {
         return mainPanel;
@@ -896,6 +1101,8 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to display the hotel options to the user
+     * @param hotels - the list of hotels to display
+     * @return Hotel - the hotel instance selected by the user
      */
     public Hotel getHotelOptions(ArrayList<Hotel> hotels) {
         if (hotels.isEmpty()) {
@@ -1194,6 +1401,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to set the hotel name in the text field
+     * @param name - the name of the hotel
      */
     public void setHotelName(String name) {
         nameField.setText(name);
@@ -1201,6 +1409,7 @@ public class hotelGuiView extends JFrame {
     
     /**
      * Function to set the number of standard rooms in the text field
+     * @param rooms - the number of standard rooms
      */
     public void setStandardRooms(int rooms) {
         standardRoomField.setText(String.valueOf(rooms));
@@ -1208,6 +1417,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to set the change field text
+     * @param name - the name to change to
      */
     public void setChangeNewName(String name){
         changeField.setText(name);
@@ -1215,6 +1425,7 @@ public class hotelGuiView extends JFrame {
     
     /**
      * Function to set the number of deluxe rooms in the text field
+     * @param rooms - the number of deluxe rooms
      */
     public void setDeluxeRooms(int rooms) {
         deluxeRoomField.setText(String.valueOf(rooms));
@@ -1222,6 +1433,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to set the number of executive rooms in the text field
+     * @param rooms - the number of executive rooms
      */
     public void setExecutiveRooms(int rooms) {
         executiveRoomField.setText(String.valueOf(rooms));
@@ -1338,6 +1550,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to display the confirm pane to the user
+     * @return int - 1 if user confirms, -1 if user cancels
      */
     public int displayConfirm(){
         // Display the confirm dialog
@@ -1448,6 +1661,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to add a listener to the update price button
+     * @param listener - the action listener
      */
     public void addUpdatePriceListener(ActionListener listener) {
         updatePrice.addActionListener(listener);
@@ -1506,6 +1720,7 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to display discount code input dialog
+     * @return String - the discount code entered by the user
      */
     public String displayEnterDiscount() {
         int response = JOptionPane.showConfirmDialog(null, "Do you want to input a Discount code?", "Discount Code", JOptionPane.YES_NO_OPTION);
@@ -1963,7 +2178,7 @@ public class hotelGuiView extends JFrame {
      * Function to display reservation moved to certai room to user
      * Precondition: room is not null
      * Postcondition: reservation moved to room is displayed to user
-     * @param room
+     * @param  room - the room to move to
      */
     public void displayMovedRoom(int room) {
         JOptionPane.showMessageDialog(this, "Reservation moved to room " + room);

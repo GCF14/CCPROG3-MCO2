@@ -27,7 +27,6 @@ public class manageHotelModel {
     /** Finds the index of the hotel in the ArrayList of hotels
      * Preconditions: h is an ArrayList of Hotels and name is a String
      * Postconditions: returns an integer
-     * @param h - ArrayList of Hotels which contains all the hotels
      * @param name - The name of the hotel
      * @return i (The index of the hotel) or -1 if the hotel does not exist
      */
@@ -71,7 +70,7 @@ public class manageHotelModel {
     /** Adds rooms to the hotel
      * Preconditions: hotels is an initialized ArrayList of Hotels
      * Postconditions: Rooms are added to the hotel
-     * @param h - The hotel to be added
+     * @param hotel - The hotel to be added
      * @param roomType - The type of room to add
      * @param rooms - The number of rooms to add
      * @return ctr (The number of rooms added)
@@ -215,7 +214,9 @@ public class manageHotelModel {
      * @param index - the index of the reservation to remove
      */
     public void removeReservation(Hotel hotel, int index) {
-        hotel.removeReservation(index);
+        if(index >= 0){
+            hotel.removeReservation(index);
+        }
     }
 
     /**

@@ -11,8 +11,7 @@ public class hotelController {
     /**
      * Constructs a hotelController object with the specified view.
      * Adds action listeners to the view's buttons.
-     *
-     * @param view the view component of the MVC architecture
+     * @param gui - the instance of the hotelGuiView class
      */
     public hotelController(hotelGuiView gui) {
         this.gui = gui;

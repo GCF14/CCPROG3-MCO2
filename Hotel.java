@@ -15,7 +15,6 @@ public class Hotel {
      * Preconditions: name is a String, rooms is an integer
      * Postconditions: Hotel object is initialized
      * @param name - The name of the hotel
-     * @param rooms - The number of rooms in the hotel
      */
     public Hotel(String name) {
         this.name = name;
@@ -30,6 +29,7 @@ public class Hotel {
      * Preconditions: date is an integer
      * Postconditions: returns a float
      * @param date - The day to get the price modifier
+     * @return datePriceModifiers[date - 1] (The price modifier for the specific day)
      */
     public float getDatePriceModifiers(int date) {
         return datePriceModifiers[date - 1];
@@ -170,7 +170,6 @@ public class Hotel {
      * Preconditions: roomNumber is an integer and hotel is initialized to have a list of rooms
      * Postconditions: The room is removed from the list of rooms
      * @param roomNumber - The room number of the room to be removed
-     * @param h - Instance of Hotel
      * @return true if the room is removed, false otherwise
      */
     public boolean removeRoom(int roomNumber) {
@@ -204,7 +203,7 @@ public class Hotel {
     /** Gets the room type of a room in the list of rooms in the hotel
      * Preconditions: Reservation r is initialized
      * Postconditions: returns an integer
-     * @param r - The reservation to get the room type of
+     * @param room - The room number of the room
      * @return 0 if standard room, 1 if deluxe room, 2 if executive room
      */
     public int getRoomType(int room) {

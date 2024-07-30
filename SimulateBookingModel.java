@@ -11,7 +11,6 @@ public class SimulateBookingModel extends SimulateBooking{
 
     /**
      * Constructor for the SimulateBookingModel class
-     * @param hotels - ArrayList of hotels which contains all the hotels
      * @param  gui - Instance of hotelGuiView
      * @param model2 - Instance of manageHotelModel
      */
