@@ -879,11 +879,11 @@ public class hotelGuiView extends JFrame {
 
     /**
      * Function to check if the dates entered are 
+     * @param checkIn - Check-in date
+     * @param checkOut - Check-out date
      * @return boolean - true if the input is valid, false otherwise
      */
-    public boolean validateCheckDates(){
-        int checkIn = getCheckInField();
-        int checkOut = getCheckOutField();
+    public boolean validateCheckDates(int checkIn, int checkOut){
         boolean validity;
 
         if(checkOut < 1 || checkIn > 31 || checkIn >= checkOut || checkIn < 1 || checkOut > 31){

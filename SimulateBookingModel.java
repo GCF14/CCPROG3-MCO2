@@ -34,7 +34,7 @@ public class SimulateBookingModel extends SimulateBooking{
     
         roomType = gui.getRoomOptions();
         if (h != null && roomType >= 0) { 
-            if(gui.validateCheckDates()){
+            if(gui.validateCheckDates(checkInDate, checkOutDate)){
                 
                 boolean bookedRoom = false;
         

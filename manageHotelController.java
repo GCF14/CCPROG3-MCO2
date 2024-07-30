@@ -382,24 +382,31 @@ public class manageHotelController {
     class editDateListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int confirm = JOptionPane.CLOSED_OPTION;
-            while (confirm == JOptionPane.CLOSED_OPTION) {
-                confirm = gui.displayConfirmEditReservation();
-                if (confirm == JOptionPane.YES_OPTION) {
-                    int room = r.getRoomNumber();
-                    if (model2.findAvailableRoom(selectedHotel, r, gui.getNewCheckIn(), gui.getNewCheckOut())) {
-                        gui.displaySuccessEditReservation(1);
-                        if (room != r.getRoomNumber())
-                            gui.displayMovedRoom(r.getRoomNumber());
+            int checkIn = gui.getNewCheckIn();
+            int checkOut = gui.getNewCheckOut();
+            if (gui.validateCheckDates(checkIn, checkOut)) {
+                int confirm = JOptionPane.CLOSED_OPTION;
+                while (confirm == JOptionPane.CLOSED_OPTION) {
+                    confirm = gui.displayConfirmEditReservation();
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        int room = r.getRoomNumber();
+                        if (model2.findAvailableRoom(selectedHotel, r, gui.getNewCheckIn(), gui.getNewCheckOut())) {
+                            gui.displaySuccessEditReservation(1);
+                            if (room != r.getRoomNumber())
+                                gui.displayMovedRoom(r.getRoomNumber());
+                        }
+                        else {
+                            gui.displayNoRooms();
+                        }
+                            
                     }
                     else {
-                        gui.displayNoRooms();
+                        gui.displaySuccessEditReservation(0);
                     }
-                        
                 }
-                else {
-                    gui.displaySuccessEditReservation(0);
-                }
+            }
+            else {
+                gui.displaySuccessEditReservation(0);
             }
             gui.clearHotelFields();
             gui.getCardLayout().show(gui.getMainPanel(), "home");
