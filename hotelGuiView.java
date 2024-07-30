@@ -343,53 +343,53 @@ public class hotelGuiView extends JFrame {
         manageHotelPanel.add(backButton3);
 
         changeName = new JButton("Change Hotel Name");
-        changeName.setBounds(manageButtonX1, 80, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
+        changeName.setBounds(manageButtonX1, 130, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         changeName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         changeName.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.setLayout(null);  // Ensure null layout is set
         manageHotelPanel.add(changeName);
 
         addRoom = new JButton("Add Room(s)");
-        addRoom.setBounds(manageButtonX1, 150, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
+        addRoom.setBounds(manageButtonX1, 200, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         addRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addRoom.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.add(addRoom);
 
         removeRoom = new JButton("Remove Room(s)");
-        removeRoom.setBounds(manageButtonX1, 220, manageButtonWidth, manageButtonHeight);
+        removeRoom.setBounds(manageButtonX1, 270, manageButtonWidth, manageButtonHeight);
         removeRoom.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeRoom.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(removeRoom);
 
         updateBaseRoomPrice = new JButton("Update Base Room Price");
-        updateBaseRoomPrice.setBounds(manageButtonX1, 290, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
+        updateBaseRoomPrice.setBounds(manageButtonX1, 340, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         updateBaseRoomPrice.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         updateBaseRoomPrice.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.add(updateBaseRoomPrice);
 
         removeReservation = new JButton("Remove Reservation");
-        removeReservation.setBounds(manageButtonX2, 80, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
+        removeReservation.setBounds(manageButtonX2, 130, manageButtonWidth, manageButtonHeight);  // Adjusted position and size
         removeReservation.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeReservation.setFont(new Font("Arial", Font.BOLD, 20));  // Adjusted font size for consistency
         manageHotelPanel.add(removeReservation);
 
         removeHotel = new JButton("Remove Hotel(s)");
-        removeHotel.setBounds(manageButtonX2, 150, manageButtonWidth, manageButtonHeight);
+        removeHotel.setBounds(manageButtonX2, 200, manageButtonWidth, manageButtonHeight);
         removeHotel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeHotel.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(removeHotel);
 
         updatePriceModifier = new JButton("Update Price Modifier");
-        updatePriceModifier.setBounds(manageButtonX2, 220, manageButtonWidth, manageButtonHeight);
+        updatePriceModifier.setBounds(manageButtonX2, 270, manageButtonWidth, manageButtonHeight);
         updatePriceModifier.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         updatePriceModifier.setFont(new Font("Arial", Font.BOLD, 20));
 
         manageHotelPanel.add(updatePriceModifier);
 
         editReservation = new JButton("Edit Reservation");
-        editReservation.setBounds(manageButtonX2, 290, manageButtonWidth, manageButtonHeight);
+        editReservation.setBounds(manageButtonX2, 340, manageButtonWidth, manageButtonHeight);
         editReservation.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         editReservation.setFont(new Font("Arial", Font.BOLD, 20));
 
@@ -1128,7 +1128,7 @@ public class hotelGuiView extends JFrame {
             // Availability Dates
             JPanel availabilityPanel = new JPanel();
             availabilityPanel.setLayout(null);
-            availabilityPanel.setBounds(410, 70, 500, 500);  // Increase the size of the availability panel
+            availabilityPanel.setBounds(410, 70, 500, 450);  // Increase the size of the availability panel
             lowLevelContentPanel.add(availabilityPanel);
     
             JLabel availabilityTitleLabel = new JLabel("Availability");
